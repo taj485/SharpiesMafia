@@ -1,18 +1,25 @@
+using System;
+using System.Linq;
 using NUnit.Framework;
+using SharpiesMafia.Controllers;
 
 namespace SharpiesMafia.Tests
 {
-    public class Tests
+    [TestFixture]
+    public class HomeControllerTests
     {
+        private HomeController _home;
+
         [SetUp]
         public void Setup()
         {
+            _home = new HomeController();
         }
 
         [Test]
-        public void Test1()
+        public void GenerateCodeMethodCanGenerateFourDigitCode()
         {
-            Assert.Pass();
+            Assert.AreEqual(4, _home.GenerateCode().ToString().Length) ;
         }
     }
 }

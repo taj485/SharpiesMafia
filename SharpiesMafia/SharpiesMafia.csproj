@@ -16,4 +16,7 @@
   <ItemGroup>
     <Folder Include="Hubs\" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="SharpiesMafia.csproj" />
+  </ItemGroup>
 </Project>
