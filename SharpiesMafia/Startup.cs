@@ -9,7 +9,11 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Microsoft.EntityFrameworkCore;
 using SharpiesMafia.Hubs;
+using SharpiesMafia.Models;
 
 namespace SharpiesMafia
 {
@@ -32,6 +36,9 @@ namespace SharpiesMafia
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            // Add framework services.
+            services.AddDbContext<MafiaContext>(options =>
+            options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddSignalR();
