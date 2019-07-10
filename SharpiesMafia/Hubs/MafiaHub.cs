@@ -17,12 +17,11 @@ namespace SharpiesMafia.Hubs
             await Clients.All.SendAsync("ReceiveMessage", user, GenerateCode());
         }
 
-            public int GenerateCode()
+        public int GenerateCode()
         {
             int _min = 1000;
             int _max = 9999;
-            Random _rdm = new Random();
-            
+            Random _rdm = new Random();  
             return _rdm.Next(_min, _max);
         }
     }

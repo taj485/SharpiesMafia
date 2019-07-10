@@ -1,8 +1,4 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
-
-// Write your JavaScript code.
-"use strict";
+﻿"use strict";
 
 var connection = new signalR.HubConnectionBuilder().withUrl("/mafiaHub").build();
 
@@ -24,5 +20,8 @@ document.getElementById("newGameStartBtn").addEventListener("click", function (e
     connection.invoke("StartGame", user).catch(function (err) {
         return console.error(err.toString());
     });
+
+    //'event prevent default' stops user being added to db
     event.preventDefault();
 });
+
