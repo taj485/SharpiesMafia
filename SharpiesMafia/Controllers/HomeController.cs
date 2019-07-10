@@ -10,6 +10,12 @@ namespace SharpiesMafia.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly MafiaContext _context;
+        public HomeController (MafiaContext context)
+        {
+            _context = context;
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -26,5 +32,13 @@ namespace SharpiesMafia.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+        [HttpPost ("CreateUser")]
+        public async Task<string> CreateUser (string userName)
+        {
+            var user = new User() { name = userName };
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+            return "success!";
+        }
     }
 }
