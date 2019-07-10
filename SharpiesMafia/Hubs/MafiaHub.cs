@@ -14,7 +14,7 @@ namespace SharpiesMafia.Hubs
 
         public async Task StartGame(string user)
         {
-            await Clients.All.SendAsync("ReceiveMessage", user, GenerateCode());
+            await Clients.All.SendAsync("ReceiveMessage", Context.ConnectionId, GenerateCode());
         }
 
         public int GenerateCode()
