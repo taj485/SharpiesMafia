@@ -64,7 +64,7 @@ namespace SharpiesMafia
 
             app.UseSignalR(routes =>
             {
-                routes.MapHub<MafiaHub>("/chatHub");
+                routes.MapHub<MafiaHub>("/mafiaHub");
             });
 
             app.UseMvc(routes =>

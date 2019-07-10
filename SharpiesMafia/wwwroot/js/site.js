@@ -4,11 +4,10 @@
 // Write your JavaScript code.
 "use strict";
 
-var connection = new signalR.HubConnectionBuilder().withUrl("/MafiaHub").build();
+var connection = new signalR.HubConnectionBuilder().withUrl("/mafiaHub").build();
 
 connection.on("ReceiveMessage", function (user, code) {
-    var c = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    var encodedMsg = user + " says " + msg;
+    var encodedMsg = user + " game = " + code;
     var li = document.createElement("li");
     li.textContent = encodedMsg;
     document.getElementById("messagesList").appendChild(li);
