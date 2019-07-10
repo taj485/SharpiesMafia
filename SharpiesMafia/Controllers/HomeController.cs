@@ -28,7 +28,10 @@ namespace SharpiesMafia.Controllers
 
         public int GenerateCode()
         {
-            return 1;
+            int _min = 1000;
+            int _max = 9999;
+            Random _rdm = new Random();
+            return _rdm.Next(_min, _max);
         }
     }
 }
