@@ -32,7 +32,7 @@ namespace SharpiesMafia.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        [HttpPost ("CreateUser")]
+        //[HttpPost ("CreateUser")]
         public async Task<string> CreateUser (string userName)
         {
             var user = new User() { name = userName };

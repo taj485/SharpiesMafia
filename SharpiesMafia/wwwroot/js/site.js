@@ -26,5 +26,3 @@ document.getElementById("newGameStartBtn").addEventListener("click", function (e
     });
     event.preventDefault();
 });
-
-
