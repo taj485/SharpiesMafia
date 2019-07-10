@@ -7,12 +7,17 @@ namespace SharpiesMafia.Hubs
     public class MafiaHub : Hub
     {
         //This was the example method from the chatroom article example
-        public async Task SendMessage(string user, string message)
+        public async Task SendMessage(string user, int code)
         {
-            await Clients.All.SendAsync("ReceiveMessage", user, message);
+            await Clients.All.SendAsync("ReceiveMessage", user, code);
         }
 
-        public int GenerateCode()
+        public async Task StartGame(string user)
+        {
+            await Clients.All.SendAsync("ReceiveMessage", user, GenerateCode());
+        }
+
+            public int GenerateCode()
         {
             int _min = 1000;
             int _max = 9999;
