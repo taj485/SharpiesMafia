@@ -19,4 +19,7 @@
   <ItemGroup>
     <None Include="SharpiesMafia.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Remove="Views\Home\Privacy.cshtml" />
+  </ItemGroup>
 </Project>

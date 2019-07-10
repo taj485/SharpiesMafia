@@ -33,5 +33,6 @@ namespace SharpiesMafia.Controllers
             Random _rdm = new Random();
             return _rdm.Next(_min, _max);
         }
+
     }
 }
