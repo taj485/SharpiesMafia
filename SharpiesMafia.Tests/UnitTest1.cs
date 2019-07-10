@@ -1,25 +1,25 @@
 using System;
 using System.Linq;
 using NUnit.Framework;
-using SharpiesMafia.Controllers;
+using SharpiesMafia.Hubs;
 
 namespace SharpiesMafia.Tests
 {
     [TestFixture]
     public class HomeControllerTests
     {
-        private HomeController _home;
+        private MafiaHub _hub;
 
         [SetUp]
         public void Setup()
         {
-            _home = new HomeController();
+            _hub = new MafiaHub();
         }
 
         [Test]
         public void GenerateCodeMethodCanGenerateFourDigitCode()
         {
-            Assert.AreEqual(4, _home.GenerateCode().ToString().Length) ;
+            Assert.AreEqual(4, _hub.GenerateCode().ToString().Length) ;
         }
     }
 }
