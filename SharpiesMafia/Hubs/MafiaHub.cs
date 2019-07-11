@@ -1,19 +1,30 @@
 ﻿using System;
 using Microsoft.AspNetCore.SignalR;
 using System.Threading.Tasks;
+using SharpiesMafia.Models;
 
 namespace SharpiesMafia.Hubs
 {
     public class MafiaHub : Hub
     {
+        private readonly MafiaContext _context;
+
+        public MafiaHub (MafiaContext context)
+        {
+            _context = context;
+        }
+
         //This was the example method from the chatroom article example
         public async Task SendMessage(string user, int code)
         {
             await Clients.All.SendAsync("ReceiveMessage", user, code);
         }
 
-        public async Task StartGame(string user)
+        public async Task StartGame(string userName)
         {
+            var user = new User() { name = userName };
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
             await Clients.All.SendAsync("ReceiveMessage", Context.ConnectionId, GenerateCode());
         }
 
