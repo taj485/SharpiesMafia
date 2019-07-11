@@ -24,7 +24,7 @@ namespace SharpiesMafia.Controllers
 
         public IActionResult StartGameScreen()
         {
-            return PartialView("_StartGamePartial.cshtml");
+            return PartialView("~/Views/Home/_StartGamePartial.cshtml");
         }
 
     }

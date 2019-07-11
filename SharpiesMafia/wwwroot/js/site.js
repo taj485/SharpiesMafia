@@ -2,11 +2,9 @@
 
 var connection = new signalR.HubConnectionBuilder().withUrl("/mafiaHub").build();
 
-connection.on("StartPageUserList", function (user, code) {
-    var encodedMsg = user;
-    var li = document.createElement("li");
-    li.textContent = encodedMsg;
-    $("#mafiaGame").html('<partial name="_StartGamePartial.cshtml" />');
+connection.on("StartPageUserList", function () {
+    var targetDiv = $('#mafiaGame');
+    targetDiv.load("/Home/StartGameScreen"); //dollar
 });
 
 connection.start().then(function(){
@@ -24,16 +22,6 @@ document.getElementById("newGameStartBtn").addEventListener("click", function (e
     //'event prevent default' stops user being added to db
     event.preventDefault();
 });
-
-function testScreenChange() {
-    var $testDiv = $('#mafiaGame'), url = $(this).data("url");
-    console.log("**********")
-    console.log($testDiv);
-    console.log(url);
-    $.get(url, function (data) {
-        $testDiv.replaceWith(data);
-    });
-}
 
 
 

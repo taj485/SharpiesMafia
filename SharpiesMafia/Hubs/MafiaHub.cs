@@ -26,7 +26,7 @@ namespace SharpiesMafia.Hubs
             var user = new User() { name = userName, connection_id = Context.ConnectionId, game_id = gameId, is_dead = false, role = "villager"};
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
-            await Clients.All.SendAsync("StartPageUserList", userName, gameId);
+            await Clients.All.SendAsync("StartPageUserList");
         }
 
         public int GenerateCode()
