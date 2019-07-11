@@ -14,12 +14,12 @@
             <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
                 <div class="card-body">
 
-                    <form action="/CreateUser" method="post">
+                    <form>
                         <div class="form-group">
                             <label>Name</label>
                             <input type="text" class="form-control" id="nameInputStart" placeholder="Enter your name" name="userName">
                         </div>
-                        <input id="newGameStartBtn" type="submit" class="btn btn-primary" value="Start game" />
+                        <button id="testButton" class="btn btn-primary" data-url="@Url.Action("StartGameScreen","Home")">Start Game</button>
                     </form>
                 </div>
             </div>
