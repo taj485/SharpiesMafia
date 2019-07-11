@@ -6,7 +6,7 @@ connection.on("StartPageUserList", function (user, code) {
     var encodedMsg = user;
     var li = document.createElement("li");
     li.textContent = encodedMsg;
-    document.getElementById("userList").appendChild(li);
+    $("#mafiaGame").html('<partial name="_StartGamePartial.cshtml" />');
 });
 
 connection.start().then(function(){
@@ -25,14 +25,15 @@ document.getElementById("newGameStartBtn").addEventListener("click", function (e
     event.preventDefault();
 });
 
-document.getElementById("testButton").addEventListener("click", function (event) {
+function testScreenChange() {
     var $testDiv = $('#mafiaGame'), url = $(this).data("url");
+    console.log("**********")
     console.log($testDiv);
     console.log(url);
     $.get(url, function (data) {
         $testDiv.replaceWith(data);
     });
-});
+}
 
 
 
