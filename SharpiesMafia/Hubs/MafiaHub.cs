@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.SignalR;
 using System.Threading.Tasks;
 using SharpiesMafia.Models;
@@ -35,6 +37,12 @@ namespace SharpiesMafia.Hubs
             int _max = 9999;
             Random _rdm = new Random();  
             return _rdm.Next(_min, _max);
+        }
+
+        public Task GetAllUsers()
+        {
+            var users = _context.Users.ToList();
+            ViewData["Users"] = users;
         }
     }
 }
