@@ -2,13 +2,7 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="container">
-    <partial name="_LandingPartial" />
-    <main role="main" class="pb-3">
-        @RenderBody()
-    </main>
-</div>
-
+@Html.Partial("_LandingPartial.cshtml")
 
 @*This is signalR chatroom stuff for reference*@
 @*<div class="container">
