@@ -1,48 +1,43 @@
 ﻿@*Initial options, to Start or Join a game*@
 <div class="container" id="newGame">
-    <div class="accordion" id="accordionExample">
+    <div class="accordion" id="gameAccordion">
 
         <div class="card">
-            <div class="card-header" id="headingOne">
-                <h5 class="mb-0">
-                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        New Game
-                    </button>
-                </h5>
+            <div class="card-header collapsed gameModeHeading" id="newGameHeading" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                <h5 class="mb-0 btn">New Game</h5>
             </div>
 
-            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
+            <div id="collapseOne" class="collapse" aria-labelledby="newGameHeading" data-parent="#gameAccordion">
                 <div class="card-body">
 
-                    <form>
-                        <div class="form-group">
-                            <label>Name</label>
-                            <input type="text" class="form-control" id="nameInputStart" placeholder="Enter your name" name="userName">
-                        </div>
-                        <button id="newGameStartBtn" class="btn btn-primary">Start Game</button>
-                    </form>
+                    <div class="form-label-group">
+                        <input type="text" class="form-control" id="nameInputStart" placeholder="Enter your name" name="userName">
+                        <label for="nameInputStart">Name</label>
+                    </div>
+                    <button id="newGameStartBtn" class="btn btn-outline-success">Start Game</button>
                 </div>
             </div>
         </div>
 
         <div class="card">
-            <div class="card-header" id="headingTwo">
-                <h5 class="mb-0">
-                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                        Join Game
-                    </button>
-                </h5>
+            <div class="card-header collapsed gameModeHeading" id="joinGameHeading" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                <h5 class="mb-0 btn">Join Game</h5>
             </div>
-            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+
+            <div id="collapseTwo" class="collapse" aria-labelledby="joinGameHeading" data-parent="#gameAccordion">
                 <div class="card-body">
                     <form action="/" method="post">
                         <div class="form-group">
-                            <label>Name</label>
-                            <input type="text" class="form-control" id="nameInputJoin" placeholder="Enter your name">
-                            <label>Game code</label>
-                            <input type="text" class="form-control" id="codeInputJoin" placeholder="Enter your unique four digit code">
+                            <div class="form-label-group">
+                                <input type="text" class="form-control" id="nameInputJoin" placeholder="Enter your name">
+                                <label for="nameInputJoin">Name</label>
+                            </div>
+                            <div class="form-label-group">
+                                <input type="text" class="form-control" id="codeInputJoin" placeholder="Enter your unique four digit code">
+                                <label for="codeInputJoin">Game code</label>
+                            </div>
                         </div>
-                        <input type="submit" class="btn btn-primary" value="Join game" />
+                        <input type="submit" class="btn btn-outline-success" value="Join game" />
                     </form>
                 </div>
             </div>

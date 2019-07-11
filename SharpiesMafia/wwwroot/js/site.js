@@ -4,7 +4,7 @@ var connection = new signalR.HubConnectionBuilder().withUrl("/mafiaHub").build()
 
 connection.on("StartPageUserList", function () {
     var targetDiv = $('#mafiaGame');
-    targetDiv.load("/Home/StartGameScreen"); //dollar
+    targetDiv.load("/Home/StartGameScreen");
 });
 
 connection.start().then(function(){
@@ -21,6 +21,13 @@ document.getElementById("newGameStartBtn").addEventListener("click", function (e
 
     //'event prevent default' stops user being added to db
     event.preventDefault();
+});
+
+
+$(function () {
+    $('#newGameHeading button').on('click', function () {
+
+    });
 });
 
 

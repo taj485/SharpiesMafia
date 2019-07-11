@@ -3,6 +3,7 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="icon" href="~/images/mafioso.png" />
         <title>@ViewData["Title"] - SharpiesMafia</title>
 
         <environment include="Development">
@@ -16,14 +17,18 @@
                   integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" />
         </environment>
         <link rel="stylesheet" href="~/css/site.css" />
+        <link rel="stylesheet" href="~/css/floatingLabels.css" />
     </head>
     <body>
+        <div class="col-sm-12 col-md-12 mafiaBanner">
+            <img src="~/images/mafioso.png" id="mafiaLogo" />
+        </div>
         <div class="container">
             <main role="main" class="pb-3">
                 @RenderBody()
             </main>
         </div>
-       
+
         <environment include="Development">
             <script src="~/lib/jquery/dist/jquery.js"></script>
             <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>

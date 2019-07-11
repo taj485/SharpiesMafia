@@ -39,10 +39,10 @@ namespace SharpiesMafia.Hubs
             return _rdm.Next(_min, _max);
         }
 
-        public Task GetAllUsers()
-        {
-            var users = _context.Users.ToList();
-            ViewData["Users"] = users;
-        }
+        //public Task GetAllUsers()
+        //{
+        //    var users = _context.Users.ToList();
+        //    ViewData["Users"] = users;
+        //}
     }
 }
