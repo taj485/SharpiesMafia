@@ -22,10 +22,11 @@ namespace SharpiesMafia.Hubs
 
         public async Task StartGame(string userName)
         {
-            var user = new User() { name = userName };
+            var gameId = GenerateCode();
+            var user = new User() { name = userName, connection_id = Context.ConnectionId, game_id = gameId, is_dead = false, role = "Villager"};
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
-            await Clients.All.SendAsync("ReceiveMessage", Context.ConnectionId, GenerateCode());
+            await Clients.All.SendAsync("ReceiveMessage", userName, gameId);
         }
 
         public int GenerateCode()
