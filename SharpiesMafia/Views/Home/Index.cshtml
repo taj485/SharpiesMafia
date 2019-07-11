@@ -1,83 +1,38 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
-    var urlCreateUser = Url.Action("CreateUser", "Home");
 }
-@*Initial options, to Start or Join a game*@
-<div class="container" id="newGame">
-    <div class="accordion" id="accordionExample">
 
-        <div class="card">
-            <div class="card-header" id="headingOne">
-                <h5 class="mb-0">
-                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        New Game
-                    </button>
-                </h5>
-            </div>
-
-            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordionExample">
-                <div class="card-body">
-
-                    <form action="/CreateUser" method="post">
-                        <div class="form-group">
-                            <label>Name</label>
-                            <input type="text" class="form-control" id="nameInputStart" placeholder="Enter your name" name="userName">
-                        </div>
-                        <input id="newGameStartBtn" type="submit" class="btn btn-primary" value="Start game" />
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        <div class="card">
-            <div class="card-header" id="headingTwo">
-                <h5 class="mb-0">
-                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                        Join Game
-                    </button>
-                </h5>
-            </div>
-            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-                <div class="card-body">
-                    <form action="/" method="post">
-                        <div class="form-group">
-                            <label>Name</label>
-                            <input type="text" class="form-control" id="nameInputJoin" placeholder="Enter your name">
-                            <label>Game code</label>
-                            <input type="text" class="form-control" id="codeInputJoin" placeholder="Enter your unique four digit code">
-
-                        </div>
-                        <input type="submit" class="btn btn-primary" value="Join game" />
-                    </form>
-                </div>
-            </div>
-          </div>
-    </div>
+<div class="container">
+    <partial name="_LandingPartial" />
+    <main role="main" class="pb-3">
+        @RenderBody()
+    </main>
 </div>
+
 
 @*This is signalR chatroom stuff for reference*@
-<div class="container">
-    <div class="row">&nbsp;</div>
-    <div class="row">
-        <div class="col-6">&nbsp;</div>
-        <div class="col-6">
-            User..........<input type="text" id="userInput" />
-            <br />
-            Message...<input type="text" id="messageInput" />
-            <input type="button" id="sendButton" value="Send Message" />
+@*<div class="container">
+        <div class="row">&nbsp;</div>
+        <div class="row">
+            <div class="col-6">&nbsp;</div>
+            <div class="col-6">
+                User..........<input type="text" id="userInput" />
+                <br />
+                Message...<input type="text" id="messageInput" />
+                <input type="button" id="sendButton" value="Send Message" />
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-12">
-            <hr />
+        <div class="row">
+            <div class="col-12">
+                <hr />
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-6">&nbsp;</div>
-        <div class="col-6">
-            <ul id="messagesList"></ul>
+        <div class="row">
+            <div class="col-6">&nbsp;</div>
+            <div class="col-6">
+                <ul id="messagesList"></ul>
+            </div>
         </div>
-    </div>
-</div>
+    </div>*@
 <script src="~/lib/signalr/dist/browser/signalr.js"></script>
 @*<script src="~/js/site.js"></script>*@
