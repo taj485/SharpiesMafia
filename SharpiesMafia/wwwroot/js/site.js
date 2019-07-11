@@ -24,11 +24,4 @@ document.getElementById("newGameStartBtn").addEventListener("click", function (e
 });
 
 
-$(function () {
-    $('#newGameHeading button').on('click', function () {
-
-    });
-});
-
-
 

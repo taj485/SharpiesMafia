@@ -102,3 +102,12 @@ body {
 }
 
 /*#endregion*/
+
+/*#region _NightTimePartial*/
+.dayAndNightImgs {
+    text-align: center;
+    padding-top: 20px;
+    -webkit-filter: invert(1);
+    filter: invert(1);
+}
+/*#endregion*/
