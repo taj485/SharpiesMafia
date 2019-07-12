@@ -7,6 +7,7 @@ connection.on("StartPageUserList", function (users)
     var targetDiv = $('#mafiaGame');
     targetDiv.load("/Home/StartGameScreen", function (responseTxt, statusTxt, xhr)
     {
+        Countdown();
         setTimeout(function () {
             GetNextPage();
         }, 5000);
@@ -73,6 +74,20 @@ function GetNextPage() {
     var targetDiv = $('#mafiaGame');
     targetDiv.load("/Home/JoinGameScreen", function () {
     });
+}
+
+function Countdown() {
+    var start = 30;
+    var second = 1; 
+    var x = setInterval(function () {
+        var seconds = start - second;
+        $('.countdownContainer').html = "<p>" + seconds + "s</p>";
+        start = seconds;
+
+        if (seconds < 0) {
+            clearInterval(x);
+        }
+    },1000);
 }
 
 
