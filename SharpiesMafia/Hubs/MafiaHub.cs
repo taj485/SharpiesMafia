@@ -47,6 +47,15 @@ namespace SharpiesMafia.Hubs
             return users; 
         }
 
+        public string GetGameCode()
+        {
+            var code = from user in _context.Users
+                       where user.connection_id == Context.ConnectionId
+                       select user.game_id;
+
+            return code.ToString();
+        }
+
         public Task AddUserToGroup(string groupName)
         {
             return Groups.AddToGroupAsync(Context.ConnectionId,groupName);

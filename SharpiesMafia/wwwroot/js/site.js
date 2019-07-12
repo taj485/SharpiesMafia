@@ -5,14 +5,21 @@ var connection = new signalR.HubConnectionBuilder().withUrl("/mafiaHub").build()
 connection.on("StartPageUserList", function (users)
 {
     var targetDiv = $('#mafiaGame');
+
     targetDiv.load("/Home/StartGameScreen", function (responseTxt, statusTxt, xhr)
     {
-        if (statusTxt == "success")
+        if (statusTxt == "success") {
+
+            var gameId = GetGameCode();
+
+            document.getElementById("gameId").innerHTML = gameId;
             users.forEach(function (element) {
                 var li = document.createElement("li");
                 li.textContent = element.name;
                 document.getElementById("userList").appendChild(li)
             });
+        };
+       
         if(statusTxt == "error")
             alert("Error: " + xhr.status + ": " + xhr.statusText);
  
