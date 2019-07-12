@@ -23,5 +23,6 @@
     <Content Remove="Views\Home\Privacy.cshtml" />
     <Content Remove="wwwroot\js\chat.js" />
     <Content Remove="wwwroot\js\OLDchat.js" />
+    <Content Remove="wwwroot\js\_LandingPartial.js" />
   </ItemGroup>
 </Project>

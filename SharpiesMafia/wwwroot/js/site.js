@@ -17,10 +17,7 @@ connection.on("StartPageUserList", function (users)
         if(statusTxt == "error")
             alert("Error: " + xhr.status + ": " + xhr.statusText);
  
-    }); //dollar
-
-
-   
+    });
 });
 
 connection.start().then(function(){
