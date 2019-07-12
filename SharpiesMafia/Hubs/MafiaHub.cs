@@ -30,7 +30,7 @@ namespace SharpiesMafia.Hubs
             var user = new User() { name = userName, connection_id = Context.ConnectionId, game_id = gameId, is_dead = false};
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
-            await Clients.Group("gameOwner").SendAsync("StartPageUserList", GetAllUsers());
+            await Clients.Group("gameOwner").SendAsync("StartPageUserList", GetAllUsers(), GetGameId());
         }
 
         public int GenerateCode()
@@ -47,13 +47,13 @@ namespace SharpiesMafia.Hubs
             return users; 
         }
 
-        public string GetGameId()
+        public IQueryable<long> GetGameId()
         {
             var code = from user in _context.Users
                        where user.connection_id == Context.ConnectionId
                        select user.game_id;
 
-            return code.ToString();
+            return code;
         }
 
         public Task AddUserToGroup(string groupName)
