@@ -24,5 +24,6 @@
     <Content Remove="wwwroot\js\chat.js" />
     <Content Remove="wwwroot\js\OLDchat.js" />
     <Content Remove="wwwroot\js\_LandingPartial.js" />
+    <Content Remove="Views\Home\_NightTimePartial %28copy%29.cshtml" />
   </ItemGroup>
 </Project>
