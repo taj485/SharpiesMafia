@@ -32,5 +32,10 @@ namespace SharpiesMafia.Controllers
             return PartialView("~/Views/Home/_UsersToKill.cshtml");
         }
 
+        public IActionResult LoadNightScreen()
+        {
+            return PartialView("~/Views/Home/_NightTimePartial.cshtml");
+        }
+
     }
 }

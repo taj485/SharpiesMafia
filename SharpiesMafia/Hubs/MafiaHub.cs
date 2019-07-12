@@ -58,5 +58,15 @@ namespace SharpiesMafia.Hubs
             await Clients.Group("mafia").SendAsync("LoadUsersToKill", GetAllUsers());
         }
 
+        public async Task KillPlayer(string userName)
+        {
+            var deadUser = _context.Users.Where(x => x.name == userName).FirstOrDefault();
+             
+            deadUser.is_dead = true;
+            _context.Users.Update(deadUser);
+            _context.SaveChanges();     
+            await Clients.All.SendAsync("LoadNight");
+        }
+
     }
 }

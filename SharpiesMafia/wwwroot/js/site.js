@@ -67,5 +67,16 @@ document.getElementById("TestButton").addEventListener("click", function (event)
 });
 
 function killPerson(user){
-    alert(user);
+    connection.invoke("KillPlayer", user).catch(function (err) {
+        return console.error(err.toString());
+    });
+   
 }
+
+
+connection.on("LoadNight", function ()
+{
+    var targetDiv = $('#mafiaGame');
+    targetDiv.load("/Home/LoadNightScreen");
+});
+
