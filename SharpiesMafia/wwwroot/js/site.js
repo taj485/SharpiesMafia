@@ -37,5 +37,18 @@ document.getElementById("newGameStartBtn").addEventListener("click", function (e
     event.preventDefault();
 });
 
+// jquery syntax
+$('#joinGameBtn').on("click", function () {
+    var name = $('#nameInputJoin').val();
+    var code = $('#codeInputJoin').val();
+    connection.invoke("JoinGame").catch(function (err) {
+        return console.error(err.toString());
+    });
+    event.preventDefault();
+});
+
+
+
+
 
 
