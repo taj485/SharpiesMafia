@@ -26,6 +26,7 @@ namespace SharpiesMafia.Hubs
 
         public async Task StartGame(string userName)
         {
+            MafiaAssignment();
             var gameId = GenerateCode();
             var user = new User() { name = userName, connection_id = Context.ConnectionId, game_id = gameId, is_dead = false};
             _context.Users.Add(user);
@@ -50,6 +51,19 @@ namespace SharpiesMafia.Hubs
         public Task AddUserToGroup(string groupName)
         {
             return Groups.AddToGroupAsync(Context.ConnectionId,groupName);
+        }
+
+        public void MafiaAssignment()
+        {
+            var users = GetAllUsers();
+            int numberOfUsers = users.Count;
+            int amountMafia = numberOfUsers / 4;
+            if (amountMafia < 1)
+            {
+                amountMafia = 1;
+            }
+            Console.WriteLine(amountMafia);
+            Console.WriteLine(numberOfUsers);
         }
     }
 }
