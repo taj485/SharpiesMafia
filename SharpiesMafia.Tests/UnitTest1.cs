@@ -1,7 +1,7 @@
-using System;
-using System.Linq;
 using NUnit.Framework;
 using SharpiesMafia.Hubs;
+using SharpiesMafia.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace SharpiesMafia.Tests
 {
@@ -13,13 +13,19 @@ namespace SharpiesMafia.Tests
         [SetUp]
         public void Setup()
         {
-            _hub = new MafiaHub();
+            var options = new DbContextOptionsBuilder<MafiaContext>()
+                .UseInMemoryDatabase(databaseName: "Add_Test_Mafia_Db")
+                .Options;
+
+            var _dbContext = new MafiaContext(options);
+
+            _hub = new MafiaHub(_dbContext);
         }
 
-        //[Test]
-        //public void GenerateCodeMethodCanGenerateFourDigitCode()
-        //{
-        //    Assert.AreEqual(4, _hub.GenerateCode().ToString().Length) ;
-        //}
+        [Test]
+        public void GenerateCodeMethodCanGenerateFourDigitCode()
+        {
+            Assert.AreEqual(4, _hub.GenerateCode().ToString().Length);
+        }
     }
 }
