@@ -47,7 +47,7 @@ namespace SharpiesMafia.Hubs
             return users; 
         }
 
-        public string GetGameCode()
+        public string GetGameId()
         {
             var code = from user in _context.Users
                        where user.connection_id == Context.ConnectionId

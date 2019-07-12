@@ -2,27 +2,12 @@
 
 var connection = new signalR.HubConnectionBuilder().withUrl("/mafiaHub").build();
 
-connection.on("StartPageUserList", function (users)
-{
-    var targetDiv = $('#mafiaGame');
-
-    targetDiv.load("/Home/StartGameScreen", function (responseTxt, statusTxt, xhr)
-    {
-        if (statusTxt == "success") {
-
-            var gameId = GetGameCode();
-
-            document.getElementById("gameId").innerHTML = gameId;
-            users.forEach(function (element) {
-                var li = document.createElement("li");
-                li.textContent = element.name;
-                document.getElementById("userList").appendChild(li)
-            });
-        };
-       
-        if(statusTxt == "error")
-            alert("Error: " + xhr.status + ": " + xhr.statusText);
- 
+connection.on("StartPageUserList", function (users) {     var targetDiv = $('#mafiaGame');
+    targetDiv.load("/Home/StartGameScreen", function () {
+        connection.invoke("GetGameId", function (response) {
+            users.forEach(function (element) {                     var li = document.createElement("li");                     li.textContent = element.name;                     document.getElementById("userList").appendChild(li);             });
+            document.getElementById("gameId").innerText(response);
+        });
     });
 });
 
