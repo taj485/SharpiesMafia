@@ -63,13 +63,32 @@ namespace SharpiesMafia.Hubs
                 amountMafia = 1;
             }
 
-
+            
+            List<int> dupeChecker = new List<int>();
             var random = new Random();
-            int index = random.Next(numberOfUsers);
-            var randomUser = users[index];
-            randomUser.role = "mafia";
-            _context.Users.Update(randomUser);
-            Console.WriteLine(randomUser.name);
+
+            for (int i = 0; i < amountMafia; i++)
+            {
+                int index = random.Next(0, numberOfUsers - 1);
+                if (!dupeChecker.Contains(index))
+                {
+                    var randomUser = users[index];
+                    randomUser.role = "mafia";
+                    _context.Users.Update(randomUser);
+                    dupeChecker.Add(index);
+                }
+                else
+                {
+                    amountMafia++;
+                }
+            }
+
+
+
+            
+            
+            
+            Console.WriteLine(string.Join(",", dupeChecker));
             Console.WriteLine(amountMafia);
             Console.WriteLine(numberOfUsers);
         }
