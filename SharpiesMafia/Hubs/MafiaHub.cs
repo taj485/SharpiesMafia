@@ -4,6 +4,8 @@ using System.Linq;
 using Microsoft.AspNetCore.SignalR;
 using System.Threading.Tasks;
 using SharpiesMafia.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 
 namespace SharpiesMafia.Hubs
 {
@@ -28,7 +30,7 @@ namespace SharpiesMafia.Hubs
             var user = new User() { name = userName, connection_id = Context.ConnectionId, game_id = gameId, is_dead = false, role = "villager"};
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
-            await Clients.All.SendAsync("StartPageUserList");
+            await Clients.All.SendAsync("StartPageUserList", GetAllUsers());
         }
 
         public int GenerateCode()
@@ -39,10 +41,10 @@ namespace SharpiesMafia.Hubs
             return _rdm.Next(_min, _max);
         }
 
-        //public Task GetAllUsers()
-        //{
-        //    var users = _context.Users.ToList();
-        //    ViewData["Users"] = users;
-        //}
+        public List<User> GetAllUsers()
+        {
+            var users = _context.Users.ToList();
+            return users; 
+        }
     }
 }
