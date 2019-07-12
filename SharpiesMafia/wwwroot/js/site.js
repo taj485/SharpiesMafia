@@ -48,6 +48,7 @@ connection.on("LoadUsersToKill", function (users)
                 var button = document.createElement("BUTTON");
                 var t = document.createTextNode(element.name);
                 button.appendChild(t);
+                button.onclick = function() { killPerson(element.name); };
                 document.getElementById("userList").appendChild(button)
             });
         if(statusTxt == "error")
@@ -65,4 +66,6 @@ document.getElementById("TestButton").addEventListener("click", function (event)
     event.preventDefault();
 });
 
-
+function killPerson(user){
+    alert(user);
+}
