@@ -38,9 +38,14 @@ document.getElementById("newGameStartBtn").addEventListener("click", function (e
 });
 
 
-
 connection.on("MafiaPage", function ()
 {
     var targetDiv = $('#mafiaGame');
     targetDiv.load("/Home/MafiaScreen");
+});
+
+connection.on("VillagerPage", function ()
+{
+    var targetDiv = $('#mafiaGame');
+    targetDiv.load("/Home/VillagerScreen");
 });

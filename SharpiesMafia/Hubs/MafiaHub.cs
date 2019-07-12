@@ -27,7 +27,7 @@ namespace SharpiesMafia.Hubs
         public async Task StartGame(string userName)
         {
             var gameId = GenerateCode();
-            var user = new User() { name = userName, connection_id = Context.ConnectionId, game_id = gameId, is_dead = false};
+            var user = new User() { name = userName, connection_id = Context.ConnectionId, game_id = gameId, is_dead = false, role = "villager"};
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
             await Clients.Group("gameOwner").SendAsync("StartPageUserList", GetAllUsers());
@@ -60,6 +60,12 @@ namespace SharpiesMafia.Hubs
         public async Task BeginGame()
         {
             MafiaAssignment();
+            var users = GetAllUsers();
+            foreach (var user in users)
+            {
+                await AddUserToRole(user.role, user.connection_id);
+            }
+            await Clients.Group("villager").SendAsync("VillagerPage");
             await Clients.Group("mafia").SendAsync("MafiaPage");
         }
 
@@ -85,7 +91,6 @@ namespace SharpiesMafia.Hubs
                     randomUser.role = "mafia";
                     _context.Users.Update(randomUser);
                     dupeChecker.Add(index);
-                    AddUserToRole("mafia", randomUser.connection_id);
                 }
                 else
                 {
