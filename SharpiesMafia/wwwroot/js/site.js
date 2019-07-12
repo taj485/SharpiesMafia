@@ -45,9 +45,10 @@ connection.on("LoadUsersToKill", function (users)
     {
         if (statusTxt == "success")
             users.forEach(function (element) {
-                var li = document.createElement("li");
-                li.textContent = element.name;
-                document.getElementById("userList").appendChild(li)
+                var button = document.createElement("BUTTON");
+                var t = document.createTextNode(element.name);
+                button.appendChild(t);
+                document.getElementById("userList").appendChild(button)
             });
         if(statusTxt == "error")
             alert("Error: " + xhr.status + ": " + xhr.statusText);
