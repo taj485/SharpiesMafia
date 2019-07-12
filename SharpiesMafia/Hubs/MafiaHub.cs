@@ -60,7 +60,7 @@ namespace SharpiesMafia.Hubs
         public async Task BeginGame()
         {
             MafiaAssignment();
-
+            await Clients.Group("mafia").SendAsync("MafiaPage");
         }
 
         public void MafiaAssignment()

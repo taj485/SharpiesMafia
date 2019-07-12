@@ -4,3 +4,10 @@
 <div>
     <button id="beginGameBtn" class="btn btn-outline-success">Begin Game</button>
 </div>
+
+<script>document.getElementById("beginGameBtn").addEventListener("click", function (event) {
+        connection.invoke("BeginGame").catch(function (err) {
+            return console.error(err.toString());
+        });
+        event.preventDefault();
+    });</script>
