@@ -26,7 +26,6 @@ namespace SharpiesMafia.Hubs
 
         public async Task StartGame(string userName)
         {
-            MafiaAssignment();
             var gameId = GenerateCode();
             var user = new User() { name = userName, connection_id = Context.ConnectionId, game_id = gameId, is_dead = false};
             _context.Users.Add(user);
@@ -52,6 +51,17 @@ namespace SharpiesMafia.Hubs
         {
             return Groups.AddToGroupAsync(Context.ConnectionId,groupName);
         }
+        
+        public Task AddUserToRole(string groupName, string connectionId)
+        {
+            return Groups.AddToGroupAsync(connectionId,groupName);
+        }
+
+        public async Task BeginGame()
+        {
+            MafiaAssignment();
+
+        }
 
         public void MafiaAssignment()
         {
@@ -62,7 +72,6 @@ namespace SharpiesMafia.Hubs
             {
                 amountMafia = 1;
             }
-
             
             List<int> dupeChecker = new List<int>();
             var random = new Random();
@@ -76,21 +85,14 @@ namespace SharpiesMafia.Hubs
                     randomUser.role = "mafia";
                     _context.Users.Update(randomUser);
                     dupeChecker.Add(index);
+                    AddUserToRole("mafia", randomUser.connection_id);
                 }
                 else
                 {
                     amountMafia++;
                 }
             }
-
-
-
-            
-            
-            
-            Console.WriteLine(string.Join(",", dupeChecker));
-            Console.WriteLine(amountMafia);
-            Console.WriteLine(numberOfUsers);
+            _context.SaveChanges();
         }
     }
 }
