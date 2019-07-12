@@ -51,5 +51,12 @@ namespace SharpiesMafia.Hubs
         {
             return Groups.AddToGroupAsync(Context.ConnectionId,groupName);
         }
+
+        public async Task ListUsersToKill()
+        {
+            await AddUserToGroup("mafia");
+            await Clients.Group("mafia").SendAsync("LoadUsersToKill", GetAllUsers());
+        }
+
     }
 }
