@@ -62,6 +62,14 @@ namespace SharpiesMafia.Hubs
             {
                 amountMafia = 1;
             }
+
+
+            var random = new Random();
+            int index = random.Next(numberOfUsers);
+            var randomUser = users[index];
+            randomUser.role = "mafia";
+            _context.Users.Update(randomUser);
+            Console.WriteLine(randomUser.name);
             Console.WriteLine(amountMafia);
             Console.WriteLine(numberOfUsers);
         }
