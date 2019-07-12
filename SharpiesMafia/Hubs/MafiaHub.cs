@@ -19,9 +19,9 @@ namespace SharpiesMafia.Hubs
         }
 
         //This was the example method from the chatroom article example
-        public async Task SendMessage(string user, int code)
+        public async Task SendMessage(string user, int gameId)
         {
-            await Clients.All.SendAsync("ReceiveMessage", user, code);
+            await Clients.All.SendAsync("ReceiveMessage", user, gameId);
         }
 
         public async Task StartGame(string userName)
@@ -31,6 +31,14 @@ namespace SharpiesMafia.Hubs
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
             await Clients.Group("gameOwner").SendAsync("StartPageUserList", GetAllUsers());
+        }
+
+        public async Task JoinGame(string userName, int gameId)
+        {
+            var user = new User() { name = userName, connection_id = Context.ConnectionId, game_id = gameId, is_dead = false };
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+            await Clients.Group("gameOwner").SendAsync("JoinPageUserList", GetAllUsers());
         }
 
         public int GenerateCode()

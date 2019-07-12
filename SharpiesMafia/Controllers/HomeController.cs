@@ -27,5 +27,9 @@ namespace SharpiesMafia.Controllers
             return PartialView("~/Views/Home/_StartGamePartial.cshtml");
         }
 
+        public IActionResult JoinGameScreen()
+        {
+            return PartialView("~/Views/Home/_JoinGamePartial.cshtml");
+        }
     }
 }
