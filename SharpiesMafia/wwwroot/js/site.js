@@ -9,7 +9,13 @@ connection.on("StartPageUserList", function (users, gameId) {     var targetDi
     {
         if (statusTxt == "success")
 
-        document.getElementById("gameId").innerHtml = gameId[0];
+            $("#gameId").html("Join Code: " + gameId[0]);
+
+            users.forEach(function (element) {
+               var li = document.createElement("li");
+               li.textContent = element.name;
+               document.getElementById("userList").appendChild(li)
+            });
 
         if(statusTxt == "error")
             alert("Error: " + xhr.status + ": " + xhr.statusText);
