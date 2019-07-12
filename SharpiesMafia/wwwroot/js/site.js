@@ -7,6 +7,10 @@ connection.on("StartPageUserList", function (users)
     var targetDiv = $('#mafiaGame');
     targetDiv.load("/Home/StartGameScreen", function (responseTxt, statusTxt, xhr)
     {
+        setTimeout(function () {
+            GetNextPage();
+        }, 5000);
+
         if (statusTxt == "success")
             users.forEach(function (element) {
                 var li = document.createElement("li");
@@ -65,8 +69,10 @@ $('#joinGameBtn').on("click", function () {
     event.preventDefault();
 });
 
-
-
-
+function GetNextPage() {
+    var targetDiv = $('#mafiaGame');
+    targetDiv.load("/Home/JoinGameScreen", function () {
+    });
+}
 
 
