@@ -27,10 +27,10 @@ namespace SharpiesMafia.Hubs
         public async Task StartGame(string userName)
         {
             var gameId = GenerateCode();
-            var user = new User() { name = userName, connection_id = Context.ConnectionId, game_id = gameId, is_dead = false, role = "villager"};
+            var user = new User() { name = userName, connection_id = Context.ConnectionId, game_id = gameId, is_dead = false};
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
-            await Clients.All.SendAsync("StartPageUserList", GetAllUsers());
+            await Clients.Group("gameOwner").SendAsync("StartPageUserList", GetAllUsers());
         }
 
         public int GenerateCode()
@@ -45,6 +45,11 @@ namespace SharpiesMafia.Hubs
         {
             var users = _context.Users.ToList();
             return users; 
+        }
+
+        public Task AddUserToGroup(string groupName)
+        {
+            return Groups.AddToGroupAsync(Context.ConnectionId,groupName);
         }
     }
 }
