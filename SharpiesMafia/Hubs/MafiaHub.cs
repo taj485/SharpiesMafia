@@ -60,7 +60,6 @@ namespace SharpiesMafia.Hubs
 
         public async Task ListUsersToKill()
         {
-            await AddUserToGroup("mafia");
             await Clients.Group("mafia").SendAsync("LoadUsersToKill", GetAliveUsers());
         }
 

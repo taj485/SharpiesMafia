@@ -45,11 +45,15 @@ connection.on("LoadUsersToKill", function (users)
     {
         if (statusTxt == "success")
             users.forEach(function (element) {
+                var br = document.createElement("br");
                 var button = document.createElement("BUTTON");
                 var t = document.createTextNode(element.name);
                 button.appendChild(t);
-                button.onclick = function() { killPerson(element.name); };
+                button.classList.add("btn")
+                button.classList.add("btn-outline-danger")
+                button.onclick = function () { killPerson(element.name); };
                 document.getElementById("userList").appendChild(button)
+                document.getElementById("userList").appendChild(br)
             });
         if(statusTxt == "error")
             alert("Error: " + xhr.status + ": " + xhr.statusText);
@@ -58,7 +62,7 @@ connection.on("LoadUsersToKill", function (users)
 });
 
 
-
+// Need to hook up to the timer rather than a test button.
 document.getElementById("TestButton").addEventListener("click", function (event) {
     connection.invoke("ListUsersToKill").catch(function (err) {
         return console.error(err.toString());
