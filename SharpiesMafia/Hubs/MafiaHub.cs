@@ -47,6 +47,12 @@ namespace SharpiesMafia.Hubs
             return users; 
         }
 
+        public List<User> GetAliveUsers()
+        {
+            var aliveUsers = _context.Users.Where(x => x.is_dead == false).ToList();
+            return aliveUsers;
+        }
+
         public Task AddUserToGroup(string groupName)
         {
             return Groups.AddToGroupAsync(Context.ConnectionId,groupName);
@@ -55,7 +61,7 @@ namespace SharpiesMafia.Hubs
         public async Task ListUsersToKill()
         {
             await AddUserToGroup("mafia");
-            await Clients.Group("mafia").SendAsync("LoadUsersToKill", GetAllUsers());
+            await Clients.Group("mafia").SendAsync("LoadUsersToKill", GetAliveUsers());
         }
 
         public async Task KillPlayer(string userName)
