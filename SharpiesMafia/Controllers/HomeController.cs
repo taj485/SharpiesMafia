@@ -29,12 +29,12 @@ namespace SharpiesMafia.Controllers
 
         public IActionResult MafiaScreen()
         {
-            return PartialView("~/Views/Home/_MafiaScreen.cshtml");
+            return PartialView("~/Views/Home/_MafiaScreenPartial.cshtml");
         }
         
         public IActionResult VillagerScreen()
         {
-            return PartialView("~/Views/Home/_VillagerScreen.cshtml");
+            return PartialView("~/Views/Home/_VillagerScreenPartial.cshtml");
         }
 
     }
