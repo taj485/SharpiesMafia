@@ -8,9 +8,9 @@ connection.on("StartPageUserList", function (users)
     targetDiv.load("/Home/StartGameScreen", function (responseTxt, statusTxt, xhr)
     {
         Countdown();
-        setTimeout(function () {
-            GetNextPage();
-        }, 5000);
+        //setTimeout(function () {
+        //    GetNextPage();
+        //}, 30000);
 
         if (statusTxt == "success")
             users.forEach(function (element) {
@@ -78,16 +78,17 @@ function GetNextPage() {
 
 function Countdown() {
     var start = 30;
-    var second = 1; 
+    var second = 1;
+
     var x = setInterval(function () {
         var seconds = start - second;
-        $('.countdownContainer').html = "<p>" + seconds + "s</p>";
+        document.getElementById("countdownContainerP").innerHTML = seconds + "s";
         start = seconds;
-
         if (seconds < 0) {
             clearInterval(x);
         }
-    },1000);
+    }, 1000);
+
 }
 
 

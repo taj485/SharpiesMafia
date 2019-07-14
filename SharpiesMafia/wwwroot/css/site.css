@@ -9,12 +9,12 @@ for details on configuring this project to bundle and minify static web assets. 
 .mafiaSpinner p {
 
 }
-    /*#region Pre-set CSS*/
-    a.navbar-brand {
-        white-space: normal;
-        text-align: center;
-        word-break: break-all;
-    }
+/*#region Pre-set CSS*/
+a.navbar-brand {
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
+}
 
 /* Sticky footer styles
 -------------------------------------------------- */
@@ -124,4 +124,17 @@ body {
 .spinner-border {
     border-width: 0.75em;
 }
+/*#endregion*/
+
+/*#region _StartGamePartial*/
+.countdownContainer {
+    text-align: center;
+    font-size: 30px;
+    padding: 20px;
+}
+
+#countdownContainerP {
+    font-size: 50px;
+}
+
 /*#endregion*/
