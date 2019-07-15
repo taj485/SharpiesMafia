@@ -112,6 +112,7 @@ namespace SharpiesMafia.Hubs
             }
             await Clients.Group("villager").SendAsync("VillagerPage");
             await Clients.Group("mafia").SendAsync("MafiaPage");
+
         }
 
         public void MafiaAssignment()

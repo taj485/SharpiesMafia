@@ -53,10 +53,5 @@ namespace SharpiesMafia.Controllers
             return PartialView("~/Views/Home/_VillagerScreenPartial.cshtml");
         }
 
-        public IActionResult NightTimeScreen()
-        {
-            return PartialView("~/Views/Home/_NightTimeScreenPartial.cshtml");
-        }
-
     }
 }

@@ -1,4 +1,4 @@
-<div>
+﻿<div>
     <div id="gameId"></div>
     <ul id="userList"></ul>
 </div>
@@ -12,6 +12,11 @@
         connection.invoke("BeginGame").catch(function (err) {
             return console.error(err.toString());
         });
+
+        setTimeout(function () {
+            GetNextPage("/Home/LoadNightScreen");
+        }, 3000);
+
         event.preventDefault();
     });
 </script>
