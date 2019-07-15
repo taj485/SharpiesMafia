@@ -99,15 +99,39 @@ namespace SharpiesMafia.Hubs
             _context.Users.Update(deadUser);
             _context.SaveChanges();
 
+            var rolesCount = TotalRoles();
+
             if(role == "mafia")
             {
                 await Clients.All.SendAsync("LoadNight");
             }
             else
             {
-                await Clients.All.SendAsync("LoadResult",deadUser.name, deadUser.role);
+                await Clients.All.SendAsync("LoadResult",deadUser.name, deadUser.role, rolesCount);
             }
            
+        }
+
+        public List<int> TotalRoles()
+        {
+            List<int> rolesCount = new List<int>();
+            var aliveUsers = GetAliveUsers();
+            int aliveMafia = 0;
+            int aliveVillagers = 0;
+            foreach (var user in aliveUsers)
+            {
+                if (user.role == "mafia")
+                {
+                    aliveMafia++;
+                }
+                else
+                {
+                    aliveVillagers++;
+                }
+            }
+            rolesCount.Add(aliveMafia);
+            rolesCount.Add(aliveVillagers);
+            return rolesCount;
         }
         
         public Task AddUserToRole(string groupName, string connectionId)

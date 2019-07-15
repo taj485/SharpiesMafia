@@ -90,11 +90,11 @@ connection.on("LoadUsersToKill", function (users)
                 var button = document.createElement("BUTTON");
                 var t = document.createTextNode(element.name);
                 button.appendChild(t);
-                button.classList.add("btn")
-                button.classList.add("btn-outline-danger")
+                button.classList.add("btn");
+                button.classList.add("btn-outline-danger");
                 button.onclick = function () { killPerson(element.name); };
-                document.getElementById("userList").appendChild(button)
-                document.getElementById("userList").appendChild(br)
+                document.getElementById("userList").appendChild(button);
+                document.getElementById("userList").appendChild(br);
             });
         if(statusTxt == "error")
             alert("Error: " + xhr.status + ": " + xhr.statusText);
@@ -114,11 +114,11 @@ connection.on("EveryoneKillChoice", function (users)
                 var button = document.createElement("BUTTON");
                 var t = document.createTextNode(element.name);
                 button.appendChild(t);
-                button.classList.add("btn")
-                button.classList.add("btn-outline-danger")
+                button.classList.add("btn");
+                button.classList.add("btn-outline-danger");
                 button.onclick = function () { killPerson(element.name, "villager"); };
-                document.getElementById("userList").appendChild(button)
-                document.getElementById("userList").appendChild(br)
+                document.getElementById("userList").appendChild(button);
+                document.getElementById("userList").appendChild(br);
             });
         if(statusTxt == "error")
             alert("Error: " + xhr.status + ": " + xhr.statusText);
@@ -127,12 +127,11 @@ connection.on("EveryoneKillChoice", function (users)
 });
 
 // Need to hook up to the timer rather than a test button.
-//document.getElementById("TestButton").addEventListener("click", function (event) {
-    //connection.invoke("ListUsersToKill").catch(function (err) {
-        //return console.error(err.toString());
-    //});
-    //event.preventDefault();
-//});
+document.getElementById("test2").addEventListener("click", function (event) {
+    connection.invoke("ListUsersToKill").catch(function (err) {
+        return console.error(err.toString());
+    });
+});
 
 
 function killPerson(user, role="mafia"){
@@ -147,7 +146,7 @@ connection.on("LoadNight", function ()
     targetDiv.load("/Home/LoadNightScreen");
 });
 
-connection.on("LoadResult", function (name, role)
+connection.on("LoadResult", function (name, role, rolesCount)
 {
     var targetDiv = $('#mafiaGame');
     targetDiv.load("/Home/LoadResultScreen", function (responseTxt, statusTxt, xhr)
@@ -155,16 +154,17 @@ connection.on("LoadResult", function (name, role)
         if (statusTxt == "success")
             document.getElementById("deadUser").innerHTML = name;
             document.getElementById("userRole").innerHTML = role;
+            document.getElementById("mafiaCount").innerHTML = rolesCount[0];
+            document.getElementById("villagerCount").innerHTML = rolesCount[1];
         if(statusTxt == "error")
             alert("Error: " + xhr.status + ": " + xhr.statusText);
  
     });
 });
 
-document.getElementById("test").addEventListener("click", function (event) {
-    console.log("check button is working")
+// Need to hook up to the timer rather than a test button.
+document.getElementById("test1").addEventListener("click", function (event) {
     connection.invoke("ListEveryOneToKill").catch(function (err) {
         return console.error(err.toString());
     });
 });
-
