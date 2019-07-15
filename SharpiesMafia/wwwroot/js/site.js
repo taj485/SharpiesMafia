@@ -2,6 +2,18 @@
 
 var connection = new signalR.HubConnectionBuilder().withUrl("/mafiaHub").build();
 
+connection.on("MafiaPage", function ()
+{
+    var targetDiv = $('#mafiaGame');
+    targetDiv.load("/Home/MafiaScreen");
+});
+
+connection.on("VillagerPage", function ()
+{
+    var targetDiv = $('#mafiaGame');
+    targetDiv.load("/Home/VillagerScreen");
+});
+
 connection.on("StartPageUserList", function (users, gameId) {     var targetDiv = $('#mafiaGame');
     targetDiv.load("/Home/StartGameScreen", function (responseTxt, statusTxt, xhr)
     {
@@ -104,7 +116,6 @@ function killPerson(user){
     connection.invoke("KillPlayer", user).catch(function (err) {
         return console.error(err.toString());
     });
-   
 }
 
 connection.on("LoadNight", function ()
@@ -113,14 +124,3 @@ connection.on("LoadNight", function ()
     targetDiv.load("/Home/LoadNightScreen");
 });
               
-connection.on("MafiaPage", function ()
-{
-    var targetDiv = $('#mafiaGame');
-    targetDiv.load("/Home/MafiaScreen");
-});
-
-connection.on("VillagerPage", function ()
-{
-    var targetDiv = $('#mafiaGame');
-    targetDiv.load("/Home/VillagerScreen");
-});
