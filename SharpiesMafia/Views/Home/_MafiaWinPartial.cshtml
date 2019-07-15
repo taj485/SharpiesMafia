@@ -1,0 +1,30 @@
+﻿<style>
+    body {
+        background-color: #161616;
+    }
+</style>
+
+<figure class="resultImgs">
+    <img src="~/images/chalk.png" id="chalkImg" />
+    <figcaption>Mafia Won!</figcaption>
+</figure>
+
+<audio autoplay>
+    <source src="~/audio/boohiss.mp3" type="audio/mp3">
+    Your browser don't support this audio element Bub
+</audio>
+
+<div>
+    <button id="newGameBtn" class="btn btn-outline-success">New Game</button>
+</div>
+
+
+<script>
+$('#newGameBtn').on("click", function (event) {
+        connection.invoke("ResetGame").catch(function (error) {
+            return console.error(error.toString());
+        });
+
+        event.preventDefault();
+    });
+</script>

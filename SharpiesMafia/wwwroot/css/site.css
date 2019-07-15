@@ -112,7 +112,7 @@ body {
 /*#endregion*/
 
 /*#region _NightTimePartial*/
-.dayAndNightImgs {
+.dayAndNightImgs, .resultImgs {
     text-align: center;
     padding-top: 20px;
     -webkit-filter: invert(1);

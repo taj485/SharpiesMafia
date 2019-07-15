@@ -29,7 +29,7 @@ connection.on("StartPageUserList", function (users, gameId) {     var targetDi
     {
         if (statusTxt == "success")
 
-            $("#gameId").html("Join Code: " + gameId[0]);
+            $("#gameId").html("Join Code: " + gameId);
 
             users.forEach(function (element) {
                var li = document.createElement("li");
