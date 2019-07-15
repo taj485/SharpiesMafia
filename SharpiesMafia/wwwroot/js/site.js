@@ -6,14 +6,12 @@ connection.on("MafiaPage", function ()
 {
     var targetDiv = $('#mafiaGame');
     targetDiv.load("/Home/MafiaScreen");
-
 });
 
 connection.on("VillagerPage", function ()
 {
     var targetDiv = $('#mafiaGame');
     targetDiv.load("/Home/VillagerScreen");
-    
 }); 
 
 connection.on("NightPage", function ()
@@ -22,11 +20,9 @@ connection.on("NightPage", function ()
         GetNextPage("/Home/LoadNightScreen");
         connection.invoke("LoadMafiaChoicePage");
     }, 5000);
-    
-    
 });
 
-connection.on("MafiaChooseVictimPage", function () {
+connection.on("UsersToKillPage", function () {
       setTimeout(function () {
         GetNextPage("/Home/UsersToKill");
     }, 5000);
