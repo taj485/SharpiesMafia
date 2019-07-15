@@ -81,19 +81,33 @@ namespace SharpiesMafia.Hubs
             return Groups.AddToGroupAsync(Context.ConnectionId,groupName);
         }
 
-        public async Task ListUsersToKill()
+        public async Task ListUsersToKill() //only mafia can kill
         {
             await Clients.Group("mafia").SendAsync("LoadUsersToKill", GetAliveUsers());
         }
 
-        public async Task KillPlayer(string userName)
+        public async Task ListEveryOneToKill() //everyone has option to kill
+        {
+            await Clients.All.SendAsync("EveryoneKillChoice", GetAliveUsers());
+        }
+
+        public async Task KillPlayer(string userName, string role)
         {
             var deadUser = _context.Users.Where(x => x.name == userName).FirstOrDefault();
              
             deadUser.is_dead = true;
             _context.Users.Update(deadUser);
-            _context.SaveChanges();     
-            await Clients.All.SendAsync("LoadNight");
+            _context.SaveChanges();
+
+            if(role == "mafia")
+            {
+                await Clients.All.SendAsync("LoadNight");
+            }
+            else
+            {
+                await Clients.All.SendAsync("LoadResult",deadUser.name, deadUser.role);
+            }
+           
         }
         
         public Task AddUserToRole(string groupName, string connectionId)

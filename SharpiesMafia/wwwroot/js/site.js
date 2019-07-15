@@ -103,17 +103,40 @@ connection.on("LoadUsersToKill", function (users)
 });
 
 
-// Need to hook up to the timer rather than a test button.
-document.getElementById("TestButton").addEventListener("click", function (event) {
-    connection.invoke("ListUsersToKill").catch(function (err) {
-        return console.error(err.toString());
+connection.on("EveryoneKillChoice", function (users)
+{
+    var targetDiv = $('#mafiaGame');
+    targetDiv.load("/Home/UsersToKill", function (responseTxt, statusTxt, xhr)
+    {
+        if (statusTxt == "success")
+            users.forEach(function (element) {
+                var br = document.createElement("br");
+                var button = document.createElement("BUTTON");
+                var t = document.createTextNode(element.name);
+                button.appendChild(t);
+                button.classList.add("btn")
+                button.classList.add("btn-outline-danger")
+                button.onclick = function () { killPerson(element.name, "villager"); };
+                document.getElementById("userList").appendChild(button)
+                document.getElementById("userList").appendChild(br)
+            });
+        if(statusTxt == "error")
+            alert("Error: " + xhr.status + ": " + xhr.statusText);
+ 
     });
-    event.preventDefault();
 });
 
+// Need to hook up to the timer rather than a test button.
+//document.getElementById("TestButton").addEventListener("click", function (event) {
+    //connection.invoke("ListUsersToKill").catch(function (err) {
+        //return console.error(err.toString());
+    //});
+    //event.preventDefault();
+//});
 
-function killPerson(user){
-    connection.invoke("KillPlayer", user).catch(function (err) {
+
+function killPerson(user, role="mafia"){
+    connection.invoke("KillPlayer", user,role).catch(function (err) {
         return console.error(err.toString());
     });
 }
@@ -123,4 +146,25 @@ connection.on("LoadNight", function ()
     var targetDiv = $('#mafiaGame');
     targetDiv.load("/Home/LoadNightScreen");
 });
-              
+
+connection.on("LoadResult", function (name, role)
+{
+    var targetDiv = $('#mafiaGame');
+    targetDiv.load("/Home/LoadResultScreen", function (responseTxt, statusTxt, xhr)
+    {
+        if (statusTxt == "success")
+            document.getElementById("deadUser").innerHTML = name;
+            document.getElementById("userRole").innerHTML = role;
+        if(statusTxt == "error")
+            alert("Error: " + xhr.status + ": " + xhr.statusText);
+ 
+    });
+});
+
+document.getElementById("test").addEventListener("click", function (event) {
+    console.log("check button is working")
+    connection.invoke("ListEveryOneToKill").catch(function (err) {
+        return console.error(err.toString());
+    });
+});
+
