@@ -114,7 +114,7 @@ function createButtons(users, role) {
         button.appendChild(t);
         button.classList.add("btn");
         button.classList.add("btn-outline-danger");
-        button.onclick = function (). { killPerson(elementname, role); };
+        button.onclick = function () { killPerson(element.name, role); };
         document.getElementById("userList").appendChild(button);
         document.getElementById("userList").appendChild(br);
     });
