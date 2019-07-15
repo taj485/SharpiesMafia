@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using SharpiesMafia.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 namespace SharpiesMafia.Hubs
 {
@@ -26,19 +27,50 @@ namespace SharpiesMafia.Hubs
 
         public async Task StartGame(string userName)
         {
-            var gameId = GenerateCode();
-            var user = new User() { name = userName, connection_id = Context.ConnectionId, game_id = gameId, is_dead = false, role = "villager"};
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-            await Clients.Group("gameOwner").SendAsync("StartPageUserList", GetAllUsers(), GetGameId());
+            if (UserExists(userName))
+            {
+                Console.WriteLine(userName);
+                throw new Exception("User already exists");
+            }
+            else
+            {
+                var gameId = GenerateCode();
+                var user = new User() { name = userName, connection_id = Context.ConnectionId, game_id = gameId, is_dead = false, role = "villager"};
+                _context.Users.Add(user);
+                await _context.SaveChangesAsync();
+                await Clients.Group("gameOwner").SendAsync("StartPageUserList", GetSpecificGameUsers(gameId), GetGameId()); 
+            }
         }
-
+        
         public async Task JoinGame(string userName, int gameId)
         {
-            var user = new User() { name = userName, connection_id = Context.ConnectionId, game_id = gameId, is_dead = false };
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-            await Clients.Group("gameOwner").SendAsync("JoinPageUserList", GetSpecificGameUsers(gameId));
+            if (UserExists(userName))
+            {
+                Console.WriteLine(userName);
+                throw new Exception("User already exists");
+            }
+            else
+            {
+                var user = new User() { name = userName, connection_id = Context.ConnectionId, game_id = gameId, is_dead = false, role = "villager" };
+                _context.Users.Add(user);
+                await _context.SaveChangesAsync();
+                await Clients.Group("gameMember").SendAsync("JoinPageUserList", GetSpecificGameUsers(gameId));
+                await Clients.Group("gameOwner").SendAsync("StartPageUserList", GetSpecificGameUsers(gameId), GetGameId());
+            }
+        }
+        
+        public bool UserExists(string userName)
+        {
+            var users = GetAllUsers();
+            foreach (var user in users)
+            {
+                if (userName == user.name)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public int GenerateCode()
@@ -64,7 +96,7 @@ namespace SharpiesMafia.Hubs
             return code;
         }
         
-        public List<User> GetSpecificGameUsers(int gameId)
+        public List<User> GetSpecificGameUsers(long gameId)
         {
             var users = _context.Users.Where(user=>user.game_id == gameId).ToList();
             return users;
@@ -81,10 +113,14 @@ namespace SharpiesMafia.Hubs
             return Groups.AddToGroupAsync(Context.ConnectionId,groupName);
         }
 
-        public async Task ListUsersToKill()
+        public void ListUsersToKill()
         {
-            await AddUserToGroup("mafia");
             await Clients.Group("mafia").SendAsync("LoadUsersToKill", GetAliveUsers());
+        }
+
+        public void LoadMafiaChoicePage()
+        {
+            Clients.Group("mafia").SendAsync("UsersToKillPage");
         }
 
         public async Task ListEveryOneToKill()
@@ -150,11 +186,18 @@ namespace SharpiesMafia.Hubs
             }
             await Clients.Group("villager").SendAsync("VillagerPage");
             await Clients.Group("mafia").SendAsync("MafiaPage");
+            await Clients.Groups("mafia", "villager").SendAsync("NightPage");
         }
+
+
 
         public void MafiaAssignment()
         {
-            var users = GetAllUsers();
+            var currentUser = _context.Users
+                        .Where(x => x.connection_id == Context.ConnectionId).FirstOrDefault();
+            var gameId = currentUser.game_id;
+                        
+            var users = GetSpecificGameUsers(gameId);
             int numberOfUsers = users.Count;
             int amountMafia = numberOfUsers / 4;
             if (amountMafia < 1)
