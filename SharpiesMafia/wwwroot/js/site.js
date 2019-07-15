@@ -6,12 +6,21 @@ connection.on("MafiaPage", function ()
 {
     var targetDiv = $('#mafiaGame');
     targetDiv.load("/Home/MafiaScreen");
+
+    setTimeout(function () {
+        GetNextPage("/Home/NightTimeScreen");
+    }, 3000);
+
 });
 
 connection.on("VillagerPage", function ()
 {
     var targetDiv = $('#mafiaGame');
     targetDiv.load("/Home/VillagerScreen");
+
+    setTimeout(function () {
+        GetNextPage("/Home/NightTimeScreen");
+    }, 3000);
 });
 
 connection.on("StartPageUserList", function (users, gameId) {     var targetDiv = $('#mafiaGame');
@@ -123,4 +132,5 @@ connection.on("LoadNight", function ()
     var targetDiv = $('#mafiaGame');
     targetDiv.load("/Home/LoadNightScreen");
 });
-              
+ function GetNextPage(HomeControllerMethod) {     var targetDiv = $('#mafiaGame');     targetDiv.load(HomeControllerMethod, function () {     }); }
+
