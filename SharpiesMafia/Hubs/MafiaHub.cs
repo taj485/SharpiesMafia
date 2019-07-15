@@ -115,7 +115,7 @@ namespace SharpiesMafia.Hubs
 
         public void ListUsersToKill()
         {
-           Clients.Group("mafia").SendAsync("LoadUsersToKill", GetAliveUsers());
+            await Clients.Group("mafia").SendAsync("LoadUsersToKill", GetAliveUsers());
         }
 
         public void LoadMafiaChoicePage()
@@ -123,14 +123,52 @@ namespace SharpiesMafia.Hubs
             Clients.Group("mafia").SendAsync("UsersToKillPage");
         }
 
-        public async Task KillPlayer(string userName)
+        public async Task ListEveryOneToKill()
+        {
+            await Clients.All.SendAsync("EveryoneKillChoice", GetAliveUsers());
+        }
+
+        public async Task KillPlayer(string userName, string role)
         {
             var deadUser = _context.Users.Where(x => x.name == userName).FirstOrDefault();
              
             deadUser.is_dead = true;
             _context.Users.Update(deadUser);
-            _context.SaveChanges();     
-            await Clients.All.SendAsync("LoadNight");
+            _context.SaveChanges();
+
+            var rolesCount = TotalRoles();
+
+            if(role == "mafia")
+            {
+                await Clients.All.SendAsync("LoadNight");
+            }
+            else
+            {
+                await Clients.All.SendAsync("LoadResult",deadUser.name, deadUser.role, rolesCount);
+            }
+           
+        }
+
+        public List<int> TotalRoles()
+        {
+            List<int> rolesCount = new List<int>();
+            var aliveUsers = GetAliveUsers();
+            int aliveMafia = 0;
+            int aliveVillagers = 0;
+            foreach (var user in aliveUsers)
+            {
+                if (user.role == "mafia")
+                {
+                    aliveMafia++;
+                }
+                else
+                {
+                    aliveVillagers++;
+                }
+            }
+            rolesCount.Add(aliveMafia);
+            rolesCount.Add(aliveVillagers);
+            return rolesCount;
         }
         
         public Task AddUserToRole(string groupName, string connectionId)
