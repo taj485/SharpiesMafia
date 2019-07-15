@@ -152,8 +152,13 @@ connection.on("LoadResult", function (name, role, rolesCount)
     targetDiv.load("/Home/LoadResultScreen", function (responseTxt, statusTxt, xhr)
     {
         if (statusTxt == "success")
-            document.getElementById("deadUser").innerHTML = name;
-            document.getElementById("userRole").innerHTML = role;
+            if (role === "mafia") {
+                document.getElementById("resultDisplay").classList.add("text-success")
+            } else {
+                document.getElementById("resultDisplay").classList.add("text-danger")
+            }   
+            document.getElementById("deadUser").innerHTML = capitalize(name);
+            document.getElementById("userRole").innerHTML = capitalize(role);
             document.getElementById("mafiaCount").innerHTML = rolesCount[0];
             document.getElementById("villagerCount").innerHTML = rolesCount[1];
         if(statusTxt == "error")
@@ -168,3 +173,8 @@ document.getElementById("test1").addEventListener("click", function (event) {
         return console.error(err.toString());
     });
 });
+
+function capitalize(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
