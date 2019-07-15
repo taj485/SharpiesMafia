@@ -6,13 +6,23 @@ connection.on("MafiaPage", function ()
 {
     var targetDiv = $('#mafiaGame');
     targetDiv.load("/Home/MafiaScreen");
+
 });
 
 connection.on("VillagerPage", function ()
 {
     var targetDiv = $('#mafiaGame');
     targetDiv.load("/Home/VillagerScreen");
+    
+}); 
+
+connection.on("NightPage", function ()
+{
+    setTimeout(function () {
+        GetNextPage("/Home/LoadNightScreen");
+    }, 5000);
 });
+
 
 connection.on("StartPageUserList", function (users, gameId) {     var targetDiv = $('#mafiaGame');
     targetDiv.load("/Home/StartGameScreen", function (responseTxt, statusTxt, xhr)
@@ -67,7 +77,7 @@ document.getElementById("newGameStartBtn").addEventListener("click", function (e
 
 
 $('#joinGameBtn').on("click", function () {
-    connection.invoke("AddUserToGroup", "gameOwner").catch(function (error)
+    connection.invoke("AddUserToGroup", "gameMember").catch(function (error)
     {
         return console.error(error.toString());
     });
@@ -123,4 +133,5 @@ connection.on("LoadNight", function ()
     var targetDiv = $('#mafiaGame');
     targetDiv.load("/Home/LoadNightScreen");
 });
-              
+ function GetNextPage(HomeControllerMethod) {     var targetDiv = $('#mafiaGame');     targetDiv.load(HomeControllerMethod, function () {     }); }
+
