@@ -115,6 +115,11 @@ namespace SharpiesMafia.Hubs
             await Clients.Groups("mafia", "villager").SendAsync("NightPage");
         }
 
+        public void LoadMafiaChoicePage()
+        {
+            Clients.Group("mafia").SendAsync("MafiaChooseVictimPage");
+        }
+
         public void MafiaAssignment()
         {
             var currentUser = _context.Users

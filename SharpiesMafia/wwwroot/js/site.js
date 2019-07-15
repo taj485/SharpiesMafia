@@ -20,6 +20,15 @@ connection.on("NightPage", function ()
 {
     setTimeout(function () {
         GetNextPage("/Home/LoadNightScreen");
+        connection.invoke("LoadMafiaChoicePage");
+    }, 5000);
+    
+    
+});
+
+connection.on("MafiaChooseVictimPage", function () {
+      setTimeout(function () {
+        GetNextPage("/Home/UsersToKill");
     }, 5000);
 });
 
