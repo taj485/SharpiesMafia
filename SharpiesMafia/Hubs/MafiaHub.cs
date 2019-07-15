@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using SharpiesMafia.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 namespace SharpiesMafia.Hubs
 {
@@ -26,20 +27,50 @@ namespace SharpiesMafia.Hubs
 
         public async Task StartGame(string userName)
         {
-            var gameId = GenerateCode();
-            var user = new User() { name = userName, connection_id = Context.ConnectionId, game_id = gameId, is_dead = false, role = "villager"};
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-            await Clients.Group("gameOwner").SendAsync("StartPageUserList", GetSpecificGameUsers(gameId), GetGameId());
+            if (UserExists(userName))
+            {
+                Console.WriteLine(userName);
+                throw new Exception("User already exists");
+            }
+            else
+            {
+                var gameId = GenerateCode();
+                var user = new User() { name = userName, connection_id = Context.ConnectionId, game_id = gameId, is_dead = false, role = "villager"};
+                _context.Users.Add(user);
+                await _context.SaveChangesAsync();
+                await Clients.Group("gameOwner").SendAsync("StartPageUserList", GetSpecificGameUsers(gameId), GetGameId()); 
+            }
         }
-
+        
         public async Task JoinGame(string userName, int gameId)
         {
-            var user = new User() { name = userName, connection_id = Context.ConnectionId, game_id = gameId, is_dead = false, role = "villager" };
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-            await Clients.Group("gameMember").SendAsync("JoinPageUserList", GetSpecificGameUsers(gameId));
-            await Clients.Group("gameOwner").SendAsync("StartPageUserList", GetSpecificGameUsers(gameId), GetGameId());
+            if (UserExists(userName))
+            {
+                Console.WriteLine(userName);
+                throw new Exception("User already exists");
+            }
+            else
+            {
+                var user = new User() { name = userName, connection_id = Context.ConnectionId, game_id = gameId, is_dead = false, role = "villager" };
+                _context.Users.Add(user);
+                await _context.SaveChangesAsync();
+                await Clients.Group("gameMember").SendAsync("JoinPageUserList", GetSpecificGameUsers(gameId));
+                await Clients.Group("gameOwner").SendAsync("StartPageUserList", GetSpecificGameUsers(gameId), GetGameId());
+            }
+        }
+        
+        public bool UserExists(string userName)
+        {
+            var users = GetAllUsers();
+            foreach (var user in users)
+            {
+                if (userName == user.name)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public int GenerateCode()

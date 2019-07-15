@@ -69,8 +69,10 @@ document.getElementById("newGameStartBtn").addEventListener("click", function (e
         return console.error(error.toString());
     });
     var user = document.getElementById("nameInputStart").value;
+    console.log("button clicked");
+    console.log(user);
     connection.invoke("StartGame", user).catch(function (err) {
-        return console.error(err.toString());
+        return alert("User already exists");
     });
     event.preventDefault();
 });
