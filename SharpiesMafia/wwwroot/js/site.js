@@ -3,8 +3,6 @@
 var connection = new signalR.HubConnectionBuilder().withUrl("/mafiaHub").build();
 
 connection.on("StartPageUserList", function (users, gameId) {     var targetDiv = $('#mafiaGame');
-    console.log("HEY THERE")
-            console.log(gameId[0]);
     targetDiv.load("/Home/StartGameScreen", function (responseTxt, statusTxt, xhr)
     {
         if (statusTxt == "success")
