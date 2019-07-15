@@ -7,11 +7,6 @@ connection.on("StartPageUserList", function (users)
     var targetDiv = $('#mafiaGame');
     targetDiv.load("/Home/StartGameScreen", function (responseTxt, statusTxt, xhr)
     {
-        Countdown();
-        //setTimeout(function () {
-        //    GetNextPage();
-        //}, 30000);
-
         if (statusTxt == "success")
             users.forEach(function (element) {
                 var li = document.createElement("li");
@@ -28,6 +23,10 @@ connection.on("JoinPageUserList", function (users)
     var targetDiv = $('#mafiaGame');
     targetDiv.load("/Home/JoinGameScreen", function (responseTxt, statusTxt, xhr)
     {
+        // Kept seperate incase a page does not need a countdown display/timer.
+        Countdown(30); // In seconds
+        Timer(30000, "/Home/NightTimeScreen"); // In miliseconds
+
         if (statusTxt == "success")
             users.forEach(function (element) {
                 var li = document.createElement("li");
@@ -70,14 +69,20 @@ $('#joinGameBtn').on("click", function () {
     event.preventDefault();
 });
 
-function GetNextPage() {
+function GetNextPage(pageRoute) {
     var targetDiv = $('#mafiaGame');
-    targetDiv.load("/Home/JoinGameScreen", function () {
+    targetDiv.load(pageRoute, function () {
     });
 }
 
-function Countdown() {
-    var start = 30;
+function Timer(ms, pageRoute) {
+    setTimeout(function () {
+            GetNextPage(pageRoute);
+    }, ms);
+}
+
+function Countdown(time) {
+    var start = time;
     var second = 1;
 
     var x = setInterval(function () {
@@ -88,7 +93,6 @@ function Countdown() {
             clearInterval(x);
         }
     }, 1000);
-
 }
 
 

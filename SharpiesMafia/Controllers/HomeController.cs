@@ -32,5 +32,9 @@ namespace SharpiesMafia.Controllers
             return PartialView("~/Views/Home/_JoinGamePartial.cshtml");
         }
 
+        public IActionResult NightTimeScreen()
+        {
+            return PartialView("~/Views/Home/_NightTimePartial.cshtml");
+        }
     }
 }
