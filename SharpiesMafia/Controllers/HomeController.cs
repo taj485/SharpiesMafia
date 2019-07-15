@@ -27,6 +27,16 @@ namespace SharpiesMafia.Controllers
             return PartialView("~/Views/Home/_StartGamePartial.cshtml");
         }
 
+        public IActionResult UsersToKill()
+        {
+            return PartialView("~/Views/Home/_UsersToKill.cshtml");
+        }
+
+        public IActionResult LoadNightScreen()
+        {
+            return PartialView("~/Views/Home/_NightTimePartial.cshtml");
+        }
+
         public IActionResult MafiaScreen()
         {
             return PartialView("~/Views/Home/_MafiaScreenPartial.cshtml");
