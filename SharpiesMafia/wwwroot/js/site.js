@@ -55,7 +55,7 @@ document.getElementById("newGameStartBtn").addEventListener("click", function (e
 
 
 $('#joinGameBtn').on("click", function () {
-    connection.invoke("AddUserToGroup", "gameOwner").catch(function (error)
+    connection.invoke("AddUserToGroup", "gameMember").catch(function (error)
     {
         return console.error(error.toString());
     });
