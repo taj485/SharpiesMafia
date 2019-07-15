@@ -82,9 +82,14 @@ namespace SharpiesMafia.Hubs
             return Groups.AddToGroupAsync(Context.ConnectionId,groupName);
         }
 
-        public async Task ListUsersToKill()
+        public void ListUsersToKill()
         {
-            await Clients.Group("mafia").SendAsync("LoadUsersToKill", GetAliveUsers());
+           Clients.Group("mafia").SendAsync("LoadUsersToKill", GetAliveUsers());
+        }
+
+        public void LoadMafiaChoicePage()
+        {
+            Clients.Group("mafia").SendAsync("UsersToKillPage");
         }
 
         public async Task KillPlayer(string userName)
@@ -114,6 +119,8 @@ namespace SharpiesMafia.Hubs
             await Clients.Group("mafia").SendAsync("MafiaPage");
             await Clients.Groups("mafia", "villager").SendAsync("NightPage");
         }
+
+
 
         public void MafiaAssignment()
         {

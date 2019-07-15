@@ -6,20 +6,25 @@ connection.on("MafiaPage", function ()
 {
     var targetDiv = $('#mafiaGame');
     targetDiv.load("/Home/MafiaScreen");
-
 });
 
 connection.on("VillagerPage", function ()
 {
     var targetDiv = $('#mafiaGame');
     targetDiv.load("/Home/VillagerScreen");
-    
 }); 
 
 connection.on("NightPage", function ()
 {
     setTimeout(function () {
         GetNextPage("/Home/LoadNightScreen");
+        connection.invoke("ListUsersToKill");
+    }, 5000);
+});
+
+connection.on("UsersToKillPage", function () {
+      setTimeout(function () {
+        GetNextPage("/Home/UsersToKill");
     }, 5000);
 });
 
@@ -91,25 +96,27 @@ $('#joinGameBtn').on("click", function () {
 
 connection.on("LoadUsersToKill", function (users)
 {
-    var targetDiv = $('#mafiaGame');
-    targetDiv.load("/Home/UsersToKill", function (responseTxt, statusTxt, xhr)
-    {
-        if (statusTxt == "success")
-            users.forEach(function (element) {
-                var br = document.createElement("br");
-                var button = document.createElement("BUTTON");
-                var t = document.createTextNode(element.name);
-                button.appendChild(t);
-                button.classList.add("btn")
-                button.classList.add("btn-outline-danger")
-                button.onclick = function () { killPerson(element.name); };
-                document.getElementById("userList").appendChild(button)
-                document.getElementById("userList").appendChild(br)
-            });
-        if(statusTxt == "error")
-            alert("Error: " + xhr.status + ": " + xhr.statusText);
- 
-    });
+    setTimeout(function () {
+        var targetDiv = $('#mafiaGame');
+        targetDiv.load("/Home/UsersToKill", function (responseTxt, statusTxt, xhr)
+        {
+            if (statusTxt == "success")
+                users.forEach(function (element) {
+                    var br = document.createElement("br");
+                    var button = document.createElement("BUTTON");
+                    var t = document.createTextNode(element.name);
+                    button.appendChild(t);
+                    button.classList.add("btn")
+                    button.classList.add("btn-outline-danger")
+                    button.onclick = function () { killPerson(element.name); };
+                    document.getElementById("userList").appendChild(button)
+                    document.getElementById("userList").appendChild(br)
+                });
+            if(statusTxt == "error")
+                alert("Error: " + xhr.status + ": " + xhr.statusText);
+     
+        });
+     }, 5000);
 });
 
 
