@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System.Collections.Generic;
 using SharpiesMafia.Hubs;
 using SharpiesMafia.Models;
 using Microsoft.EntityFrameworkCore;
@@ -27,5 +28,12 @@ namespace SharpiesMafia.Tests
         {
             Assert.AreEqual(4, _hub.GenerateCode().ToString().Length);
         }
+
+        [Test]
+        public void test2()
+        {
+            Assert.AreEqual(4, _hub.GenerateCode().ToString().Length);
+        }
+
     }
 }
