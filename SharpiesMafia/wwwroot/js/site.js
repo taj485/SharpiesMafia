@@ -14,7 +14,15 @@ connection.on("VillagerPage", function ()
     var targetDiv = $('#mafiaGame');
     targetDiv.load("/Home/VillagerScreen");
     
+}); 
+
+connection.on("NightPage", function ()
+{
+    setTimeout(function () {
+        GetNextPage("/Home/LoadNightScreen");
+    }, 5000);
 });
+
 
 connection.on("StartPageUserList", function (users, gameId) {     var targetDiv = $('#mafiaGame');
     targetDiv.load("/Home/StartGameScreen", function (responseTxt, statusTxt, xhr)
