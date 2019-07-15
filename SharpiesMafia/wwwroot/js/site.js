@@ -112,16 +112,6 @@ connection.on("LoadUsersToKill", function (users)
     });
 });
 
-
-// Need to hook up to the timer rather than a test button.
-document.getElementById("TestButton").addEventListener("click", function (event) {
-    connection.invoke("ListUsersToKill").catch(function (err) {
-        return console.error(err.toString());
-    });
-    event.preventDefault();
-});
-
-
 function killPerson(user){
     connection.invoke("KillPlayer", user).catch(function (err) {
         return console.error(err.toString());
@@ -133,5 +123,11 @@ connection.on("LoadNight", function ()
     var targetDiv = $('#mafiaGame');
     targetDiv.load("/Home/LoadNightScreen");
 });
- function GetNextPage(HomeControllerMethod) {     var targetDiv = $('#mafiaGame');     targetDiv.load(HomeControllerMethod, function () {     }); }
+ function GetNextPage(route) {     var targetDiv = $('#mafiaGame');     targetDiv.load(route, function () {     }); }
+
+function Timer(ms, route) {
+    setTimeout(function () {
+        GetNextPage(route);
+    }, ms);
+}
 

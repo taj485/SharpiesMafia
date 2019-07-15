@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <Folder Include="Hubs\" />
+    <Folder Include="Views\Home\Nights\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SharpiesMafia.csproj" />

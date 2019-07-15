@@ -40,7 +40,12 @@ namespace SharpiesMafia.Controllers
 
         public IActionResult LoadNightScreen()
         {
-            return PartialView("~/Views/Home/_NightTimePartial.cshtml");
+            return PartialView("~/Views/Home/_NightTimeMusicPartial.cshtml");
+        }
+
+        public IActionResult LoadMafiaNightScreen()
+        {
+            return PartialView("~/Views/Home/_NightMafiaMusicPartial.cshtml");
         }
 
         public IActionResult MafiaScreen()
