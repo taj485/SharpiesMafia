@@ -7,13 +7,13 @@ connection.on("StartPageUserList", function (users)
     var targetDiv = $('#mafiaGame');
     targetDiv.load("/Home/StartGameScreen", function (responseTxt, statusTxt, xhr)
     {
-        if (statusTxt == "success")
+        if (statusTxt === "success")
             users.forEach(function (element) {
                 var li = document.createElement("li");
                 li.textContent = element.name;
                 document.getElementById("userList").appendChild(li)
             });
-        if(statusTxt == "error")
+        if(statusTxt === "error")
             alert("Error: " + xhr.status + ": " + xhr.statusText);
  
     });
@@ -38,4 +38,14 @@ document.getElementById("newGameStartBtn").addEventListener("click", function (e
 });
 
 
+connection.on("MafiaPage", function ()
+{
+    var targetDiv = $('#mafiaGame');
+    targetDiv.load("/Home/MafiaScreen");
+});
 
+connection.on("VillagerPage", function ()
+{
+    var targetDiv = $('#mafiaGame');
+    targetDiv.load("/Home/VillagerScreen");
+});
