@@ -85,17 +85,7 @@ connection.on("LoadUsersToKill", function (users)
     targetDiv.load("/Home/UsersToKill", function (responseTxt, statusTxt, xhr)
     {
         if (statusTxt == "success")
-            users.forEach(function (element) {
-                var br = document.createElement("br");
-                var button = document.createElement("BUTTON");
-                var t = document.createTextNode(element.name);
-                button.appendChild(t);
-                button.classList.add("btn");
-                button.classList.add("btn-outline-danger");
-                button.onclick = function () { killPerson(element.name); };
-                document.getElementById("userList").appendChild(button);
-                document.getElementById("userList").appendChild(br);
-            });
+            createButtons(users, "mafia");
         if(statusTxt == "error")
             alert("Error: " + xhr.status + ": " + xhr.statusText);
  
@@ -109,32 +99,37 @@ connection.on("EveryoneKillChoice", function (users)
     targetDiv.load("/Home/UsersToKill", function (responseTxt, statusTxt, xhr)
     {
         if (statusTxt == "success")
-            users.forEach(function (element) {
-                var br = document.createElement("br");
-                var button = document.createElement("BUTTON");
-                var t = document.createTextNode(element.name);
-                button.appendChild(t);
-                button.classList.add("btn");
-                button.classList.add("btn-outline-danger");
-                button.onclick = function () { killPerson(element.name, "villager"); };
-                document.getElementById("userList").appendChild(button);
-                document.getElementById("userList").appendChild(br);
-            });
+            createButtons(users, "villager");
         if(statusTxt == "error")
             alert("Error: " + xhr.status + ": " + xhr.statusText);
  
     });
 });
 
+function createButtons(users, role) {
+    users.forEach(function (element) {
+        var br = document.createElement("br");
+        var button = document.createElement("BUTTON");
+        var t = document.createTextNode(element.name);
+        button.appendChild(t);
+        button.classList.add("btn");
+        button.classList.add("btn-outline-danger");
+        button.onclick = function (). { killPerson(elementname, role); };
+        document.getElementById("userList").appendChild(button);
+        document.getElementById("userList").appendChild(br);
+    });
+}
+
 // Need to hook up to the timer rather than a test button.
 document.getElementById("test2").addEventListener("click", function (event) {
+    console.log("button clicked");
     connection.invoke("ListUsersToKill").catch(function (err) {
         return console.error(err.toString());
     });
 });
 
 
-function killPerson(user, role="mafia"){
+function killPerson(user, role){
     connection.invoke("KillPlayer", user,role).catch(function (err) {
         return console.error(err.toString());
     });

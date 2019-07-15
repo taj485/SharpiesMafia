@@ -81,12 +81,12 @@ namespace SharpiesMafia.Hubs
             return Groups.AddToGroupAsync(Context.ConnectionId,groupName);
         }
 
-        public async Task ListUsersToKill() //only mafia can kill
+        public async Task ListUsersToKill()
         {
             await Clients.Group("mafia").SendAsync("LoadUsersToKill", GetAliveUsers());
         }
 
-        public async Task ListEveryOneToKill() //everyone has option to kill
+        public async Task ListEveryOneToKill()
         {
             await Clients.All.SendAsync("EveryoneKillChoice", GetAliveUsers());
         }
