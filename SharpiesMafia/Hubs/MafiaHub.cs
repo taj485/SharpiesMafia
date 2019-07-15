@@ -65,7 +65,7 @@ namespace SharpiesMafia.Hubs
             return code;
         }
         
-        public List<User> GetSpecificGameUsers(int gameId)
+        public List<User> GetSpecificGameUsers(long gameId)
         {
             var users = _context.Users.Where(user=>user.game_id == gameId).ToList();
             return users;
@@ -117,7 +117,11 @@ namespace SharpiesMafia.Hubs
 
         public void MafiaAssignment()
         {
-            var users = GetAllUsers();
+            var currentUser = _context.Users
+                        .Where(x => x.connection_id == Context.ConnectionId).FirstOrDefault();
+            var gameId = currentUser.game_id;
+                        
+            var users = GetSpecificGameUsers(gameId);
             int numberOfUsers = users.Count;
             int amountMafia = numberOfUsers / 4;
             if (amountMafia < 1)
