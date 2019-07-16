@@ -205,11 +205,16 @@ connection.on("UpdateVictimGroup", function (connectionId)
     });
 });
 
-connection.on("YouDiedPage", function ()
+connection.on("YouDiedPageDelayed", function ()
 {
     setTimeout(function () {
         GetNextPage("/Home/YouDiedScreen");
     }, 10000);
+});
+
+connection.on("YouDiedPageInstant", function ()
+{
+        GetNextPage("/Home/YouDiedScreen");
 });
 
 connection.on("DeleteVictimGroup", function (connectionId)
