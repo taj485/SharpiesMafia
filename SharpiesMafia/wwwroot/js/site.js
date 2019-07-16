@@ -95,9 +95,15 @@ connection.on("LoadResult", function (name, role, rolesCount)
             alert("Error: " + xhr.status + ": " + xhr.statusText);
         }
     });
-    connection.invoke("WinnerPage", role).catch(function (err) {
-        return console.error(err.toString());
-    });
+    if (rolesCount[0] >= rolesCount[1]) {
+        connection.invoke("WinnerPage", "villager");
+    }
+    else if (rolesCount[0] == 0) {
+        connection.invoke("WinnerPage", "mafia");
+    }
+    else {
+        connection.invoke("LoopGame");
+    }
 });
 
 connection.on("JoinPageUserList", function (users)

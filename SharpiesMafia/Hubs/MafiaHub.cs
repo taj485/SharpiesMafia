@@ -285,5 +285,10 @@ namespace SharpiesMafia.Hubs
                 await Clients.All.SendAsync("MafiaWin");
             }
         }
+        public async Task LoopGame()
+        {
+            await Clients.Groups("mafia", "villager").SendAsync("NightPage");
+        }
+
     }
 }
