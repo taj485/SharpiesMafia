@@ -314,57 +314,50 @@ function Countdown(time) {
         }
     }, 1000);
 
-connection.on("UpdateVictimGroup", function (connectionId)
-{
-  connection.invoke("AddUserByIdToGroup", "lastVictim", connectionId).catch(function (error)
-    {
-        return console.error(error.toString());
+    connection.on("UpdateVictimGroup", function (connectionId) {
+        connection.invoke("AddUserByIdToGroup", "lastVictim", connectionId).catch(function (error) {
+            return console.error(error.toString());
+        });
     });
-});
 
-connection.on("YouDiedPageDelayed", function ()
-{
-    setTimeout(function () {
-        GetNextPage("/Home/YouDiedScreen");
-    }, 10000);
-});
-
-connection.on("YouDiedPageInstant", function ()
-{
-        GetNextPage("/Home/YouDiedScreen");
-});
-
-connection.on("DeleteVictimGroup", function (connectionId)
-{
-  connection.invoke("RemoveUserByIdFromGroup", "lastVictim", connectionId).catch(function (error)
-    {
-        return console.error(error.toString());
+    connection.on("YouDiedPageDelayed", function () {
+        setTimeout(function () {
+            GetNextPage("/Home/YouDiedScreen");
+        }, 10000);
     });
-});
 
-connection.on("VillagerWin", function ()
-{
-    setTimeout(function () {
-        GetNextPage("/Home/VillagerWinScreen");
-    }, 5000);
-});
+    connection.on("YouDiedPageInstant", function () {
+        GetNextPage("/Home/YouDiedScreen");
+    });
 
-connection.on("MafiaWin", function ()
-{
-    setTimeout(function () {
-        GetNextPage("/Home/MafiaWinScreen");
-    }, 5000);
-});
+    connection.on("DeleteVictimGroup", function (connectionId) {
+        connection.invoke("RemoveUserByIdFromGroup", "lastVictim", connectionId).catch(function (error) {
+            return console.error(error.toString());
+        });
+    });
 
-$("#infoIcon").on("click", function () {
-    $('#infoModal').modal('show');
-});
+    connection.on("VillagerWin", function () {
+        setTimeout(function () {
+            GetNextPage("/Home/VillagerWinScreen");
+        }, 5000);
+    });
 
-function speak (message) {
-    var synth = window.speechSynthesis;
-    var utterance = new SpeechSynthesisUtterance(message);
-    synth.onvoiceschanged = function() {
-        utterance.voice = synth.getVoices()[17];
-        synth.speak(utterance);
-    };
+    connection.on("MafiaWin", function () {
+        setTimeout(function () {
+            GetNextPage("/Home/MafiaWinScreen");
+        }, 5000);
+    });
+
+    $("#infoIcon").on("click", function () {
+        $('#infoModal').modal('show');
+    });
+
+    function speak(message) {
+        var synth = window.speechSynthesis;
+        var utterance = new SpeechSynthesisUtterance(message);
+        synth.onvoiceschanged = function () {
+            utterance.voice = synth.getVoices()[17];
+            synth.speak(utterance);
+        };
+    }
 }
