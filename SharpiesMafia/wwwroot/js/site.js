@@ -150,7 +150,10 @@ document.getElementById("test").addEventListener("click", function (event) {
 connection.on("EveryoneKillChoice", function (users)
 {
   setTimeout(function () {
-    var targetDiv = $('#mafiaGame');
+      var targetDiv = $('#mafiaGame');
+      Countdown(15);
+      Timer(15000, "/Home/LoadResultScreen");
+
     targetDiv.load("/Home/UsersToKill", function (responseTxt, statusTxt, xhr)
     {
         if (statusTxt == "success") {
@@ -160,7 +163,7 @@ connection.on("EveryoneKillChoice", function (users)
             alert("Error: " + xhr.status + ": " + xhr.statusText);
         }
     });
-  }, 1000);
+  }, 3000);
 });
 
 
@@ -200,3 +203,22 @@ document.getElementById("newGameStartBtn").addEventListener("click", function (e
     event.preventDefault();
 });
 
+function Timer(ms, pageRoute) {
+    setTimeout(function () {
+            GetNextPage(pageRoute);
+    }, ms);
+}
+
+function Countdown(time) {
+    var start = time;
+    var second = 1;
+
+    var x = setInterval(function () {
+        var seconds = start - second;
+        document.getElementById("countdownContainerP").innerHTML = seconds + "s";
+        start = seconds;
+        if (seconds < 0) {
+            clearInterval(x);
+        }
+    }, 1000);
+}
