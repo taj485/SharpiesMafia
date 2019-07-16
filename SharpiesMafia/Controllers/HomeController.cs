@@ -59,6 +59,10 @@ namespace SharpiesMafia.Controllers
             return PartialView("~/Views/Home/_ResultScreenPartial.cshtml");
         }
 
-
+        public IActionResult LoadDayScreen()
+        {
+            return PartialView("~/Views/Home/_DayTimePartial.cshtml");
+        }
+        
     }
 }

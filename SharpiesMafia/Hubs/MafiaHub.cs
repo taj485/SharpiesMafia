@@ -141,6 +141,7 @@ namespace SharpiesMafia.Hubs
             if(role == "mafia")
             {
                 await Clients.All.SendAsync("LoadNight");
+                await Clients.Groups("mafia", "villager").SendAsync("LoadDayPage");
             }
             else
             {
@@ -188,8 +189,6 @@ namespace SharpiesMafia.Hubs
             await Clients.Group("mafia").SendAsync("MafiaPage");
             await Clients.Groups("mafia", "villager").SendAsync("NightPage");
         }
-
-
 
         public void MafiaAssignment()
         {
