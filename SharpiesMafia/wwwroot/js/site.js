@@ -6,7 +6,6 @@ connection.on("LoadNight", function ()
 {
     var targetDiv = $('#mafiaGame');
     targetDiv.load("/Home/LoadNightScreen");
-    speak('Mafia, the decision is made. You can now close your eyes again.');
 });
 
 connection.on("MafiaPage", function ()
@@ -24,8 +23,10 @@ connection.on("VillagerPage", function ()
 
 connection.on("LoadMafiaNight", function ()
 {
-    var targetDiv = $('#mafiaGame');
-    targetDiv.load("/Home/LoadMafiaNightScreen");
+    setTimeout(function () {
+        var targetDiv = $('#mafiaGame');
+        targetDiv.load("/Home/LoadMafiaNightScreen");
+    }, 5000);
 });
 
 
@@ -48,15 +49,13 @@ connection.on("LoadDayPage", function ()
 {
     setTimeout(function () {
         GetNextPage("/Home/LoadDayScreen");
-        speak('Everyone, the sun has risen and it is a new day. You can all open your eyes.');
-        // speech to here.
     }, 5000);
 });
 
 connection.on("UsersToKillPage", function () {
       setTimeout(function () {
         GetNextPage("/Home/UsersToKill");
-    }, 5000);
+    }, 10000);
 });
 
 connection.on("StartPageUserList", function (users, gameId) {     var targetDiv = $('#mafiaGame');
@@ -186,49 +185,34 @@ connection.on("LoadUsersToKill", function (users)
 {
   setTimeout(function () {
     var targetDiv = $('#mafiaGame');
-    targetDiv.load("/Home/UsersToKillMafia", function (responseTxt, statusTxt, xhr)
+    targetDiv.load("/Home/UsersToKillMafia", function ()
     {
-        if (statusTxt == "success") {
-            createButtons(users, "mafia");
-        }
-        if(statusTxt == "error") {
-            alert("Error: " + xhr.status + ": " + xhr.statusText);
-        }
+        createButtons(users, "mafia");
     });
   }, 5000);
 });
 
-connection.on("PromptMafiaToChoose", function ()
-{
-  speak("Mafia members, it's time for you to open your eyes and choose someone to kill");
-});
-
 connection.on("EveryoneKillChoice", function (users)
 {
-    //meg add speech here
   setTimeout(function () {
     var targetDiv = $('#mafiaGame');
-    targetDiv.load("/Home/UsersToKill", function (responseTxt, statusTxt, xhr)
+    targetDiv.load("/Home/UsersToKill", function ()
     {
-        if (statusTxt == "success") {
-            createButtons(users, "villager");
-        }
-        if(statusTxt == "error") {
-            alert("Error: " + xhr.status + ": " + xhr.statusText);
-        }
+        speak('Now it is up to you to sniff out the mafia. Who are you accusing?');
+        createButtons(users, "villager");
     });
   }, 10000);
 });
 
 function createButtons(users, role) {
-    users.forEach(function (element) {
+    users.forEach(function (user) {
         var br = document.createElement("br");
         var button = document.createElement("BUTTON");
-        var t = document.createTextNode(element.name);
+        var t = document.createTextNode(user.name);
         button.appendChild(t);
         button.classList.add("btn");
         button.classList.add("btn-outline-danger");
-        button.onclick = function () { killPerson(element.name, role); };
+        button.onclick = function () { killPerson(user.name, role); };
         document.getElementById("userList").appendChild(button);
         document.getElementById("userList").appendChild(br);
     });
@@ -302,11 +286,7 @@ $("#infoIcon").on("click", function () {
     $('#infoModal').modal('show');
 });
 
-function speak (message) {
-    var synth = window.speechSynthesis;
-    var utterance = new SpeechSynthesisUtterance(message);
-    synth.onvoiceschanged = function() {
-        utterance.voice = synth.getVoices()[17];
-        synth.speak(utterance);
-    };
+function speak(message) {
+    var to_speak = new SpeechSynthesisUtterance(message);
+    window.speechSynthesis.speak(to_speak);
 }

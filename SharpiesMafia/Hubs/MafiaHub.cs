@@ -19,12 +19,6 @@ namespace SharpiesMafia.Hubs
             _context = context;
         }
 
-        //This was the example method from the chatroom article example
-        public async Task SendMessage(string user, int gameId)
-        {
-            await Clients.All.SendAsync("ReceiveMessage", user, gameId);
-        }
-
         public async Task StartGame(string userName)
         {
             if (UserExists(userName))
@@ -115,7 +109,6 @@ namespace SharpiesMafia.Hubs
 
         public void ListUsersToKill()
         {
-			Clients.All.SendAsync("PromptMafiaToChoose");
             Clients.Group("villager").SendAsync("LoadMafiaNight");
             Clients.Group("mafia").SendAsync("LoadUsersToKill", GetAliveUsers());
         }
