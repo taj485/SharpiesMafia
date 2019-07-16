@@ -1,4 +1,4 @@
-"use strict";
+﻿"use strict";
 
 var connection = new signalR.HubConnectionBuilder().withUrl("/mafiaHub").build();
 
@@ -53,6 +53,7 @@ connection.on("StartPageUserList", function (users, gameId) {     var targetDi
     {
 
         if (statusTxt == "success")
+        {
 
             $("#gameId").html("Join Code: " + gameId);
 
