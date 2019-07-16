@@ -185,8 +185,13 @@ function createButtons(users, role) {
         button.appendChild(t);
         button.classList.add("btn");
         button.classList.add("btn-outline-danger");
-        button.onclick = function () { voteToKill(element.name) };
-        //button.onclick = function () { killPerson(element.name, role); };
+
+        if (role == "mafia") {
+            button.onclick = function () { killPerson(element.name, role); };
+        }
+        else {
+            button.onclick = function () { voteToKill(element.name) }
+        }
         document.getElementById("userList").appendChild(button);
         document.getElementById("userList").appendChild(br);
     });
