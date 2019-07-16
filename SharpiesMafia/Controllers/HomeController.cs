@@ -38,6 +38,7 @@ namespace SharpiesMafia.Controllers
             return PartialView("~/Views/Home/_UsersToKill.cshtml");
         }
 
+
         public IActionResult LoadNightScreen()
         {
             return PartialView("~/Views/Home/_NightTimePartial.cshtml");
@@ -52,6 +53,12 @@ namespace SharpiesMafia.Controllers
         {
             return PartialView("~/Views/Home/_VillagerScreenPartial.cshtml");
         }
+
+        public IActionResult LoadResultScreen()
+        {
+            return PartialView("~/Views/Home/_ResultScreenPartial.cshtml");
+        }
+
 
     }
 }

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using SharpiesMafia.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Server.Kestrel.Core;
 
 namespace SharpiesMafia.Hubs
 {
@@ -26,20 +27,50 @@ namespace SharpiesMafia.Hubs
 
         public async Task StartGame(string userName)
         {
-            var gameId = GenerateCode();
-            var user = new User() { name = userName, connection_id = Context.ConnectionId, game_id = gameId, is_dead = false, role = "villager"};
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-            await Clients.Group("gameOwner").SendAsync("StartPageUserList", GetSpecificGameUsers(gameId), GetGameId());
+            if (UserExists(userName))
+            {
+                Console.WriteLine(userName);
+                throw new Exception("User already exists");
+            }
+            else
+            {
+                var gameId = GenerateCode();
+                var user = new User() { name = userName, connection_id = Context.ConnectionId, game_id = gameId, is_dead = false, role = "villager"};
+                _context.Users.Add(user);
+                await _context.SaveChangesAsync();
+                await Clients.Group("gameOwner").SendAsync("StartPageUserList", GetSpecificGameUsers(gameId), GetGameId()); 
+            }
         }
-
+        
         public async Task JoinGame(string userName, int gameId)
         {
-            var user = new User() { name = userName, connection_id = Context.ConnectionId, game_id = gameId, is_dead = false, role = "villager" };
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-            await Clients.Group("gameMember").SendAsync("JoinPageUserList", GetSpecificGameUsers(gameId));
-            await Clients.Group("gameOwner").SendAsync("StartPageUserList", GetSpecificGameUsers(gameId), GetGameId());
+            if (UserExists(userName))
+            {
+                Console.WriteLine(userName);
+                throw new Exception("User already exists");
+            }
+            else
+            {
+                var user = new User() { name = userName, connection_id = Context.ConnectionId, game_id = gameId, is_dead = false, role = "villager" };
+                _context.Users.Add(user);
+                await _context.SaveChangesAsync();
+                await Clients.Group("gameMember").SendAsync("JoinPageUserList", GetSpecificGameUsers(gameId));
+                await Clients.Group("gameOwner").SendAsync("StartPageUserList", GetSpecificGameUsers(gameId), GetGameId());
+            }
+        }
+        
+        public bool UserExists(string userName)
+        {
+            var users = GetAllUsers();
+            foreach (var user in users)
+            {
+                if (userName == user.name)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         public int GenerateCode()
@@ -84,7 +115,7 @@ namespace SharpiesMafia.Hubs
 
         public void ListUsersToKill()
         {
-           Clients.Group("mafia").SendAsync("LoadUsersToKill", GetAliveUsers());
+            Clients.Group("mafia").SendAsync("LoadUsersToKill", GetAliveUsers());
         }
 
         public void LoadMafiaChoicePage()
@@ -92,14 +123,52 @@ namespace SharpiesMafia.Hubs
             Clients.Group("mafia").SendAsync("UsersToKillPage");
         }
 
-        public async Task KillPlayer(string userName)
+        public async Task ListEveryOneToKill()
+        {
+            await Clients.All.SendAsync("EveryoneKillChoice", GetAliveUsers());
+        }
+
+        public async Task KillPlayer(string userName, string role)
         {
             var deadUser = _context.Users.Where(x => x.name == userName).FirstOrDefault();
              
             deadUser.is_dead = true;
             _context.Users.Update(deadUser);
-            _context.SaveChanges();     
-            await Clients.All.SendAsync("LoadNight");
+            _context.SaveChanges();
+
+            var rolesCount = TotalRoles();
+
+            if(role == "mafia")
+            {
+                await Clients.All.SendAsync("LoadNight");
+            }
+            else
+            {
+                await Clients.All.SendAsync("LoadResult",deadUser.name, deadUser.role, rolesCount);
+            }
+           
+        }
+
+        public List<int> TotalRoles()
+        {
+            List<int> rolesCount = new List<int>();
+            var aliveUsers = GetAliveUsers();
+            int aliveMafia = 0;
+            int aliveVillagers = 0;
+            foreach (var user in aliveUsers)
+            {
+                if (user.role == "mafia")
+                {
+                    aliveMafia++;
+                }
+                else
+                {
+                    aliveVillagers++;
+                }
+            }
+            rolesCount.Add(aliveMafia);
+            rolesCount.Add(aliveVillagers);
+            return rolesCount;
         }
         
         public Task AddUserToRole(string groupName, string connectionId)
