@@ -149,21 +149,31 @@ document.getElementById("test").addEventListener("click", function (event) {
 
 connection.on("EveryoneKillChoice", function (users)
 {
-  setTimeout(function () {
-      var targetDiv = $('#mafiaGame');
-      Countdown(15);
-      //Timer(15000, "/Home/LoadResultScreen");
+    setTimeout(function () {
+        var targetDiv = $('#mafiaGame');
+        Countdown(10);
 
-    targetDiv.load("/Home/UsersToKill", function (responseTxt, statusTxt, xhr)
-    {
-        if (statusTxt == "success") {
-            createButtons(users, "villager");
-        }
-        if(statusTxt == "error") {
-            alert("Error: " + xhr.status + ": " + xhr.statusText);
-        }
+        setTimeout(function ()
+        {
+            connection.invoke("totalVotes").catch(function (error)
+            {
+                return console.error(error.toString());
+            });
+            event.preventDefault();;
+        }, 10000);
+
+
+
+        targetDiv.load("/Home/UsersToKill", function (responseTxt, statusTxt, xhr)
+        {
+            if (statusTxt == "success") {
+                createButtons(users, "villager");
+            }
+            if(statusTxt == "error") {
+                alert("Error: " + xhr.status + ": " + xhr.statusText);
+            }
     });
-  }, 1000);
+    }, 1000);
 });
 
 

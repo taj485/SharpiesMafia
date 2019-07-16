@@ -136,6 +136,13 @@ namespace SharpiesMafia.Hubs
             _context.SaveChanges();
         }
 
+        public async Task totalVotes()
+        {
+            int mostVotes = _context.Users.Select(user => user.vote_count).DefaultIfEmpty(0).Max();
+            var chosenUser = _context.Users.Where(user => user.vote_count == mostVotes).FirstOrDefault();
+            await KillPlayer(chosenUser.name, "villager");
+        }
+
         public async Task KillPlayer(string userName, string role)
         {
             var deadUser = _context.Users.Where(x => x.name == userName).FirstOrDefault();
