@@ -226,6 +226,12 @@ namespace SharpiesMafia.Hubs
             _context.SaveChanges();
         }
 
+        public async Task ResultsScreen(string deathRole)
+        {
+            await Clients.Group("gameOwner").SendAsync("ResultsScreen", deathRole, true);
+            await Clients.Group("gameMember").SendAsync("ResultsScreen", deathRole, false);
+        }
+
         public async Task ResetGame()
         {
             var gameId = GetGameId().FirstOrDefault();

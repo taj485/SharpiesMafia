@@ -102,6 +102,47 @@ connection.on("JoinPageUserList", function (users)
     });
 });
 
+connection.on("ResultsScreen", function (winningRole, gameOwner) {
+    var targetDiv = $('#mafiaGame');
+
+    if (winningRole == "villager") {
+        targetDiv.load("/Home/VillagerWinScreen", function (responseTxt, statusTxt, xhr) {
+            if (statusTxt == "success") {
+                if (gameOwner) {
+                    $('#restartGameBtnDiv').html('<button id="restartGameBtn" class="btn btn-outline-success">Restart Game</button>');
+                }
+            }
+
+            if (statusTxt == "error")
+                alert("Error: " + xhr.status + ": " + xhr.statusText);
+        });
+    }
+    else {
+        targetDiv.load("/Home/MafiaWinScreen", function (responseTxt, statusTxt, xhr)
+        {
+            if (statusTxt == "success") {
+                if (gameOwner) {
+                    $('#restartGameBtnDiv').html('<button id="restartGameBtn" class="btn btn-outline-success">Restart Game</button>');
+                }
+            }
+
+            if(statusTxt == "error")
+                alert("Error: " + xhr.status + ": " + xhr.statusText);
+        });
+    }
+
+    if (gameOwner) {
+        $('#resetGameBtn').on("click", function (event) {
+            connection.invoke("ResetGame").catch(function (error) {
+                return console.error(error.toString());
+            });
+
+            event.preventDefault();
+        });
+    }
+
+});
+
 connection.start().then(function(){
     document.getElementById("newGameStartBtn").disabled = false;
 }).catch(function (err) {
