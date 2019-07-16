@@ -37,7 +37,8 @@ connection.on("StartPageUserList", function (users, gameId) {     var targetDi
             $("#gameId").html("Join Code: " + gameId[0]);
 
             users.forEach(function (element) {
-               var li = document.createElement("li");
+                var li = document.createElement("li");
+                li.setAttribute('class', 'list-group-item');
                li.textContent = element.name;
                document.getElementById("userList").appendChild(li)
             });
@@ -54,6 +55,7 @@ connection.on("JoinPageUserList", function (users)
         if (statusTxt == "success")
             users.forEach(function (element) {
                 var li = document.createElement("li");
+                li.setAttribute('class', 'list-group-item');
                 li.textContent = element.name;
                 document.getElementById("joinUserList").appendChild(li)
             });
@@ -96,7 +98,7 @@ $('#joinGameBtn').on("click", function () {
 
 connection.on("LoadUsersToKill", function (users)
 {
-    setTimeout(function () {
+    //setTimeout(function () {
         var targetDiv = $('#mafiaGame');
         targetDiv.load("/Home/UsersToKill", function (responseTxt, statusTxt, xhr)
         {
@@ -116,7 +118,7 @@ connection.on("LoadUsersToKill", function (users)
                 alert("Error: " + xhr.status + ": " + xhr.statusText);
      
         });
-     }, 5000);
+     //}, 5000);
 });
 
 
