@@ -157,7 +157,7 @@ connection.on("EveryoneKillChoice", function (users)
             alert("Error: " + xhr.status + ": " + xhr.statusText);
         }
     });
-  }, 5000);
+  }, 10000);
 });
 
 function createButtons(users, role) {

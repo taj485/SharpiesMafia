@@ -146,7 +146,7 @@ namespace SharpiesMafia.Hubs
                 await Clients.All.SendAsync("LoadNight");
                 await Clients.Groups("mafia", "villager").SendAsync("LoadDayPage");
                 await Clients.Group("lastVictim").SendAsync("YouDiedPage");
-                await Clients.GroupExcept("mafia", deadUserConnectionId).SendAsync("EveryoneKillChoice", GetAliveUsers());
+                await Clients.AllExcept(deadUserConnectionId).SendAsync("EveryoneKillChoice", GetAliveUsers());
             }
             else
             {
