@@ -211,3 +211,11 @@ connection.on("YouDiedPage", function ()
         GetNextPage("/Home/YouDiedScreen");
     }, 10000);
 });
+
+connection.on("DeleteVictimGroup", function (connectionId)
+{
+  connection.invoke("RemoveUserByIdFromGroup", "lastVictim", connectionId).catch(function (error)
+    {
+        return console.error(error.toString());
+    });
+});

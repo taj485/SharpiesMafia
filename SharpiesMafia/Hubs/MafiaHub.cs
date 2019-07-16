@@ -150,9 +150,13 @@ namespace SharpiesMafia.Hubs
             }
             else
             {
-                await Clients.All.SendAsync("LoadResult",deadUser.name, deadUser.role, rolesCount);
+                await Clients.AllExcept(deadUserConnectionId).SendAsync("LoadResult",deadUser.name, deadUser.role, rolesCount);
+                //await Clients.All.SendAsync("LoadResult", deadUser.name, deadUser.role, rolesCount);
             }
+            await Clients.All.SendAsync("DeleteVictimGroup", deadUserConnectionId);
         }
+
+
 
         public List<int> TotalRoles()
         {
@@ -256,6 +260,11 @@ namespace SharpiesMafia.Hubs
         public Task AddUserByIdToGroup(string groupName, string connectionId)
         {
             return Groups.AddToGroupAsync(connectionId, groupName);
+        }
+
+        public Task RemoveUserByIdFromGroup(string groupName, string connectionId)
+        {
+            return Groups.RemoveFromGroupAsync(connectionId, groupName);
         }
     }
 }
