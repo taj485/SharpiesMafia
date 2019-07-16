@@ -40,7 +40,6 @@ connection.on("UsersToKillPage", function () {
     }, 5000);
 });
 
-
 connection.on("StartPageUserList", function (users, gameId) {     var targetDiv = $('#mafiaGame');
     targetDiv.load("/Home/StartGameScreen", function (responseTxt, statusTxt, xhr)
     {
@@ -109,20 +108,6 @@ connection.start().then(function(){
     return console.error(err.toString());
 });
 
-document.getElementById("newGameStartBtn").addEventListener("click", function (event) {
-    console.log("Nopoe")
-    connection.invoke("AddUserToGroup", "gameOwner").catch(function (error)
-    {
-        return console.error(error.toString());
-    });
-    var user = document.getElementById("nameInputStart").value;
-    connection.invoke("StartGame", user).catch(function (err) {
-        return alert("User already exists");
-    });
-    event.preventDefault();
-});
-
-
 $('#joinGameBtn').on("click", function () {
     connection.invoke("AddUserToGroup", "gameMember").catch(function (error)
     {
@@ -183,14 +168,6 @@ function createButtons(users, role) {
     });
 }
 
-// Need to hook up to the timer rather than a test button.
-document.getElementById("test2").addEventListener("click", function (event) {
-    connection.invoke("ListUsersToKill").catch(function (err) {
-        return console.error(err.toString());
-    });
-});
-
-
 function capitalize(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
@@ -200,4 +177,16 @@ function GetNextPage(HomeControllerMethod) {
     targetDiv.load(HomeControllerMethod, function () {
     });
 }
+
+document.getElementById("newGameStartBtn").addEventListener("click", function (event) {
+    connection.invoke("AddUserToGroup", "gameOwner").catch(function (error)
+    {
+        return console.error(error.toString());
+    });
+    var user = document.getElementById("nameInputStart").value;
+    connection.invoke("StartGame", user).catch(function (err) {
+        return alert("User already exists");
+    });
+    event.preventDefault();
+});
 
