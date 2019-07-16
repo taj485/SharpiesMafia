@@ -196,7 +196,12 @@ function createButtons(users, role) {
         else {
             button.onclick = function () {
                 voteToKill(element.name);
-                button.disabled = true;
+
+                var i;
+                for (i = 0; i < buttons.length; i++) {
+                    buttons[i].disabled = true;
+                }
+              
             }
         }
 
@@ -205,10 +210,11 @@ function createButtons(users, role) {
     });
 }
 
-function voteToKill(user){
+function voteToKill(user, buttons) {
     connection.invoke("voteToKill", user).catch(function (err) {
         return console.error(err.toString());
     });
+   
 }
 
 function capitalize(string) {
