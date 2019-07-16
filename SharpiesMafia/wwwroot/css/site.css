@@ -86,12 +86,18 @@ body {
     margin-bottom: 10px;
 }
 
-#mafiaLogo {
+#mafiaLogo, #infoIcon {
     height: 8vh;
     width: auto;
     -webkit-filter: invert(1);
     filter: invert(1);
 }
+
+#infoIcon{
+    float: right;
+    margin-top: 10px;
+}
+
 /*#endregion*/
 
 /*#region _LandingPartial*/

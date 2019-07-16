@@ -104,7 +104,7 @@ namespace SharpiesMafia.Hubs
          
         public List<User> GetAliveUsers()
         {
-            var aliveUsers = _context.Users.Where(x => x.is_dead == false).ToList();
+            var aliveUsers = _context.Users.Where(x => x.is_dead == false && x.game_id == GetGameId().FirstOrDefault()).ToList();
             return aliveUsers;
         }
 
@@ -115,6 +115,7 @@ namespace SharpiesMafia.Hubs
 
         public void ListUsersToKill()
         {
+            Clients.Group("villager").SendAsync("LoadMafiaNight", GetAliveUsers());
             Clients.Group("mafia").SendAsync("LoadUsersToKill", GetAliveUsers());
         }
 
@@ -231,6 +232,12 @@ namespace SharpiesMafia.Hubs
                 }
             }
             _context.SaveChanges();
+        }
+
+        public async Task ResultsScreen(string deathRole)
+        {
+            await Clients.Group("gameOwner").SendAsync("ResultsScreen", deathRole, true);
+            await Clients.Group("gameMember").SendAsync("ResultsScreen", deathRole, false);
         }
 
         public async Task ResetGame()

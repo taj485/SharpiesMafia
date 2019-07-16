@@ -20,6 +20,14 @@ connection.on("VillagerPage", function ()
     targetDiv.load("/Home/VillagerScreen");
 });
 
+
+connection.on("LoadMafiaNight", function ()
+{
+    var targetDiv = $('#mafiaGame');
+    targetDiv.load("/Home/LoadMafiaNightScreen");
+});
+
+
 function killPerson(user, role){
     connection.invoke("KillPlayer", user,role).catch(function (err) {
         return console.error(err.toString());
@@ -112,6 +120,46 @@ connection.on("JoinPageUserList", function (users)
     });
 });
 
+connection.on("ResultsScreen", function (winningRole, gameOwner) {
+    var targetDiv = $('#mafiaGame');
+
+    if (winningRole == "villager") {
+        targetDiv.load("/Home/VillagerWinScreen", function (responseTxt, statusTxt, xhr) {
+            if (statusTxt == "success") {
+                if (gameOwner) {
+                    $('#restartGameBtnDiv').html('<button id="restartGameBtn" class="btn btn-outline-success">Restart Game</button>');
+                }
+            }
+
+            if (statusTxt == "error")
+                alert("Error: " + xhr.status + ": " + xhr.statusText);
+        });
+    }
+    else {
+        targetDiv.load("/Home/MafiaWinScreen", function (responseTxt, statusTxt, xhr)
+        {
+            if (statusTxt == "success") {
+                if (gameOwner) {
+                    $('#restartGameBtnDiv').html('<button id="restartGameBtn" class="btn btn-outline-success">Restart Game</button>');
+                }
+            }
+
+            if(statusTxt == "error")
+                alert("Error: " + xhr.status + ": " + xhr.statusText);
+        });
+    }
+
+    if (gameOwner) {
+        $('#resetGameBtn').on("click", function (event) {
+            connection.invoke("ResetGame").catch(function (error) {
+                return console.error(error.toString());
+            });
+
+            event.preventDefault();
+        });
+    }
+});
+
 connection.start().then(function(){
     document.getElementById("newGameStartBtn").disabled = false;
 }).catch(function (err) {
@@ -135,7 +183,7 @@ connection.on("LoadUsersToKill", function (users)
 {
   setTimeout(function () {
     var targetDiv = $('#mafiaGame');
-    targetDiv.load("/Home/UsersToKill", function (responseTxt, statusTxt, xhr)
+    targetDiv.load("/Home/UsersToKillMafia", function (responseTxt, statusTxt, xhr)
     {
         if (statusTxt == "success") {
             createButtons(users, "mafia");
@@ -199,7 +247,6 @@ document.getElementById("newGameStartBtn").addEventListener("click", function (e
     event.preventDefault();
 });
 
-// Adds dead user connection ID to a group
 connection.on("UpdateVictimGroup", function (connectionId)
 {
   connection.invoke("AddUserByIdToGroup", "lastVictim", connectionId).catch(function (error)
@@ -241,3 +288,9 @@ connection.on("MafiaWin", function ()
         GetNextPage("/Home/MafiaWinScreen");
     }, 5000);
 });
+
+$("#infoIcon").on("click", function () {
+    $('#infoModal').modal('show');
+});
+
+
