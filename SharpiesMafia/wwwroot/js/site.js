@@ -54,8 +54,7 @@ connection.on("StartPageUserList", function (users, gameId) {     var targetDi
         if (statusTxt == "success") {
 
             $("#gameId").html("Join Code: " + gameId);
-
-
+            
             users.forEach(function (element) {
                 var li = document.createElement("li");
                 li.setAttribute('class', 'list-group-item');
@@ -243,8 +242,11 @@ $("#infoIcon").on("click", function () {
 });
 
 function speak (message) {
-    var msg = new SpeechSynthesisUtterance(message);
-    var voices = window.speechSynthesis.getVoices();
-    msg.voice = voices[17];
-    window.speechSynthesis.speak(msg);
+    var synth = window.speechSynthesis;
+    var utterance = new SpeechSynthesisUtterance(message);
+    synth.onvoiceschanged = function() {
+        utterance.voice = synth.getVoices()[17];
+        synth.speak(utterance);
+    };
+    
 }
