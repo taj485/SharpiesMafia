@@ -252,14 +252,6 @@ document.getElementById("newGameStartBtn").addEventListener("click", function (e
     event.preventDefault();
 });
 
-connection.on("UpdateVictimGroup", function (connectionId)
-{
-  connection.invoke("AddUserByIdToGroup", "lastVictim", connectionId).catch(function (error)
-    {
-        return console.error(error.toString());
-    });
-});
-
 connection.on("YouDiedPageDelayed", function ()
 {
     setTimeout(function () {
@@ -270,14 +262,6 @@ connection.on("YouDiedPageDelayed", function ()
 connection.on("YouDiedPageInstant", function ()
 {
         GetNextPage("/Home/YouDiedScreen");
-});
-
-connection.on("DeleteVictimGroup", function (connectionId)
-{
-  connection.invoke("RemoveUserByIdFromGroup", "lastVictim", connectionId).catch(function (error)
-    {
-        return console.error(error.toString());
-    });
 });
 
 connection.on("VillagerWin", function ()
