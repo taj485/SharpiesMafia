@@ -6,6 +6,7 @@ connection.on("LoadNight", function ()
 {
     var targetDiv = $('#mafiaGame');
     targetDiv.load("/Home/LoadNightScreen");
+    speak('Mafia, the decision is made. You can now close your eyes again.');
 });
 
 connection.on("MafiaPage", function ()
@@ -38,6 +39,7 @@ connection.on("NightPage", function ()
 {
     setTimeout(function () {
         GetNextPage("/Home/LoadNightScreen");
+        speak('Night has fallen, time for everyone to close their eyes.');
         connection.invoke("ListUsersToKill");
     }, 5000);
 });
@@ -46,6 +48,8 @@ connection.on("LoadDayPage", function ()
 {
     setTimeout(function () {
         GetNextPage("/Home/LoadDayScreen");
+        speak('Everyone, the sun has risen and it is a new day. You can all open your eyes.');
+        // speech to here.
     }, 5000);
 });
 
@@ -194,8 +198,14 @@ connection.on("LoadUsersToKill", function (users)
   }, 5000);
 });
 
+connection.on("PromptMafiaToChoose", function ()
+{
+  speak("Mafia members, it's time for you to open your eyes and choose someone to kill");
+});
+
 connection.on("EveryoneKillChoice", function (users)
 {
+    //meg add speech here
   setTimeout(function () {
     var targetDiv = $('#mafiaGame');
     targetDiv.load("/Home/UsersToKill", function (responseTxt, statusTxt, xhr)

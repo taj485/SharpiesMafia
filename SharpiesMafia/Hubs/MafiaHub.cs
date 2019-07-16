@@ -115,7 +115,8 @@ namespace SharpiesMafia.Hubs
 
         public void ListUsersToKill()
         {
-            Clients.Group("villager").SendAsync("LoadMafiaNight", GetAliveUsers());
+			Clients.All.SendAsync("PromptMafiaToChoose");
+            Clients.Group("villager").SendAsync("LoadMafiaNight");
             Clients.Group("mafia").SendAsync("LoadUsersToKill", GetAliveUsers());
         }
 
