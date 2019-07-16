@@ -37,6 +37,11 @@ namespace SharpiesMafia.Controllers
         {
             return PartialView("~/Views/Home/_UsersToKill.cshtml");
         }
+        
+        public IActionResult UsersToKillMafia()
+        {
+            return PartialView("~/Views/Home/_UsersToKillMafia.cshtml");
+        }
 
 
         public IActionResult LoadNightScreen()
@@ -54,11 +59,37 @@ namespace SharpiesMafia.Controllers
             return PartialView("~/Views/Home/_VillagerScreenPartial.cshtml");
         }
 
+        public IActionResult VillagerWinScreen()
+        {
+            return PartialView("~/Views/Home/_VillagerWinPartial.cshtml");
+        }
+
+
+        public IActionResult LoadDayScreen()
+        {
+            return PartialView("~/Views/Home/_DayTimePartial.cshtml");
+        }
+
+        public IActionResult YouDiedScreen()
+        {
+            return PartialView("~/Views/Home/_DeathPartial.cshtml");
+        }
+
+
+        public IActionResult MafiaWinScreen()
+        {
+            return PartialView("~/Views/Home/_MafiaWinPartial.cshtml");
+        }
+
         public IActionResult LoadResultScreen()
         {
             return PartialView("~/Views/Home/_ResultScreenPartial.cshtml");
         }
-
-
+        
+        public IActionResult LoadMafiaNightScreen()
+        {
+            return PartialView("~/Views/Home/_NightTimePartialMafiaSound.cshtml");
+        }
+        
     }
 }

@@ -6,6 +6,35 @@
     <partial name="_LandingPartial.cshtml" />
 </div>
 
+<div id="infoModal" class="modal" tabindex="-1" role="dialog">
+ <div class="modal-dialog modal-lg" role="document">
+   <div class="modal-content">
+     <div class="modal-header">
+       <h5 class="modal-title">Game Information</h5>
+       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+         <span aria-hidden="true">&times;</span>
+       </button>
+     </div>
+     <div id="textToSpeech" class="modal-body">
+         <h4>Mafia Rules:</h4>
+         <p>When the game owner clicks begin game, everyone will be assigned a role. Make sure to keep this a secret! You will either be a villager or a mafia member.</p>
+         <br/>
+         <h4>The Night:</h4>
+         <p>A sound will play, your screen with turn to night time and this is the prompt to close your eyes.</p>    
+         <p>A gun cocking sound will play and this is where the mafia open their eyes. They acknowledge each other, then decide who to kill (This can be either a villager or a mafia). Once decided, one of the Mafia select the player on their screen. Their devices will then return to night screen and it’s time for them to close their eyes again, so the villagers don’t know who they are.</p>    
+         <br/>
+         <h4>The Day:</h4>    
+         <p>A sound will prompt everyone to open their eyes. Someone’s phone will scream and show that they have died. It’s now up to everyone to try and work out who is in the mafia.</p>    
+         <p>Everyone will have time to discuss who they think is responsible for the terrible murder and they will then get to pick who they think it is. It’s up to the Mafia to try and blend in as a villager and the villagers to hunt them down.</p>    
+         <p>Once someone has been picked, they person will die, and it will be revealed if they were a Mafia member of a villager.</p>    
+         <br/>
+         <h4>The Result:</h4>
+         <p>Based on who was killed by the villagers, it will determine who wins. If a villager has been killed, the Mafia win and vice versa.</p>
+     </div>
+   </div>
+ </div>
+</div>
+
 
 @*<script type="text/javascript">var audioElement = document.getElementById("nightSound")
     audioElement.play();</script>*@
