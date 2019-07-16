@@ -139,7 +139,13 @@ namespace SharpiesMafia.Hubs
 
         public async Task totalVotes()
         {
-            int mostVotes = _context.Users.Select(user => user.vote_count).DefaultIfEmpty(0).Max();
+            var gameId = GetGameId().FirstOrDefault();
+
+            int mostVotes = _context.Users
+                .Where(x => x.game_id == gameId)
+                .Select(user => user.vote_count)
+                .DefaultIfEmpty(0).Max();
+
             var chosenUser = _context.Users.Where(user => user.vote_count == mostVotes).FirstOrDefault();
             await KillPlayer(chosenUser.name, "villager");
         }

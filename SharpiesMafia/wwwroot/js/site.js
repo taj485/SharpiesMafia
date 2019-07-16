@@ -218,7 +218,7 @@ connection.on("EveryoneKillChoice", function (users)
                 return console.error(error.toString());
             });
             event.preventDefault();;
-        }, 50000);
+        }, 10000);
 
 
 
