@@ -38,6 +38,7 @@ connection.on("NightPage", function ()
 {
     setTimeout(function () {
         GetNextPage("/Home/LoadNightScreen");
+        speak('Night has fallen, time for everyone to close their eyes.');
         connection.invoke("ListUsersToKill");
     }, 5000);
 });
@@ -62,12 +63,17 @@ connection.on("StartPageUserList", function (users, gameId) {     var targetDi
         if (statusTxt == "success") {
 
             $("#gameId").html("Join Code: " + gameId);
-
             users.forEach(function (element) {
                 var li = document.createElement("li");
                 li.setAttribute('class', 'list-group-item');
                li.textContent = element.name;
                document.getElementById("userList").appendChild(li)
+            });
+            document.getElementById("beginGameBtn").addEventListener("click", function (event) {
+                connection.invoke("BeginGame").catch(function (err) {
+                    return console.error(err.toString());
+                });
+                event.preventDefault();
             });
         }
         if (statusTxt === "error") {
@@ -295,8 +301,9 @@ $("#infoIcon").on("click", function () {
 function speak (message) {
     var synth = window.speechSynthesis;
     var utterance = new SpeechSynthesisUtterance(message);
-    synth.onvoiceschanged = function() {
+    synth.onvoiceschanged = function(event) {
         utterance.voice = synth.getVoices()[17];
         synth.speak(utterance);
+        event.preventDefault();
     };
 }
