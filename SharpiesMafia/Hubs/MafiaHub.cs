@@ -225,5 +225,29 @@ namespace SharpiesMafia.Hubs
             }
             _context.SaveChanges();
         }
+
+        public async Task ResetGame()
+        {
+            var gameId = GetGameId().FirstOrDefault();
+            var users = _context.Users.Where(user => user.game_id == gameId);
+
+            foreach (var user in users)
+            {
+                if (user.is_dead == true)
+                {
+                    user.is_dead = false;
+                }
+
+                if (user.role == "mafia")
+                {
+                    user.role = "villager";
+                }
+            }
+
+            await _context.SaveChangesAsync();
+
+            await Clients.Group("gameOwner").SendAsync("StartPageUserList", users, Convert.ToInt32(gameId));
+            await Clients.Group("gameMember").SendAsync("JoinPageUserList", GetSpecificGameUsers(Convert.ToInt32(gameId)));
+        }
     }
 }

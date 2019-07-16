@@ -111,8 +111,10 @@ body {
 
 /*#endregion*/
 
+
 /*#region _NightTimePartial, _DayTimePartial, _DeathPartial*/
-.dayAndNightImgs, .deathImgs {
+.dayAndNightImgs, .deathImgs, .resultImgs {
+
     text-align: center;
     padding-top: 20px;
     -webkit-filter: invert(1);

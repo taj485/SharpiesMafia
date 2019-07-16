@@ -1,4 +1,4 @@
-﻿"use strict";
+"use strict";
 
 var connection = new signalR.HubConnectionBuilder().withUrl("/mafiaHub").build();
 
@@ -51,8 +51,11 @@ connection.on("UsersToKillPage", function () {
 connection.on("StartPageUserList", function (users, gameId) {     var targetDiv = $('#mafiaGame');
     targetDiv.load("/Home/StartGameScreen", function (responseTxt, statusTxt, xhr)
     {
-        if (statusTxt == "success") {
-            $("#gameId").html("Join Code: " + gameId[0]);
+
+        if (statusTxt == "success")
+
+            $("#gameId").html("Join Code: " + gameId);
+
 
             users.forEach(function (element) {
                 var li = document.createElement("li");
@@ -198,9 +201,9 @@ function capitalize(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
- function GetNextPage(HomeControllerMethod) { 
-    var targetDiv = $('#mafiaGame');     
+function GetNextPage(HomeControllerMethod) {
+    var targetDiv = $('#mafiaGame');    
     targetDiv.load(HomeControllerMethod, function () {
-     });
- }
+    });
+}
 
