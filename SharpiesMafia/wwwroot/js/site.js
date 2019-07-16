@@ -137,6 +137,15 @@ connection.on("LoadUsersToKill", function (users)
   }, 5000);
 });
 
+//test
+document.getElementById("test").addEventListener("click", function (event) {
+    connection.invoke("ListEveryOneToKill").catch(function (error)
+    {
+        return console.error(error.toString());
+    });
+    event.preventDefault();
+});
+
 
 connection.on("EveryoneKillChoice", function (users)
 {
@@ -151,8 +160,9 @@ connection.on("EveryoneKillChoice", function (users)
             alert("Error: " + xhr.status + ": " + xhr.statusText);
         }
     });
-  }, 5000);
+  }, 1000);
 });
+
 
 function createButtons(users, role) {
     users.forEach(function (element) {
