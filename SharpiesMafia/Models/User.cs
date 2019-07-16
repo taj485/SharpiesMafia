@@ -9,5 +9,6 @@ namespace SharpiesMafia.Models
         public long game_id { get; set; }
         public string role { get; set; }
         public bool is_dead { get; set; }
+        public int vote_count { get; set; }
     }
 }

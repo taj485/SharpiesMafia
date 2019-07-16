@@ -152,7 +152,7 @@ connection.on("EveryoneKillChoice", function (users)
   setTimeout(function () {
       var targetDiv = $('#mafiaGame');
       Countdown(15);
-      Timer(15000, "/Home/LoadResultScreen");
+      //Timer(15000, "/Home/LoadResultScreen");
 
     targetDiv.load("/Home/UsersToKill", function (responseTxt, statusTxt, xhr)
     {
@@ -163,7 +163,7 @@ connection.on("EveryoneKillChoice", function (users)
             alert("Error: " + xhr.status + ": " + xhr.statusText);
         }
     });
-  }, 3000);
+  }, 1000);
 });
 
 
@@ -175,9 +175,16 @@ function createButtons(users, role) {
         button.appendChild(t);
         button.classList.add("btn");
         button.classList.add("btn-outline-danger");
-        button.onclick = function () { killPerson(element.name, role); };
+        button.onclick = function () { voteToKill(element.name) };
+        //button.onclick = function () { killPerson(element.name, role); };
         document.getElementById("userList").appendChild(button);
         document.getElementById("userList").appendChild(br);
+    });
+}
+
+function voteToKill(user){
+    connection.invoke("voteToKill", user).catch(function (err) {
+        return console.error(err.toString());
     });
 }
 
