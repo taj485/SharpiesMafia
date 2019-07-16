@@ -64,6 +64,23 @@ namespace SharpiesMafia.Controllers
             return PartialView("~/Views/Home/_VillagerWinPartial.cshtml");
         }
 
+
+        public IActionResult LoadDayScreen()
+        {
+            return PartialView("~/Views/Home/_DayTimePartial.cshtml");
+        }
+
+        public IActionResult YouDiedScreen()
+        {
+            return PartialView("~/Views/Home/_DeathPartial.cshtml");
+        }
+
+        public IActionResult VillagerWinScreen()
+        {
+            return PartialView("~/Views/Home/_VillagerWinPartial.cshtml");
+        }
+
+
         public IActionResult MafiaWinScreen()
         {
             return PartialView("~/Views/Home/_MafiaWinPartial.cshtml");
