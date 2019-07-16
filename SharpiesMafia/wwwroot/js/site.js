@@ -242,3 +242,9 @@ $("#infoIcon").on("click", function () {
     $('#infoModal').modal('show');
 });
 
+function speak (message) {
+    var msg = new SpeechSynthesisUtterance(message);
+    var voices = window.speechSynthesis.getVoices();
+    msg.voice = voices[17];
+    window.speechSynthesis.speak(msg);
+}
