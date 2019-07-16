@@ -43,14 +43,9 @@ connection.on("StartPageUserList", function (users, gameId) {     var targetDi
 
             users.forEach(function (element) {
                 var li = document.createElement("li");
-<<<<<<< HEAD
                 li.setAttribute('class', 'list-group-item');
                li.textContent = element.name;
                document.getElementById("userList").appendChild(li)
-=======
-                li.textContent = element.name;
-                document.getElementById("userList").appendChild(li)
->>>>>>> 80c46f3da94354109c32881033446216e40dfebe
             });
         }
         if(statusTxt === "error") {
@@ -112,29 +107,6 @@ $('#joinGameBtn').on("click", function () {
 
 connection.on("LoadUsersToKill", function (users)
 {
-<<<<<<< HEAD
-    //setTimeout(function () {
-        var targetDiv = $('#mafiaGame');
-        targetDiv.load("/Home/UsersToKill", function (responseTxt, statusTxt, xhr)
-        {
-            if (statusTxt == "success")
-                users.forEach(function (element) {
-                    var br = document.createElement("br");
-                    var button = document.createElement("BUTTON");
-                    var t = document.createTextNode(element.name);
-                    button.appendChild(t);
-                    button.classList.add("btn")
-                    button.classList.add("btn-outline-danger")
-                    button.onclick = function () { killPerson(element.name); };
-                    document.getElementById("userList").appendChild(button)
-                    document.getElementById("userList").appendChild(br)
-                });
-            if(statusTxt == "error")
-                alert("Error: " + xhr.status + ": " + xhr.statusText);
-     
-        });
-     //}, 5000);
-=======
   setTimeout(function () {
     var targetDiv = $('#mafiaGame');
     targetDiv.load("/Home/UsersToKill", function (responseTxt, statusTxt, xhr)
@@ -147,7 +119,6 @@ connection.on("LoadUsersToKill", function (users)
         }
     });
   }, 5000);
->>>>>>> 80c46f3da94354109c32881033446216e40dfebe
 });
 
 
