@@ -1,4 +1,4 @@
-"use strict";
+﻿"use strict";
 
 var connection = new signalR.HubConnectionBuilder().withUrl("/mafiaHub").build();
 
@@ -18,13 +18,6 @@ connection.on("VillagerPage", function ()
 {
     var targetDiv = $('#mafiaGame');
     targetDiv.load("/Home/VillagerScreen");
-});
-
-// Need to hook up to the timer rather than a test button.
-document.getElementById("testingButton").addEventListener("click", function (event) {
-    connection.invoke("ListEveryOneToKill").catch(function (err) {
-        return console.error(err.toString());
-    });
 });
 
 function killPerson(user, role){
@@ -52,7 +45,7 @@ connection.on("StartPageUserList", function (users, gameId) {     var targetDi
     targetDiv.load("/Home/StartGameScreen", function (responseTxt, statusTxt, xhr)
     {
 
-        if (statusTxt == "success")
+        if (statusTxt == "success") {
 
             $("#gameId").html("Join Code: " + gameId);
 
@@ -117,6 +110,7 @@ connection.start().then(function(){
 });
 
 document.getElementById("newGameStartBtn").addEventListener("click", function (event) {
+    console.log("Nopoe")
     connection.invoke("AddUserToGroup", "gameOwner").catch(function (error)
     {
         return console.error(error.toString());
