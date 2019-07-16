@@ -132,6 +132,9 @@ namespace SharpiesMafia.Hubs
         public async Task KillPlayer(string userName, string role)
         {
             var deadUser = _context.Users.Where(x => x.name == userName).FirstOrDefault();
+            
+            var deadUserConnectionId = deadUser.connection_id;
+            await Clients.Groups("mafia", "villager").SendAsync("UpdateVictimGroup", deadUserConnectionId);
              
             deadUser.is_dead = true;
             _context.Users.Update(deadUser);
@@ -142,13 +145,19 @@ namespace SharpiesMafia.Hubs
             if(role == "mafia")
             {
                 await Clients.All.SendAsync("LoadNight");
+                await Clients.Groups("mafia", "villager").SendAsync("LoadDayPage");
+                await Clients.Group("lastVictim").SendAsync("YouDiedPageDelayed");
+                await Clients.AllExcept(deadUserConnectionId).SendAsync("EveryoneKillChoice", GetAliveUsers());
             }
             else
             {
-                await Clients.All.SendAsync("LoadResult",deadUser.name, deadUser.role, rolesCount);
+                await Clients.AllExcept(deadUserConnectionId).SendAsync("LoadResult",deadUser.name, deadUser.role, rolesCount);
+                await Clients.Group("lastVictim").SendAsync("YouDiedPageInstant");
             }
-           
+            await Clients.All.SendAsync("DeleteVictimGroup", deadUserConnectionId);
         }
+
+
 
         public List<int> TotalRoles()
         {
@@ -189,8 +198,6 @@ namespace SharpiesMafia.Hubs
             await Clients.Group("mafia").SendAsync("MafiaPage");
             await Clients.Groups("mafia", "villager").SendAsync("NightPage");
         }
-
-
 
         public void MafiaAssignment()
         {
@@ -255,6 +262,28 @@ namespace SharpiesMafia.Hubs
 
             await Clients.Group("gameOwner").SendAsync("StartPageUserList", users, Convert.ToInt32(gameId));
             await Clients.Group("gameMember").SendAsync("JoinPageUserList", GetSpecificGameUsers(Convert.ToInt32(gameId)));
+        }
+
+        public Task AddUserByIdToGroup(string groupName, string connectionId)
+        {
+            return Groups.AddToGroupAsync(connectionId, groupName);
+        }
+
+        public Task RemoveUserByIdFromGroup(string groupName, string connectionId)
+        {
+            return Groups.RemoveFromGroupAsync(connectionId, groupName);
+        }
+
+        public async Task WinnerPage(string role)
+        {
+            if (role == "mafia")
+            {
+                await Clients.All.SendAsync("VillagerWin");
+            }
+            else
+            {
+                await Clients.All.SendAsync("MafiaWin");
+            }
         }
     }
 }
