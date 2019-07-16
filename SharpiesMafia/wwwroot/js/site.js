@@ -88,6 +88,9 @@ connection.on("LoadResult", function (name, role, rolesCount)
             alert("Error: " + xhr.status + ": " + xhr.statusText);
         }
     });
+    connection.invoke("WinnerPage", role).catch(function (err) {
+        return console.error(err.toString());
+    });
 });
 
 connection.on("JoinPageUserList", function (users)
@@ -223,4 +226,18 @@ connection.on("DeleteVictimGroup", function (connectionId)
     {
         return console.error(error.toString());
     });
+});
+
+connection.on("VillagerWin", function ()
+{
+    setTimeout(function () {
+        GetNextPage("/Home/VillagerWinScreen");
+    }, 5000);
+});
+
+connection.on("MafiaWin", function ()
+{
+    setTimeout(function () {
+        GetNextPage("/Home/MafiaWinScreen");
+    }, 5000);
 });

@@ -266,5 +266,17 @@ namespace SharpiesMafia.Hubs
         {
             return Groups.RemoveFromGroupAsync(connectionId, groupName);
         }
+
+        public async Task WinnerPage(string role)
+        {
+            if (role == "mafia")
+            {
+                await Clients.All.SendAsync("VillagerWin");
+            }
+            else
+            {
+                await Clients.All.SendAsync("MafiaWin");
+            }
+        }
     }
 }
