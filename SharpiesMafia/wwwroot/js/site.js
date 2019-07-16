@@ -160,7 +160,7 @@ connection.on("EveryoneKillChoice", function (users)
                 return console.error(error.toString());
             });
             event.preventDefault();;
-        }, 10000);
+        }, 50000);
 
 
 
@@ -186,12 +186,20 @@ function createButtons(users, role) {
         button.classList.add("btn");
         button.classList.add("btn-outline-danger");
 
+        var buttons = document.getElementsByClassName("btn");
+
         if (role == "mafia") {
-            button.onclick = function () { killPerson(element.name, role); };
+            button.onclick = function () {
+                killPerson(element.name, role);
+            };
         }
         else {
-            button.onclick = function () { voteToKill(element.name) }
+            button.onclick = function () {
+                voteToKill(element.name);
+                button.disabled = true;
+            }
         }
+
         document.getElementById("userList").appendChild(button);
         document.getElementById("userList").appendChild(br);
     });

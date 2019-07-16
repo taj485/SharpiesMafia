@@ -104,7 +104,7 @@ namespace SharpiesMafia.Hubs
          
         public List<User> GetAliveUsers()
         {
-            var aliveUsers = _context.Users.Where(x => x.is_dead == false && x.game_id == GetGameId().FirstOrDefault()).ToList();
+            var aliveUsers = _context.Users.Where(x => x.is_dead == false).ToList();
             return aliveUsers;
         }
 
