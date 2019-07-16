@@ -131,7 +131,9 @@ namespace SharpiesMafia.Hubs
         public async Task KillPlayer(string userName, string role)
         {
             var deadUser = _context.Users.Where(x => x.name == userName).FirstOrDefault();
-            deadUser.AddUserToGroup("lastKilled");
+            
+            var deadUserConnectionId = deadUser.connection_id;
+            await Clients.Groups("mafia", "villager").SendAsync("UpdateVictimGroup", deadUserConnectionId);
              
             deadUser.is_dead = true;
             _context.Users.Update(deadUser);
@@ -148,7 +150,6 @@ namespace SharpiesMafia.Hubs
             {
                 await Clients.All.SendAsync("LoadResult",deadUser.name, deadUser.role, rolesCount);
             }
-           
         }
 
         public List<int> TotalRoles()
@@ -248,6 +249,11 @@ namespace SharpiesMafia.Hubs
 
             await Clients.Group("gameOwner").SendAsync("StartPageUserList", users, Convert.ToInt32(gameId));
             await Clients.Group("gameMember").SendAsync("JoinPageUserList", GetSpecificGameUsers(Convert.ToInt32(gameId)));
+        }
+
+        public Task AddUserByIdToGroup(string groupName, string connectionId)
+        {
+            return Groups.AddToGroupAsync(connectionId, groupName);
         }
     }
 }

@@ -196,3 +196,12 @@ document.getElementById("newGameStartBtn").addEventListener("click", function (e
     event.preventDefault();
 });
 
+
+// Adds dead user connection ID to a group
+connection.on("UpdateVictimGroup", function (connectionId)
+{
+  connection.invoke("AddUserByIdToGroup", "lastVictim", connectionId).catch(function (error)
+    {
+        return console.error(error.toString());
+    });
+});
