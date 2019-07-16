@@ -63,7 +63,6 @@ connection.on("StartPageUserList", function (users, gameId) {     var targetDi
 
             $("#gameId").html("Join Code: " + gameId);
 
-
             users.forEach(function (element) {
                 var li = document.createElement("li");
                 li.setAttribute('class', 'list-group-item');
@@ -293,4 +292,11 @@ $("#infoIcon").on("click", function () {
     $('#infoModal').modal('show');
 });
 
-
+function speak (message) {
+    var synth = window.speechSynthesis;
+    var utterance = new SpeechSynthesisUtterance(message);
+    synth.onvoiceschanged = function() {
+        utterance.voice = synth.getVoices()[17];
+        synth.speak(utterance);
+    };
+}
