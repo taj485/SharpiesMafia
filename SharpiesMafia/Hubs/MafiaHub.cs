@@ -131,6 +131,7 @@ namespace SharpiesMafia.Hubs
         public async Task KillPlayer(string userName, string role)
         {
             var deadUser = _context.Users.Where(x => x.name == userName).FirstOrDefault();
+            deadUser.AddUserToGroup("lastKilled");
              
             deadUser.is_dead = true;
             _context.Users.Update(deadUser);
