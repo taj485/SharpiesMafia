@@ -54,7 +54,7 @@ connection.on("StartPageUserList", function (users, gameId) {     var targetDi
         if (statusTxt == "success") {
 
             $("#gameId").html("Join Code: " + gameId);
-            
+
             users.forEach(function (element) {
                 var li = document.createElement("li");
                 li.setAttribute('class', 'list-group-item');
@@ -248,5 +248,4 @@ function speak (message) {
         utterance.voice = synth.getVoices()[17];
         synth.speak(utterance);
     };
-    
 }
