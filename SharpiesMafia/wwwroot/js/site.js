@@ -319,6 +319,7 @@ function Countdown(time) {
             clearInterval(x);
         }
     }, 1000);
+}
 
     connection.on("UpdateVictimGroup", function (connectionId) {
         connection.invoke("AddUserByIdToGroup", "lastVictim", connectionId).catch(function (error) {
