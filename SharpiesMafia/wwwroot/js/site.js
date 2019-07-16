@@ -56,8 +56,9 @@ connection.on("StartPageUserList", function (users, gameId) {     var targetDi
 
             users.forEach(function (element) {
                 var li = document.createElement("li");
-                li.textContent = element.name;
-                document.getElementById("userList").appendChild(li)
+                li.setAttribute('class', 'list-group-item');
+               li.textContent = element.name;
+               document.getElementById("userList").appendChild(li)
             });
         }
         if(statusTxt === "error") {
@@ -95,6 +96,7 @@ connection.on("JoinPageUserList", function (users)
         if (statusTxt == "success") {
             users.forEach(function (element) {
                 var li = document.createElement("li");
+                li.setAttribute('class', 'list-group-item');
                 li.textContent = element.name;
                 document.getElementById("joinUserList").appendChild(li)
             });
