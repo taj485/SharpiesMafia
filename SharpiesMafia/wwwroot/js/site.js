@@ -20,6 +20,13 @@ connection.on("VillagerPage", function ()
     targetDiv.load("/Home/VillagerScreen");
 });
 
+connection.on("LoadMafiaNight", function ()
+{
+    var targetDiv = $('#mafiaGame');
+    targetDiv.load("/Home/LoadMafiaNightScreen");
+});
+
+
 function killPerson(user, role){
     connection.invoke("KillPlayer", user,role).catch(function (err) {
         return console.error(err.toString());
@@ -166,7 +173,7 @@ connection.on("LoadUsersToKill", function (users)
 {
   setTimeout(function () {
     var targetDiv = $('#mafiaGame');
-    targetDiv.load("/Home/UsersToKill", function (responseTxt, statusTxt, xhr)
+    targetDiv.load("/Home/UsersToKillMafia", function (responseTxt, statusTxt, xhr)
     {
         if (statusTxt == "success") {
             createButtons(users, "mafia");
