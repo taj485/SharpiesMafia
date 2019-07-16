@@ -196,7 +196,6 @@ document.getElementById("newGameStartBtn").addEventListener("click", function (e
     event.preventDefault();
 });
 
-
 // Adds dead user connection ID to a group
 connection.on("UpdateVictimGroup", function (connectionId)
 {
@@ -204,4 +203,11 @@ connection.on("UpdateVictimGroup", function (connectionId)
     {
         return console.error(error.toString());
     });
+});
+
+connection.on("YouDiedPage", function ()
+{
+    setTimeout(function () {
+        GetNextPage("/Home/YouDiedScreen");
+    }, 10000);
 });

@@ -63,6 +63,11 @@ namespace SharpiesMafia.Controllers
         {
             return PartialView("~/Views/Home/_DayTimePartial.cshtml");
         }
+
+        public IActionResult YouDiedScreen()
+        {
+            return PartialView("~/Views/Home/_DeathPartial.cshtml");
+        }
         
     }
 }
