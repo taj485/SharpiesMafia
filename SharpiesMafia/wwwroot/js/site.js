@@ -238,3 +238,7 @@ document.getElementById("newGameStartBtn").addEventListener("click", function (e
     event.preventDefault();
 });
 
+$("#infoIcon").on("click", function () {
+    $('#infoModal').modal('show');
+});
+
