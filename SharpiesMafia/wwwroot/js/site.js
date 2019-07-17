@@ -188,17 +188,7 @@ connection.on("EveryoneKillChoice", function (users)
     setTimeout(function () {
         var targetDiv = $('#mafiaGame');
         Countdown(30);
-
-        setTimeout(function ()
-        {
-            connection
-            connection.invoke("totalVotes").catch(function (error)
-            {
-                return console.error(error.toString());
-            });
-            event.preventDefault();
-        }, 30000);
-
+        
         targetDiv.load("/Home/UsersToKill", function (responseTxt, statusTxt, xhr)
         {
             speak('Now it is up to you to sniff out the mafia. Who are you accusing?');
@@ -219,24 +209,8 @@ function createButtons(users, role) {
         button.classList.add("btn");
         button.classList.add("btn-outline-danger");
         var buttons = document.getElementsByClassName("btn");
-
-        if (role == "mafia") {
-            console.log("role is mafia");
-            button.onclick = function () {
-                killPerson(user.name, role);
-            };
-        }
-        else {
-            console.log("role is villager");
-            button.onclick = function () {
-                voteToKill(user.name);
-
-                var i;
-                for (i = 0; i < buttons.length; i++) {
-                    buttons[i].disabled = true;
-                }
-              
-            }
+        button.onclick = function () {
+            killPerson(user.name, role);
         }
         document.getElementById("userList").appendChild(button);
         document.getElementById("userList").appendChild(br);
