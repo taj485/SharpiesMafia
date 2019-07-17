@@ -25,7 +25,8 @@ connection.on("LoadMafiaNight", function ()
 {
     setTimeout(function () {
         var targetDiv = $('#mafiaGame');
-        targetDiv.load("/Home/LoadMafiaNightScreen");
+        targetDiv.load("/Home/LoadMafiaNightScreen", function () {
+        });
     }, 5000);
 });
 
@@ -192,7 +193,6 @@ connection.on("EveryoneKillChoice", function (users)
         
         targetDiv.load("/Home/UsersToKill", function (responseTxt, statusTxt, xhr)
         {
-            speak('Now it is up to you to sniff out the mafia. Who are you accusing?');
             createButtons(users, "villager");
         });
 
@@ -250,7 +250,7 @@ document.getElementById("newGameStartBtn").addEventListener("click", function (e
 connection.on("YouDiedPageDelayed", function () {
     setTimeout(function () {
         GetNextPage("/Home/YouDiedScreen");
-    }, 10000);
+    }, 12000);
 });
 
 connection.on("YouDiedPageInstant", function () {
@@ -274,6 +274,9 @@ $("#infoIcon").on("click", function () {
 });
 
 function speak(message) {
+    var spk = window.speechSynthesis;
     var to_speak = new SpeechSynthesisUtterance(message);
-    window.speechSynthesis.speak(to_speak);
+    to_speak.voice = spk.getVoices()[49];
+
+    spk.speak(to_speak);
 }
