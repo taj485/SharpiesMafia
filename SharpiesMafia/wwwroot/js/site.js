@@ -216,12 +216,12 @@ function createButtons(users, role) {
 
         if (role == "mafia") {
             button.onclick = function () {
-                killPerson(element.name, role);
+                killPerson(user.name, role);
             };
         }
         else {
             button.onclick = function () {
-                voteToKill(element.name);
+                voteToKill(user.name);
 
                 var i;
                 for (i = 0; i < buttons.length; i++) {
