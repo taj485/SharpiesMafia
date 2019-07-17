@@ -63,7 +63,7 @@ connection.on("StartPageUserList", function (users, gameId) {     var targetDi
 
         if (statusTxt == "success") {
 
-            $("#gameId").html("Join Code: " + gameId);
+            $("#gameId").html("Join Code: <b>" + gameId + "</b>");
             users.forEach(function (element) {
                 var li = document.createElement("li");
                 li.setAttribute('class', 'list-group-item');
