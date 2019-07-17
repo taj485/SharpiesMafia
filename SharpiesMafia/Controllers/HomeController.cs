@@ -58,7 +58,7 @@ namespace SharpiesMafia.Controllers
         {
             return PartialView("~/Views/Home/_VillagerScreenPartial.cshtml");
         }
-        
+
         public IActionResult LoadDayScreen()
         {
             return PartialView("~/Views/Home/_DayTimePartial.cshtml");
@@ -69,6 +69,10 @@ namespace SharpiesMafia.Controllers
             return PartialView("~/Views/Home/_DeathPartial.cshtml");
         }
 
+        public IActionResult VillagerWinScreen()
+        {
+            return PartialView("~/Views/Home/_VillagerWinPartial.cshtml");
+        }
 
         public IActionResult MafiaWinScreen()
         {

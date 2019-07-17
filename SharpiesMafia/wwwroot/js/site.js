@@ -23,8 +23,10 @@ connection.on("VillagerPage", function ()
 
 connection.on("LoadMafiaNight", function ()
 {
-    var targetDiv = $('#mafiaGame');
-    targetDiv.load("/Home/LoadMafiaNightScreen");
+    setTimeout(function () {
+        var targetDiv = $('#mafiaGame');
+        targetDiv.load("/Home/LoadMafiaNightScreen");
+    }, 5000);
 });
 
 
@@ -53,7 +55,7 @@ connection.on("LoadDayPage", function ()
 connection.on("UsersToKillPage", function () {
       setTimeout(function () {
         GetNextPage("/Home/UsersToKill");
-    }, 5000);
+    }, 10000);
 });
 
 connection.on("StartPageUserList", function (users, gameId) {     var targetDiv = $('#mafiaGame');
@@ -85,21 +87,17 @@ connection.on("StartPageUserList", function (users, gameId) {     var targetDi
 connection.on("LoadResult", function (name, role, rolesCount)
 {
     var targetDiv = $('#mafiaGame');
-    targetDiv.load("/Home/LoadResultScreen", function (responseTxt, statusTxt, xhr)
+    targetDiv.load("/Home/LoadResultScreen", function ()
     {
-        if (statusTxt == "success")
-            if (role === "mafia") {
-                document.getElementById("resultDisplay").classList.add("text-success");
-            } else {
-                document.getElementById("resultDisplay").classList.add("text-danger");
-            }
+        if (role === "mafia") {
+            document.getElementById("resultDisplay").classList.add("text-success");
+        } else {
+            document.getElementById("resultDisplay").classList.add("text-danger");
+        }
         document.getElementById("deadUser").innerHTML = capitalize(name);
         document.getElementById("userRole").innerHTML = capitalize(role);
         document.getElementById("mafiaCount").innerHTML = rolesCount[0];
         document.getElementById("villagerCount").innerHTML = rolesCount[1];
-        if(statusTxt == "error") {
-            alert("Error: " + xhr.status + ": " + xhr.statusText);
-        }
     });
     connection.invoke("WinnerPage", role).catch(function (err) {
         return console.error(err.toString());
@@ -109,19 +107,14 @@ connection.on("LoadResult", function (name, role, rolesCount)
 connection.on("JoinPageUserList", function (users)
 {
     var targetDiv = $('#mafiaGame');
-    targetDiv.load("/Home/JoinGameScreen", function (responseTxt, statusTxt, xhr)
+    targetDiv.load("/Home/JoinGameScreen", function ()
     {
-        if (statusTxt == "success") {
-            users.forEach(function (element) {
-                var li = document.createElement("li");
-                li.setAttribute('class', 'list-group-item');
-                li.textContent = element.name;
-                document.getElementById("joinUserList").appendChild(li)
-            });
-        }
-        if(statusTxt == "error") {
-            alert("Error: " + xhr.status + ": " + xhr.statusText);
-        }
+        users.forEach(function (element) {
+            var li = document.createElement("li");
+            li.setAttribute('class', 'list-group-item');
+            li.textContent = element.name;
+            document.getElementById("joinUserList").appendChild(li)
+        });
     });
 });
 
@@ -129,28 +122,18 @@ connection.on("ResultsScreen", function (winningRole, gameOwner) {
     var targetDiv = $('#mafiaGame');
 
     if (winningRole == "villager") {
-        targetDiv.load("/Home/VillagerWinScreen", function (responseTxt, statusTxt, xhr) {
-            if (statusTxt == "success") {
-                if (gameOwner) {
-                    $('#restartGameBtnDiv').html('<button id="restartGameBtn" class="btn btn-outline-success">Restart Game</button>');
-                }
+        targetDiv.load("/Home/VillagerWinScreen", function () {
+            if (gameOwner) {
+                $('#restartGameBtnDiv').html('<button id="restartGameBtn" class="btn btn-outline-success">Restart Game</button>');
             }
-
-            if (statusTxt == "error")
-                alert("Error: " + xhr.status + ": " + xhr.statusText);
         });
     }
     else {
-        targetDiv.load("/Home/MafiaWinScreen", function (responseTxt, statusTxt, xhr)
+        targetDiv.load("/Home/MafiaWinScreen", function ()
         {
-            if (statusTxt == "success") {
-                if (gameOwner) {
-                    $('#restartGameBtnDiv').html('<button id="restartGameBtn" class="btn btn-outline-success">Restart Game</button>');
-                }
+            if (gameOwner) {
+                $('#restartGameBtnDiv').html('<button id="restartGameBtn" class="btn btn-outline-success">Restart Game</button>');
             }
-
-            if(statusTxt == "error")
-                alert("Error: " + xhr.status + ": " + xhr.statusText);
         });
     }
 
@@ -188,14 +171,9 @@ connection.on("LoadUsersToKill", function (users)
 {
   setTimeout(function () {
     var targetDiv = $('#mafiaGame');
-    targetDiv.load("/Home/UsersToKillMafia", function (responseTxt, statusTxt, xhr)
+    targetDiv.load("/Home/UsersToKillMafia", function ()
     {
-        if (statusTxt == "success") {
-            createButtons(users, "mafia");
-        }
-        if(statusTxt == "error") {
-            alert("Error: " + xhr.status + ": " + xhr.statusText);
-        }
+        createButtons(users, "mafia");
     });
   }, 5000);
 });
@@ -215,32 +193,25 @@ connection.on("EveryoneKillChoice", function (users)
             event.preventDefault();;
         }, 60000);
 
-
-
         targetDiv.load("/Home/UsersToKill", function (responseTxt, statusTxt, xhr)
         {
-            if (statusTxt == "success") {
-                createButtons(users, "villager");
-            }
-            if(statusTxt == "error") {
-                alert("Error: " + xhr.status + ": " + xhr.statusText);
-            }
-    });
+            speak('Now it is up to you to sniff out the mafia. Who are you accusing?');
+            createButtons(users, "villager");
+        });
 
-  }, 10000);
+    }, 10000);
 
 });
 
 
 function createButtons(users, role) {
-    users.forEach(function (element) {
+    users.forEach(function (user) {
         var br = document.createElement("br");
         var button = document.createElement("BUTTON");
-        var t = document.createTextNode(element.name);
+        var t = document.createTextNode(user.name);
         button.appendChild(t);
         button.classList.add("btn");
         button.classList.add("btn-outline-danger");
-
         var buttons = document.getElementsByClassName("btn");
 
         if (role == "mafia") {
@@ -259,7 +230,6 @@ function createButtons(users, role) {
               
             }
         }
-
         document.getElementById("userList").appendChild(button);
         document.getElementById("userList").appendChild(br);
     });
@@ -294,8 +264,6 @@ document.getElementById("newGameStartBtn").addEventListener("click", function (e
     event.preventDefault();
 });
 
-
-
 function Countdown(time) {
     var start = time;
     var second = 1;
@@ -310,51 +278,45 @@ function Countdown(time) {
     }, 1000);
 }
 
-    connection.on("UpdateVictimGroup", function (connectionId) {
-        connection.invoke("AddUserByIdToGroup", "lastVictim", connectionId).catch(function (error) {
-            return console.error(error.toString());
-        });
+connection.on("UpdateVictimGroup", function (connectionId) {
+    connection.invoke("AddUserByIdToGroup", "lastVictim", connectionId).catch(function (error) {
+        return console.error(error.toString());
     });
+});
 
-    connection.on("YouDiedPageDelayed", function () {
-        setTimeout(function () {
-            GetNextPage("/Home/YouDiedScreen");
-        }, 10000);
-    });
-
-    connection.on("YouDiedPageInstant", function () {
+connection.on("YouDiedPageDelayed", function () {
+    setTimeout(function () {
         GetNextPage("/Home/YouDiedScreen");
+    }, 10000);
+});
+
+connection.on("YouDiedPageInstant", function () {
+    GetNextPage("/Home/YouDiedScreen");
+});
+
+connection.on("DeleteVictimGroup", function (connectionId) {
+    connection.invoke("RemoveUserByIdFromGroup", "lastVictim", connectionId).catch(function (error) {
+        return console.error(error.toString());
     });
+});
 
-    connection.on("DeleteVictimGroup", function (connectionId) {
-        connection.invoke("RemoveUserByIdFromGroup", "lastVictim", connectionId).catch(function (error) {
-            return console.error(error.toString());
-        });
-    });
+connection.on("VillagerWin", function () {
+    setTimeout(function () {
+        GetNextPage("/Home/VillagerWinScreen");
+    }, 5000);
+});
 
-    connection.on("VillagerWin", function () {
-        setTimeout(function () {
-            GetNextPage("/Home/VillagerWinScreen");
-        }, 5000);
-    });
+connection.on("MafiaWin", function () {
+    setTimeout(function () {
+        GetNextPage("/Home/MafiaWinScreen");
+    }, 5000);
+});
 
-    connection.on("MafiaWin", function () {
-        setTimeout(function () {
-            GetNextPage("/Home/MafiaWinScreen");
-        }, 5000);
-    });
+$("#infoIcon").on("click", function () {
+    $('#infoModal').modal('show');
+});
 
-    $("#infoIcon").on("click", function () {
-        $('#infoModal').modal('show');
-    });
-
-
-function speak (message) {
-    var synth = window.speechSynthesis;
-    var utterance = new SpeechSynthesisUtterance(message);
-    synth.onvoiceschanged = function(event) {
-        utterance.voice = synth.getVoices()[17];
-        synth.speak(utterance);
-        event.preventDefault();
-    };
+function speak(message) {
+    var to_speak = new SpeechSynthesisUtterance(message);
+    window.speechSynthesis.speak(to_speak);
 }
