@@ -122,7 +122,15 @@ connection.on("JoinPageUserList", function (users, gameId)
     var targetDiv = $('#mafiaGame');
     targetDiv.load("/Home/JoinGameScreen", function ()
     {
-        $("#joinGameId").html("Join Code: " + gameId);
+        var gameIdSplit = gameId.toString().split("");
+            var joinCodeFormatting = "";
+            joinCodeFormatting += '<div class="codeDigit">' + gameIdSplit[0] + '</div>';
+            joinCodeFormatting += '<div class="codeDigit">' + gameIdSplit[1] + '</div>';
+            joinCodeFormatting += '<div class="codeDigit">' + gameIdSplit[2] + '</div>';
+            joinCodeFormatting += '<div class="codeDigit">' + gameIdSplit[3] + '</div>';
+
+        $("#joinGameId #joinGameIdContainer").append(joinCodeFormatting);
+
         users.forEach(function (element) {
             var li = document.createElement("li");
             li.setAttribute('class', 'list-group-item');

@@ -172,12 +172,13 @@ body {
     margin-right: 5px;
     background-color: lightgray;
     font-weight: bold;
+    font-size: 25px;
 }
 
-#gameId {
+#gameId, #joinGameId {
     text-align: center;
 }
 
-#gameIdContainer {
+#gameIdContainer, #joinGameIdContainer {
     margin-bottom: 10px;
 }
