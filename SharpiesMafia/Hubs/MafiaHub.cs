@@ -143,7 +143,8 @@ namespace SharpiesMafia.Hubs
             var deadUser = _context.Users.Where(x => x.name == userName).FirstOrDefault();
             
             var deadUserConnectionId = deadUser.connection_id;
-            await Clients.Groups("mafia", "villager").SendAsync("UpdateVictimGroup", deadUserConnectionId);
+            await AddUserByIdToGroup("lastVictim", deadUserConnectionId);
+            await RemoveUserByIdFromGroup(deadUser.role, deadUserConnectionId);
              
             deadUser.is_dead = true;
             _context.Users.Update(deadUser);
@@ -153,20 +154,18 @@ namespace SharpiesMafia.Hubs
 
             if(role == "mafia")
             {
-                await Clients.All.SendAsync("LoadNight");
-                await Clients.Groups("mafia", "villager").SendAsync("LoadDayPage");
+                await Clients.Groups("mafia", "villager", "lastVictim").SendAsync("LoadNight");
+                await Clients.Groups("mafia", "villager", "lastVictim").SendAsync("LoadDayPage");
                 await Clients.Group("lastVictim").SendAsync("YouDiedPageDelayed");
-                await Clients.AllExcept(deadUserConnectionId).SendAsync("EveryoneKillChoice", GetAliveUsers());
+                await Clients.Groups("mafia", "villager").SendAsync("EveryoneKillChoice", GetAliveUsers());
             }
             else
             {
-                await Clients.AllExcept(deadUserConnectionId).SendAsync("LoadResult",deadUser.name, deadUser.role, rolesCount);
+                await Clients.Groups("mafia", "villager").SendAsync("LoadResult",deadUser.name, deadUser.role, rolesCount);
                 await Clients.Group("lastVictim").SendAsync("YouDiedPageInstant");
             }
-            await Clients.All.SendAsync("DeleteVictimGroup", deadUserConnectionId);
+            await RemoveUserByIdFromGroup("lastVictim", deadUserConnectionId);
         }
-
-
 
         public List<int> TotalRoles()
         {
@@ -294,5 +293,10 @@ namespace SharpiesMafia.Hubs
                 await Clients.All.SendAsync("MafiaWin");
             }
         }
+        public async Task LoopGame()
+        {
+            await Clients.Groups("mafia", "villager").SendAsync("NightPage");
+        }
+
     }
 }

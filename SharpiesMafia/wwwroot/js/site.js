@@ -98,9 +98,15 @@ connection.on("LoadResult", function (name, role, rolesCount)
         document.getElementById("mafiaCount").innerHTML = rolesCount[0];
         document.getElementById("villagerCount").innerHTML = rolesCount[1];
     });
-    connection.invoke("WinnerPage", role).catch(function (err) {
-        return console.error(err.toString());
-    });
+    if (rolesCount[0] >= rolesCount[1]) {
+        connection.invoke("WinnerPage", "villager");
+    }
+    else if (rolesCount[0] == 0) {
+        connection.invoke("WinnerPage", "mafia");
+    }
+    else {
+        connection.invoke("LoopGame");
+    }
 });
 
 connection.on("JoinPageUserList", function (users)
@@ -277,12 +283,6 @@ function Countdown(time) {
     }, 1000);
 }
 
-connection.on("UpdateVictimGroup", function (connectionId) {
-    connection.invoke("AddUserByIdToGroup", "lastVictim", connectionId).catch(function (error) {
-        return console.error(error.toString());
-    });
-});
-
 connection.on("YouDiedPageDelayed", function () {
     setTimeout(function () {
         GetNextPage("/Home/YouDiedScreen");
@@ -291,12 +291,6 @@ connection.on("YouDiedPageDelayed", function () {
 
 connection.on("YouDiedPageInstant", function () {
     GetNextPage("/Home/YouDiedScreen");
-});
-
-connection.on("DeleteVictimGroup", function (connectionId) {
-    connection.invoke("RemoveUserByIdFromGroup", "lastVictim", connectionId).catch(function (error) {
-        return console.error(error.toString());
-    });
 });
 
 connection.on("VillagerWin", function () {
