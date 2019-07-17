@@ -60,7 +60,8 @@ body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
     background-color: #EEEEEE;
-    font-family: Roboto;
+    font-family: "Courier New", Roboto;
+    /*font-family: Roboto;*/
 }
 
 .footer {
@@ -97,9 +98,15 @@ body {
     filter: invert(1);
 }
 
-#infoIcon{
-    float: right;
-    margin-top: 10px;
+#infoIcon {
+    position: absolute;
+    top: 1vh;
+    right: 2vw;
+}
+
+#infoIcon:hover {
+    cursor: pointer;
+    opacity: 0.5;
 }
 
 /*#endregion*/
@@ -119,8 +126,11 @@ body {
     color: #fff;
 }
 
-/*#endregion*/
+.gameModeHeading h5:hover {
+    color: red;
+}
 
+/*#endregion*/
 
 /*#region _NightTimePartial, _DayTimePartial, _DeathPartial*/
 .dayAndNightImgs, .deathImgs, .resultImgs {
@@ -140,4 +150,34 @@ body {
 
 .accordion-heading { 
     cursor: pointer;
+}
+
+.modal-header {
+    background-color: #000;
+    border-radius: 0;
+    border: 2px solid #fff;
+    font-family: "Courier New", Roboto;
+    color: #fff;
+}
+
+.close {
+    color: #fff;
+}
+
+.codeDigit {
+    position: relative;
+    border: 1px solid black;
+    padding: 20px;
+    display: inline-block;
+    margin-right: 5px;
+    background-color: lightgray;
+    font-weight: bold;
+}
+
+#gameId {
+    text-align: center;
+}
+
+#gameIdContainer {
+    margin-bottom: 10px;
 }

@@ -64,7 +64,14 @@ connection.on("StartPageUserList", function (users, gameId) {     var targetDi
 
         if (statusTxt == "success") {
 
-            $("#gameId").html("Join Code: " + gameId);
+            var gameIdSplit = gameId.toString().split("");
+            var joinCodeFormatting = "";
+            joinCodeFormatting += '<div class="codeDigit">' + gameIdSplit[0] + '</div>';
+            joinCodeFormatting += '<div class="codeDigit">' + gameIdSplit[1] + '</div>';
+            joinCodeFormatting += '<div class="codeDigit">' + gameIdSplit[2] + '</div>';
+            joinCodeFormatting += '<div class="codeDigit">' + gameIdSplit[3] + '</div>';
+
+            $("#gameId #gameIdContainer").append(joinCodeFormatting);
             users.forEach(function (element) {
                 var li = document.createElement("li");
                 li.setAttribute('class', 'list-group-item');
