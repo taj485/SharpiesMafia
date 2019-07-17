@@ -23,8 +23,10 @@ connection.on("VillagerPage", function ()
 
 connection.on("LoadMafiaNight", function ()
 {
-    var targetDiv = $('#mafiaGame');
-    targetDiv.load("/Home/LoadMafiaNightScreen");
+    setTimeout(function () {
+        var targetDiv = $('#mafiaGame');
+        targetDiv.load("/Home/LoadMafiaNightScreen");
+    }, 5000);
 });
 
 
@@ -52,7 +54,7 @@ connection.on("LoadDayPage", function ()
 connection.on("UsersToKillPage", function () {
       setTimeout(function () {
         GetNextPage("/Home/UsersToKill");
-    }, 5000);
+    }, 10000);
 });
 
 connection.on("StartPageUserList", function (users, gameId) {     var targetDiv = $('#mafiaGame');
@@ -62,12 +64,17 @@ connection.on("StartPageUserList", function (users, gameId) {     var targetDi
         if (statusTxt == "success") {
 
             $("#gameId").html("Join Code: " + gameId);
-
             users.forEach(function (element) {
                 var li = document.createElement("li");
                 li.setAttribute('class', 'list-group-item');
                li.textContent = element.name;
                document.getElementById("userList").appendChild(li)
+            });
+            document.getElementById("beginGameBtn").addEventListener("click", function (event) {
+                connection.invoke("BeginGame").catch(function (err) {
+                    return console.error(err.toString());
+                });
+                event.preventDefault();
             });
         }
         if (statusTxt === "error") {
@@ -79,21 +86,17 @@ connection.on("StartPageUserList", function (users, gameId) {     var targetDi
 connection.on("LoadResult", function (name, role, rolesCount)
 {
     var targetDiv = $('#mafiaGame');
-    targetDiv.load("/Home/LoadResultScreen", function (responseTxt, statusTxt, xhr)
+    targetDiv.load("/Home/LoadResultScreen", function ()
     {
-        if (statusTxt == "success")
-            if (role === "mafia") {
-                document.getElementById("resultDisplay").classList.add("text-success");
-            } else {
-                document.getElementById("resultDisplay").classList.add("text-danger");
-            }
+        if (role === "mafia") {
+            document.getElementById("resultDisplay").classList.add("text-success");
+        } else {
+            document.getElementById("resultDisplay").classList.add("text-danger");
+        }
         document.getElementById("deadUser").innerHTML = capitalize(name);
         document.getElementById("userRole").innerHTML = capitalize(role);
         document.getElementById("mafiaCount").innerHTML = rolesCount[0];
         document.getElementById("villagerCount").innerHTML = rolesCount[1];
-        if(statusTxt == "error") {
-            alert("Error: " + xhr.status + ": " + xhr.statusText);
-        }
     });
     if (rolesCount[0] >= rolesCount[1]) {
         connection.invoke("WinnerPage", "villager");
@@ -109,19 +112,14 @@ connection.on("LoadResult", function (name, role, rolesCount)
 connection.on("JoinPageUserList", function (users)
 {
     var targetDiv = $('#mafiaGame');
-    targetDiv.load("/Home/JoinGameScreen", function (responseTxt, statusTxt, xhr)
+    targetDiv.load("/Home/JoinGameScreen", function ()
     {
-        if (statusTxt == "success") {
-            users.forEach(function (element) {
-                var li = document.createElement("li");
-                li.setAttribute('class', 'list-group-item');
-                li.textContent = element.name;
-                document.getElementById("joinUserList").appendChild(li)
-            });
-        }
-        if(statusTxt == "error") {
-            alert("Error: " + xhr.status + ": " + xhr.statusText);
-        }
+        users.forEach(function (element) {
+            var li = document.createElement("li");
+            li.setAttribute('class', 'list-group-item');
+            li.textContent = element.name;
+            document.getElementById("joinUserList").appendChild(li)
+        });
     });
 });
 
@@ -129,28 +127,18 @@ connection.on("ResultsScreen", function (winningRole, gameOwner) {
     var targetDiv = $('#mafiaGame');
 
     if (winningRole == "villager") {
-        targetDiv.load("/Home/VillagerWinScreen", function (responseTxt, statusTxt, xhr) {
-            if (statusTxt == "success") {
-                if (gameOwner) {
-                    $('#restartGameBtnDiv').html('<button id="restartGameBtn" class="btn btn-outline-success">Restart Game</button>');
-                }
+        targetDiv.load("/Home/VillagerWinScreen", function () {
+            if (gameOwner) {
+                $('#restartGameBtnDiv').html('<button id="restartGameBtn" class="btn btn-outline-success">Restart Game</button>');
             }
-
-            if (statusTxt == "error")
-                alert("Error: " + xhr.status + ": " + xhr.statusText);
         });
     }
     else {
-        targetDiv.load("/Home/MafiaWinScreen", function (responseTxt, statusTxt, xhr)
+        targetDiv.load("/Home/MafiaWinScreen", function ()
         {
-            if (statusTxt == "success") {
-                if (gameOwner) {
-                    $('#restartGameBtnDiv').html('<button id="restartGameBtn" class="btn btn-outline-success">Restart Game</button>');
-                }
+            if (gameOwner) {
+                $('#restartGameBtnDiv').html('<button id="restartGameBtn" class="btn btn-outline-success">Restart Game</button>');
             }
-
-            if(statusTxt == "error")
-                alert("Error: " + xhr.status + ": " + xhr.statusText);
         });
     }
 
@@ -188,46 +176,75 @@ connection.on("LoadUsersToKill", function (users)
 {
   setTimeout(function () {
     var targetDiv = $('#mafiaGame');
-    targetDiv.load("/Home/UsersToKillMafia", function (responseTxt, statusTxt, xhr)
+    targetDiv.load("/Home/UsersToKillMafia", function ()
     {
-        if (statusTxt == "success") {
-            createButtons(users, "mafia");
-        }
-        if(statusTxt == "error") {
-            alert("Error: " + xhr.status + ": " + xhr.statusText);
-        }
+        createButtons(users, "mafia");
     });
   }, 5000);
 });
 
 connection.on("EveryoneKillChoice", function (users)
 {
-  setTimeout(function () {
-    var targetDiv = $('#mafiaGame');
-    targetDiv.load("/Home/UsersToKill", function (responseTxt, statusTxt, xhr)
-    {
-        if (statusTxt == "success") {
+    setTimeout(function () {
+        var targetDiv = $('#mafiaGame');
+        Countdown(60);
+
+        setTimeout(function ()
+        {
+            connection.invoke("totalVotes").catch(function (error)
+            {
+                return console.error(error.toString());
+            });
+            event.preventDefault();;
+        }, 60000);
+
+        targetDiv.load("/Home/UsersToKill", function (responseTxt, statusTxt, xhr)
+        {
+            speak('Now it is up to you to sniff out the mafia. Who are you accusing?');
             createButtons(users, "villager");
-        }
-        if(statusTxt == "error") {
-            alert("Error: " + xhr.status + ": " + xhr.statusText);
-        }
-    });
-  }, 10000);
+        });
+
+    }, 10000);
+
 });
 
+
 function createButtons(users, role) {
-    users.forEach(function (element) {
+    users.forEach(function (user) {
         var br = document.createElement("br");
         var button = document.createElement("BUTTON");
-        var t = document.createTextNode(element.name);
+        var t = document.createTextNode(user.name);
         button.appendChild(t);
         button.classList.add("btn");
         button.classList.add("btn-outline-danger");
-        button.onclick = function () { killPerson(element.name, role); };
+        var buttons = document.getElementsByClassName("btn");
+
+        if (role == "mafia") {
+            button.onclick = function () {
+                killPerson(user.name, role);
+            };
+        }
+        else {
+            button.onclick = function () {
+                voteToKill(user.name);
+
+                var i;
+                for (i = 0; i < buttons.length; i++) {
+                    buttons[i].disabled = true;
+                }
+              
+            }
+        }
         document.getElementById("userList").appendChild(button);
         document.getElementById("userList").appendChild(br);
     });
+}
+
+function voteToKill(user, buttons) {
+    connection.invoke("voteToKill", user).catch(function (err) {
+        return console.error(err.toString());
+    });
+   
 }
 
 function capitalize(string) {
@@ -252,27 +269,37 @@ document.getElementById("newGameStartBtn").addEventListener("click", function (e
     event.preventDefault();
 });
 
-connection.on("YouDiedPageDelayed", function ()
-{
+function Countdown(time) {
+    var start = time;
+    var second = 1;
+
+    var x = setInterval(function () {
+        var seconds = start - second;
+        document.getElementById("countdownContainerP").innerHTML = seconds + "s";
+        start = seconds;
+        if (seconds < 0) {
+            clearInterval(x);
+        }
+    }, 1000);
+}
+
+connection.on("YouDiedPageDelayed", function () {
     setTimeout(function () {
         GetNextPage("/Home/YouDiedScreen");
     }, 10000);
 });
 
-connection.on("YouDiedPageInstant", function ()
-{
-        GetNextPage("/Home/YouDiedScreen");
+connection.on("YouDiedPageInstant", function () {
+    GetNextPage("/Home/YouDiedScreen");
 });
 
-connection.on("VillagerWin", function ()
-{
+connection.on("VillagerWin", function () {
     setTimeout(function () {
         GetNextPage("/Home/VillagerWinScreen");
     }, 5000);
 });
 
-connection.on("MafiaWin", function ()
-{
+connection.on("MafiaWin", function () {
     setTimeout(function () {
         GetNextPage("/Home/MafiaWinScreen");
     }, 5000);
@@ -282,11 +309,7 @@ $("#infoIcon").on("click", function () {
     $('#infoModal').modal('show');
 });
 
-function speak (message) {
-    var synth = window.speechSynthesis;
-    var utterance = new SpeechSynthesisUtterance(message);
-    synth.onvoiceschanged = function() {
-        utterance.voice = synth.getVoices()[17];
-        synth.speak(utterance);
-    };
+function speak(message) {
+    var to_speak = new SpeechSynthesisUtterance(message);
+    window.speechSynthesis.speak(to_speak);
 }

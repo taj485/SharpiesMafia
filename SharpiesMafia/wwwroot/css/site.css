@@ -7,14 +7,18 @@ for details on configuring this project to bundle and minify static web assets. 
 }
 
 .mafiaSpinner p {
-
 }
-    /*#region Pre-set CSS*/
-    a.navbar-brand {
-        white-space: normal;
-        text-align: center;
-        word-break: break-all;
-    }
+
+.hidden {
+    display: none;
+}
+
+/*#region Pre-set CSS*/
+a.navbar-brand {
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
+}
 
 /* Sticky footer styles
 -------------------------------------------------- */

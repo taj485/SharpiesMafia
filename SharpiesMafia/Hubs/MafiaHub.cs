@@ -109,7 +109,7 @@ namespace SharpiesMafia.Hubs
 
         public void ListUsersToKill()
         {
-            Clients.Group("villager").SendAsync("LoadMafiaNight", GetAliveUsers());
+            Clients.Group("villager").SendAsync("LoadMafiaNight");
             Clients.Group("mafia").SendAsync("LoadUsersToKill", GetAliveUsers());
         }
 
@@ -123,6 +123,20 @@ namespace SharpiesMafia.Hubs
             await Clients.All.SendAsync("EveryoneKillChoice", GetAliveUsers());
         }
 
+        public void voteToKill(string userName)
+        {
+            var chosenUser = _context.Users.Where(x => x.name == userName).FirstOrDefault();
+            chosenUser.vote_count += 1;
+            _context.Users.Update(chosenUser);
+            _context.SaveChanges();
+        }
+
+        public async Task totalVotes()
+        {
+            int mostVotes = _context.Users.Select(user => user.vote_count).DefaultIfEmpty(0).Max();
+            var chosenUser = _context.Users.Where(user => user.vote_count == mostVotes).FirstOrDefault();
+            await KillPlayer(chosenUser.name, "villager");
+        }
 
         public async Task KillPlayer(string userName, string role)
         {
