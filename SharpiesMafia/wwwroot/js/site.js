@@ -201,7 +201,6 @@ connection.on("EveryoneKillChoice", function (users)
 
         targetDiv.load("/Home/UsersToKill", function (responseTxt, statusTxt, xhr)
         {
-            speak('Now it is up to you to sniff out the mafia. Who are you accusing?');
             createButtons(users, "villager");
         });
 
@@ -311,6 +310,9 @@ $("#infoIcon").on("click", function () {
 });
 
 function speak(message) {
+    var spk = window.speechSynthesis;
     var to_speak = new SpeechSynthesisUtterance(message);
-    window.speechSynthesis.speak(to_speak);
+    to_speak.voice = spk.getVoices()[49];
+
+    spk.speak(to_speak);
 }
