@@ -221,11 +221,13 @@ function createButtons(users, role) {
         var buttons = document.getElementsByClassName("btn");
 
         if (role == "mafia") {
+            console.log("role is mafia");
             button.onclick = function () {
                 killPerson(user.name, role);
             };
         }
         else {
+            console.log("role is villager");
             button.onclick = function () {
                 voteToKill(user.name);
 

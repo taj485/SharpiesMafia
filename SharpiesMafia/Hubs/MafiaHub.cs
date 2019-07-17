@@ -126,12 +126,12 @@ namespace SharpiesMafia.Hubs
             await Clients.All.SendAsync("EveryoneKillChoice", GetAliveUsers());
         }
 
-        public void voteToKill(string userName)
+        public async Task voteToKill(string userName)
         {
             var chosenUser = _context.Users.Where(x => x.name == userName).FirstOrDefault();
             chosenUser.vote_count += 1;
             _context.Users.Update(chosenUser);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
         public async Task totalVotes()
