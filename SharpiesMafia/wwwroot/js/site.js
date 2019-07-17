@@ -187,7 +187,7 @@ connection.on("EveryoneKillChoice", function (users)
 {
     setTimeout(function () {
         var targetDiv = $('#mafiaGame');
-        Countdown(30);
+
         
         targetDiv.load("/Home/UsersToKill", function (responseTxt, statusTxt, xhr)
         {
@@ -245,20 +245,6 @@ document.getElementById("newGameStartBtn").addEventListener("click", function (e
     });
     event.preventDefault();
 });
-
-function Countdown(time) {
-    var start = time;
-    var second = 1;
-
-    var x = setInterval(function () {
-        var seconds = start - second;
-        document.getElementById("countdownContainerP").innerHTML = seconds + "s";
-        start = seconds;
-        if (seconds < 0) {
-            clearInterval(x);
-        }
-    }, 1000);
-}
 
 connection.on("YouDiedPageDelayed", function () {
     setTimeout(function () {
