@@ -109,11 +109,12 @@ connection.on("LoadResult", function (name, role, rolesCount)
     }
 });
 
-connection.on("JoinPageUserList", function (users)
+connection.on("JoinPageUserList", function (users, gameId)
 {
     var targetDiv = $('#mafiaGame');
     targetDiv.load("/Home/JoinGameScreen", function ()
     {
+        $("#joinGameId").html("Join Code: " + gameId);
         users.forEach(function (element) {
             var li = document.createElement("li");
             li.setAttribute('class', 'list-group-item');
