@@ -98,7 +98,10 @@ namespace SharpiesMafia.Hubs
          
         public List<User> GetAliveUsers()
         {
-            var aliveUsers = _context.Users.Where(x => x.is_dead == false && x.game_id == GetGameId().FirstOrDefault()).ToList();
+            var aliveUsers = _context.Users
+                .Where(x => x.is_dead == false)
+                .Where(x => x.game_id == GetGameId().FirstOrDefault())
+                .ToList();
             return aliveUsers;
         }
 
@@ -146,6 +149,20 @@ namespace SharpiesMafia.Hubs
                 .FirstOrDefault();
             
             await KillPlayer(chosenUser.name, "villager");
+            await resetVoteCount();
+        }
+
+        public async Task resetVoteCount()
+        {
+            var gameId = GetGameId().FirstOrDefault();
+
+            var users = _context.Users.Where(x => x.game_id == gameId);
+            foreach (var user in users)
+            {
+                user.vote_count = 0;
+                _context.Users.Update(user);
+                await _context.SaveChangesAsync();
+            }
         }
 
         public async Task KillPlayer(string userName, string role)

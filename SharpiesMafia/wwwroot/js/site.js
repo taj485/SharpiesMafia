@@ -195,7 +195,7 @@ connection.on("EveryoneKillChoice", function (users)
             {
                 return console.error(error.toString());
             });
-            event.preventDefault();;
+            event.preventDefault();
         }, 30000);
 
         targetDiv.load("/Home/UsersToKill", function (responseTxt, statusTxt, xhr)
