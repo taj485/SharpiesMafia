@@ -40,7 +40,6 @@ connection.on("NightPage", function ()
 {
     setTimeout(function () {
         GetNextPage("/Home/LoadNightScreen");
-        speak('Night has fallen, time for everyone to close their eyes.');
         connection.invoke("ListUsersToKill");
     }, 5000);
 });
