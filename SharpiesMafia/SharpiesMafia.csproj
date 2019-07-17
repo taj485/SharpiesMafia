@@ -27,7 +27,6 @@
     <Content Remove="Views\Home\_NightTimePartial %28copy%29.cshtml" />
     <Content Remove="Views\Home\_VillagerWinPartial.cshtml" />
     <Content Remove="Views\Home\_MafiaWinPartial.cshtml" />
-    <Content Remove="wwwroot\images\info.png" />
     <Content Remove="wwwroot\audio\shotgun_reload.mp3" />
   </ItemGroup>
 </Project>
