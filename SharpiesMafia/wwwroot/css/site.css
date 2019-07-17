@@ -137,3 +137,7 @@ body {
     border-width: 0.75em;
 }
 /*#endregion*/
+
+.accordion-heading { 
+    cursor: pointer;
+}
