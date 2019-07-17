@@ -191,6 +191,7 @@ connection.on("EveryoneKillChoice", function (users)
 
         setTimeout(function ()
         {
+            connection
             connection.invoke("totalVotes").catch(function (error)
             {
                 return console.error(error.toString());

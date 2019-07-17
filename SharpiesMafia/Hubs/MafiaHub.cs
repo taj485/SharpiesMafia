@@ -149,7 +149,7 @@ namespace SharpiesMafia.Hubs
                 .FirstOrDefault();
             
             await KillPlayer(chosenUser.name, "villager");
-            await resetVoteCount();
+            //await resetVoteCount();
         }
 
         public async Task resetVoteCount()
@@ -327,6 +327,7 @@ namespace SharpiesMafia.Hubs
         }
         public async Task LoopGame()
         {
+            await resetVoteCount();
             await Clients.Groups("mafia", "villager").SendAsync("NightPage");
         }
 
