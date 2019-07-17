@@ -25,7 +25,8 @@ connection.on("LoadMafiaNight", function ()
 {
     setTimeout(function () {
         var targetDiv = $('#mafiaGame');
-        targetDiv.load("/Home/LoadMafiaNightScreen");
+        targetDiv.load("/Home/LoadMafiaNightScreen", function () {
+        });
     }, 5000);
 });
 
