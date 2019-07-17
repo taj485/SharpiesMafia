@@ -204,7 +204,7 @@ connection.on("EveryoneKillChoice", function (users)
 {
     setTimeout(function () {
         var targetDiv = $('#mafiaGame');
-        Countdown(10);
+        Countdown(60);
 
         setTimeout(function ()
         {
@@ -213,7 +213,7 @@ connection.on("EveryoneKillChoice", function (users)
                 return console.error(error.toString());
             });
             event.preventDefault();;
-        }, 50000);
+        }, 60000);
 
 
 
