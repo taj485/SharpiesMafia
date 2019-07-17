@@ -4,7 +4,9 @@
     }
 </style>
 
-<h3 style="color: #fff">Night has fallen, close your eyes!</h3>
+<div class="text-center">
+    <h3 style="color: #fff">Night has fallen, close your eyes!</h3>
+</div>
 
 <figure class="dayAndNightImgs">
     <img class="img-fluid" src="~/images/half-moon.png" id="nightTimeImg" />
@@ -15,9 +17,7 @@
     Your browser don't support this audio element Bub
 </audio>
 
-<script type="text/javascript">
-    $(document).ready(function() {
+<script type="text/javascript">$(document).ready(function () {
         window.speechSynthesis.cancel();
         speak("Mafia members, open your eyes.");
-    });
-</script>
+    });</script>

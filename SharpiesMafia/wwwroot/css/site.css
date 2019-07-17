@@ -182,3 +182,7 @@ body {
 #gameIdContainer, #joinGameIdContainer {
     margin-bottom: 10px;
 }
+
+.h3 {
+    text-align: center;
+}
