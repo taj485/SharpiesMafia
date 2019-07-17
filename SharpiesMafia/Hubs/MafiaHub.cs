@@ -159,10 +159,15 @@ namespace SharpiesMafia.Hubs
             var users = _context.Users.Where(x => x.game_id == gameId);
             foreach (var user in users)
             {
-                user.vote_count = 0;
-                _context.Users.Update(user);
-                await _context.SaveChangesAsync();
+                if (user.vote_count != 0)
+                {
+                    user.vote_count = 0;
+                    _context.Users.Update(user);
+                }
             }
+
+            await _context.SaveChangesAsync();
+
         }
 
         public async Task KillPlayer(string userName, string role)
