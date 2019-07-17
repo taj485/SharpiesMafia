@@ -48,7 +48,7 @@ namespace SharpiesMafia.Hubs
                 var user = new User() { name = userName, connection_id = Context.ConnectionId, game_id = gameId, is_dead = false, role = "villager" };
                 _context.Users.Add(user);
                 await _context.SaveChangesAsync();
-                await Clients.Group("gameMember").SendAsync("JoinPageUserList", GetSpecificGameUsers(gameId));
+                await Clients.Group("gameMember").SendAsync("JoinPageUserList", GetSpecificGameUsers(gameId), gameId);
                 await Clients.Group("gameOwner").SendAsync("StartPageUserList", GetSpecificGameUsers(gameId), GetGameId());
             }
         }
@@ -126,12 +126,12 @@ namespace SharpiesMafia.Hubs
             await Clients.All.SendAsync("EveryoneKillChoice", GetAliveUsers());
         }
 
-        public void voteToKill(string userName)
+        public async Task voteToKill(string userName)
         {
             var chosenUser = _context.Users.Where(x => x.name == userName).FirstOrDefault();
             chosenUser.vote_count += 1;
             _context.Users.Update(chosenUser);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
         public async Task totalVotes()
@@ -149,7 +149,7 @@ namespace SharpiesMafia.Hubs
                 .FirstOrDefault();
             
             await KillPlayer(chosenUser.name, "villager");
-            await resetVoteCount();
+            //await resetVoteCount();
         }
 
         public async Task resetVoteCount()
@@ -180,7 +180,7 @@ namespace SharpiesMafia.Hubs
              
             deadUser.is_dead = true;
             _context.Users.Update(deadUser);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             var rolesCount = TotalRoles();
 
@@ -327,6 +327,7 @@ namespace SharpiesMafia.Hubs
         }
         public async Task LoopGame()
         {
+            await resetVoteCount();
             await Clients.Groups("mafia", "villager").SendAsync("NightPage");
         }
 

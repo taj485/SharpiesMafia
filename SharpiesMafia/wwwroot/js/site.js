@@ -110,11 +110,12 @@ connection.on("LoadResult", function (name, role, rolesCount)
     }
 });
 
-connection.on("JoinPageUserList", function (users)
+connection.on("JoinPageUserList", function (users, gameId)
 {
     var targetDiv = $('#mafiaGame');
     targetDiv.load("/Home/JoinGameScreen", function ()
     {
+        $("#joinGameId").html("Join Code: " + gameId);
         users.forEach(function (element) {
             var li = document.createElement("li");
             li.setAttribute('class', 'list-group-item');
@@ -188,17 +189,8 @@ connection.on("EveryoneKillChoice", function (users)
 {
     setTimeout(function () {
         var targetDiv = $('#mafiaGame');
-        Countdown(30);
 
-        setTimeout(function ()
-        {
-            connection.invoke("totalVotes").catch(function (error)
-            {
-                return console.error(error.toString());
-            });
-            event.preventDefault();
-        }, 30000);
-
+        
         targetDiv.load("/Home/UsersToKill", function (responseTxt, statusTxt, xhr)
         {
             createButtons(users, "villager");
@@ -218,22 +210,8 @@ function createButtons(users, role) {
         button.classList.add("btn");
         button.classList.add("btn-outline-danger");
         var buttons = document.getElementsByClassName("btn");
-
-        if (role == "mafia") {
-            button.onclick = function () {
-                killPerson(user.name, role);
-            };
-        }
-        else {
-            button.onclick = function () {
-                voteToKill(user.name);
-
-                var i;
-                for (i = 0; i < buttons.length; i++) {
-                    buttons[i].disabled = true;
-                }
-              
-            }
+        button.onclick = function () {
+            killPerson(user.name, role);
         }
         document.getElementById("userList").appendChild(button);
         document.getElementById("userList").appendChild(br);
@@ -268,20 +246,6 @@ document.getElementById("newGameStartBtn").addEventListener("click", function (e
     });
     event.preventDefault();
 });
-
-function Countdown(time) {
-    var start = time;
-    var second = 1;
-
-    var x = setInterval(function () {
-        var seconds = start - second;
-        document.getElementById("countdownContainerP").innerHTML = seconds + "s";
-        start = seconds;
-        if (seconds < 0) {
-            clearInterval(x);
-        }
-    }, 1000);
-}
 
 connection.on("YouDiedPageDelayed", function () {
     setTimeout(function () {
