@@ -15,6 +15,10 @@
 </audio>
 
 <script type="text/javascript">
-    window.speechSynthesis.cancel();
-    speak('Everyone, the sun has risen and it is a new day. You can all open your eyes.');
-</script>
+    $(document).ready(function () {
+        window.speechSynthesis.cancel();
+        setTimeout(function () {
+            speak('Everyone, the sun has risen and it is a new day. You can all open your eyes.');
+        }, 3000)
+   });
+   </script>
