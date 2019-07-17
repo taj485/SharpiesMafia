@@ -180,7 +180,7 @@ namespace SharpiesMafia.Hubs
              
             deadUser.is_dead = true;
             _context.Users.Update(deadUser);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             var rolesCount = TotalRoles();
 
