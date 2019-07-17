@@ -287,7 +287,7 @@ function Countdown(time) {
 connection.on("YouDiedPageDelayed", function () {
     setTimeout(function () {
         GetNextPage("/Home/YouDiedScreen");
-    }, 10000);
+    }, 12000);
 });
 
 connection.on("YouDiedPageInstant", function () {
