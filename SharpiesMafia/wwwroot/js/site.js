@@ -272,15 +272,57 @@ connection.on("YouDiedPageInstant", function () {
     GetNextPage("/Home/YouDiedScreen");
 });
 
-connection.on("VillagerWin", function () {
+connection.on("VillagerWin", function (users) {
     setTimeout(function () {
-        GetNextPage("/Home/VillagerWinScreen");
+
+    var targetDiv = $('#mafiaGame');
+    targetDiv.load("/Home/VillagerWinScreen", function (responseTxt, statusTxt, xhr)
+    {
+
+        if (statusTxt == "success") {
+            users.forEach(function (user) {
+                var li = document.createElement("li");
+                li.setAttribute('class', 'list-group-item');
+                li.textContent = user.name;
+                if (user.role == "mafia") {
+                    document.getElementById("MafiaListV").appendChild(li)
+                }
+                else {
+                    document.getElementById("VillagerListV").appendChild(li)
+                }
+            });
+        }
+        if (statusTxt === "error") {
+            alert("Error: " + xhr.status + ": " + xhr.statusText);
+        }
+    });
     }, 7000);
 });
 
-connection.on("MafiaWin", function () {
-    setTimeout(function () {
-        GetNextPage("/Home/MafiaWinScreen");
+connection.on("MafiaWin", function (users) {
+   setTimeout(function () {
+
+    var targetDiv = $('#mafiaGame');
+    targetDiv.load("/Home/MafiaWinScreen", function (responseTxt, statusTxt, xhr)
+    {
+
+        if (statusTxt == "success") {
+            users.forEach(function (user) {
+                var li = document.createElement("li");
+                li.setAttribute('class', 'list-group-item');
+                li.textContent = user.name;
+                if (user.role == "mafia") {
+                    document.getElementById("MafiaListM").appendChild(li)
+                }
+                else {
+                    document.getElementById("VillagerListM").appendChild(li)
+                }
+            });
+        }
+        if (statusTxt === "error") {
+            alert("Error: " + xhr.status + ": " + xhr.statusText);
+        }
+    });
     }, 7000);
 });
 

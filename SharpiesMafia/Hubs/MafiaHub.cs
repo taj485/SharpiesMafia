@@ -317,15 +317,20 @@ namespace SharpiesMafia.Hubs
 
         public async Task WinnerPage(string role)
         {
+            var currentUser = _context.Users
+                                    .Where(x => x.connection_id == Context.ConnectionId).FirstOrDefault();
+            var gameId = currentUser.game_id;
+            var users = GetSpecificGameUsers(gameId);
             if (role == "mafia")
             {
-                await Clients.All.SendAsync("VillagerWin");
+                await Clients.All.SendAsync("VillagerWin", users);
             }
             else
             {
-                await Clients.All.SendAsync("MafiaWin");
+                await Clients.All.SendAsync("MafiaWin", users);
             }
         }
+
         public async Task LoopGame()
         {
             await resetVoteCount();
