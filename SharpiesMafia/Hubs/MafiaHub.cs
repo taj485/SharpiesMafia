@@ -189,11 +189,12 @@ namespace SharpiesMafia.Hubs
                 await Clients.Groups("mafia", "villager", "lastVictim").SendAsync("LoadNight");
                 await Clients.Groups("mafia", "villager", "lastVictim").SendAsync("LoadDayPage");
                 await Clients.Group("lastVictim").SendAsync("YouDiedPageDelayed");
+                await Clients.Groups("mafia", "villager").SendAsync("LoadVictimResult", deadUser.name);
                 await Clients.Groups("mafia", "villager").SendAsync("EveryoneKillChoice", GetAliveUsers());
             }
             else
             {
-                await Clients.Groups("mafia", "villager").SendAsync("LoadResult",deadUser.name, deadUser.role, rolesCount);
+                await Clients.Groups("mafia", "villager").SendAsync("LoadVoteResult",deadUser.name, deadUser.role, rolesCount);
                 await Clients.Group("lastVictim").SendAsync("YouDiedPageInstant");
             }
             await RemoveUserByIdFromGroup("lastVictim", deadUserConnectionId);

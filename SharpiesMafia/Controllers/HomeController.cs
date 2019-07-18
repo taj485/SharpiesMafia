@@ -79,11 +79,16 @@ namespace SharpiesMafia.Controllers
             return PartialView("~/Views/Home/_MafiaWinPartial.cshtml");
         }
 
-        public IActionResult LoadResultScreen()
+        public IActionResult LoadVoteResultScreen()
         {
-            return PartialView("~/Views/Home/_ResultScreenPartial.cshtml");
+            return PartialView("~/Views/Home/_VoteResultScreenPartial.cshtml");
         }
-        
+
+        public IActionResult LoadVictimResultScreen()
+        {
+            return PartialView("~/Views/Home/_VictimResultPartial.cshtml");
+        }
+
         public IActionResult LoadMafiaNightScreen()
         {
             return PartialView("~/Views/Home/_NightTimePartialMafiaSound.cshtml");
