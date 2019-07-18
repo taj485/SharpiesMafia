@@ -265,7 +265,7 @@ document.getElementById("newGameStartBtn").addEventListener("click", function (e
 connection.on("YouDiedPageDelayed", function () {
     setTimeout(function () {
         GetNextPage("/Home/YouDiedScreen");
-    }, 36000);
+    }, 30000);
 });
 
 connection.on("YouDiedPageInstant", function () {
