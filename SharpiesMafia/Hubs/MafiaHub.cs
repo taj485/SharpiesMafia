@@ -126,12 +126,12 @@ namespace SharpiesMafia.Hubs
             await Clients.All.SendAsync("EveryoneKillChoice", GetAliveUsers());
         }
 
-        public async Task voteToKill(string userName)
+        public void voteToKill(string userName)
         {
             var chosenUser = _context.Users.Where(x => x.name == userName).FirstOrDefault();
             chosenUser.vote_count += 1;
             _context.Users.Update(chosenUser);
-            await _context.SaveChangesAsync();
+            _context.SaveChanges();
         }
 
         public async Task totalVotes()
@@ -139,7 +139,7 @@ namespace SharpiesMafia.Hubs
             var gameId = GetGameId().FirstOrDefault();
             
             int mostVotes = _context.Users
-                .Where(x => x.game_id == gameId)
+                .Where(user => user.game_id == gameId)
                 .Select(user => user.vote_count)
                 .DefaultIfEmpty(0).Max();
             
@@ -149,7 +149,7 @@ namespace SharpiesMafia.Hubs
                 .FirstOrDefault();
             
             await KillPlayer(chosenUser.name, "villager");
-            //await resetVoteCount();
+            await resetVoteCount();
         }
 
         public async Task resetVoteCount()
@@ -172,12 +172,12 @@ namespace SharpiesMafia.Hubs
 
         public async Task KillPlayer(string userName, string role)
         {
-            var deadUser = _context.Users.Where(x => x.name == userName).FirstOrDefault();
+            var deadUser = _context.Users.Where(user => user.name == userName).FirstOrDefault();
             
             var deadUserConnectionId = deadUser.connection_id;
             await AddUserByIdToGroup("lastVictim", deadUserConnectionId);
             await RemoveUserByIdFromGroup(deadUser.role, deadUserConnectionId);
-             
+
             deadUser.is_dead = true;
             _context.Users.Update(deadUser);
             await _context.SaveChangesAsync();

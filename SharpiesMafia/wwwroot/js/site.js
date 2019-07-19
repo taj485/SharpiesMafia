@@ -27,35 +27,29 @@ connection.on("LoadMafiaNight", function ()
         var targetDiv = $('#mafiaGame');
         targetDiv.load("/Home/LoadMafiaNightScreen", function () {
         });
-    }, 15000);
+    }, 5000);
 });
 
-
-function killPerson(user, role){
-    connection.invoke("KillPlayer", user,role).catch(function (err) {
-        return console.error(err.toString());
-    });
-}
 
 connection.on("NightPage", function ()
 {
     setTimeout(function () {
         GetNextPage("/Home/LoadNightScreen");
         connection.invoke("ListUsersToKill");
-    }, 15000);
+    }, 5000);
 });
 
 connection.on("LoadDayPage", function ()
 {
     setTimeout(function () {
         GetNextPage("/Home/LoadDayScreen");
-    }, 15000);
+    }, 5000);
 });
 
 connection.on("UsersToKillPage", function () {
       setTimeout(function () {
         GetNextPage("/Home/UsersToKill");
-    }, 30000);
+    }, 10000);
 });
 
 connection.on("StartPageUserList", function (users, gameId) {     var targetDiv = $('#mafiaGame');
@@ -197,21 +191,35 @@ connection.on("LoadUsersToKill", function (users)
     {
         createButtons(users, "mafia");
     });
-  }, 15000);
+  }, 5000);
 });
 
 connection.on("EveryoneKillChoice", function (users)
 {
     setTimeout(function () {
         var targetDiv = $('#mafiaGame');
-
         
+        setTimeout(function ()
+        {
+            connection.invoke("totalVotes").catch(function (error)
+            {
+                return console.error(error.toString());
+            });
+            event.preventDefault();
+        }, 30000);
+
+
         targetDiv.load("/Home/UsersToKill", function (responseTxt, statusTxt, xhr)
         {
-            createButtons(users, "villager");
+            if (statusTxt == "success") {
+                createButtons(users, "villager");
+            }
+            if(statusTxt == "error") {
+                alert("Error: " + xhr.status + ": " + xhr.statusText);
+            }
         });
 
-    }, 30000);
+    }, 18000);
 
 });
 
@@ -224,10 +232,26 @@ function createButtons(users, role) {
         button.appendChild(t);
         button.classList.add("btn");
         button.classList.add("btn-outline-danger");
+
         var buttons = document.getElementsByClassName("btn");
-        button.onclick = function () {
-            killPerson(user.name, role);
+
+        if (role == "mafia") {
+            button.onclick = function () {
+                killPerson(user.name, role);
+            };
         }
+        else {
+            button.onclick = function () {
+                voteToKill(user.name);
+
+                var i;
+                for (i = 0; i < buttons.length; i++) {
+                    buttons[i].disabled = true;
+                }
+              
+            }
+        }
+
         document.getElementById("userList").appendChild(button);
         document.getElementById("userList").appendChild(br);
     });
@@ -237,7 +261,22 @@ function voteToKill(user, buttons) {
     connection.invoke("voteToKill", user).catch(function (err) {
         return console.error(err.toString());
     });
-   
+}
+    
+
+
+
+function killPerson(user, role) {
+    connection.invoke("KillPlayer", user, role).catch(function (err) {
+        return console.error(err.toString());
+    });
+}
+
+function voteToKill(user, buttons) {
+    connection.invoke("voteToKill", user).catch(function (err) {
+        return console.error(err.toString());
+    });
+
 }
 
 function capitalize(string) {
@@ -245,14 +284,13 @@ function capitalize(string) {
 }
 
 function GetNextPage(HomeControllerMethod) {
-    var targetDiv = $('#mafiaGame');    
+    var targetDiv = $('#mafiaGame');
     targetDiv.load(HomeControllerMethod, function () {
     });
 }
 
 document.getElementById("newGameStartBtn").addEventListener("click", function (event) {
-    connection.invoke("AddUserToGroup", "gameOwner").catch(function (error)
-    {
+    connection.invoke("AddUserToGroup", "gameOwner").catch(function (error) {
         return console.error(error.toString());
     });
     var user = document.getElementById("nameInputStart").value;
@@ -265,7 +303,7 @@ document.getElementById("newGameStartBtn").addEventListener("click", function (e
 connection.on("YouDiedPageDelayed", function () {
     setTimeout(function () {
         GetNextPage("/Home/YouDiedScreen");
-    }, 36000);
+    }, 12000);
 });
 
 connection.on("YouDiedPageInstant", function () {
@@ -275,13 +313,13 @@ connection.on("YouDiedPageInstant", function () {
 connection.on("VillagerWin", function () {
     setTimeout(function () {
         GetNextPage("/Home/VillagerWinScreen");
-    }, 15000);
+    }, 5000);
 });
 
 connection.on("MafiaWin", function () {
     setTimeout(function () {
         GetNextPage("/Home/MafiaWinScreen");
-    }, 15000);
+    }, 5000);
 });
 
 $("#infoIcon").on("click", function () {
@@ -294,4 +332,5 @@ function speak(message) {
     to_speak.voice = spk.getVoices()[49];
 
     spk.speak(to_speak);
-}
+};
+
