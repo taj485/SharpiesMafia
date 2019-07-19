@@ -27,7 +27,7 @@ connection.on("LoadMafiaNight", function ()
         var targetDiv = $('#mafiaGame');
         targetDiv.load("/Home/LoadMafiaNightScreen", function () {
         });
-    }, 15000);
+    }, 10000);
 });
 
 
@@ -42,20 +42,20 @@ connection.on("NightPage", function ()
     setTimeout(function () {
         GetNextPage("/Home/LoadNightScreen");
         connection.invoke("ListUsersToKill");
-    }, 15000);
+    }, 10000);
 });
 
 connection.on("LoadDayPage", function ()
 {
     setTimeout(function () {
         GetNextPage("/Home/LoadDayScreen");
-    }, 15000);
+    }, 10000);
 });
 
 connection.on("UsersToKillPage", function () {
       setTimeout(function () {
         GetNextPage("/Home/UsersToKill");
-    }, 30000);
+    }, 15000);
 });
 
 connection.on("StartPageUserList", function (users, gameId) {     var targetDiv = $('#mafiaGame');
@@ -197,7 +197,7 @@ connection.on("LoadUsersToKill", function (users)
     {
         createButtons(users, "mafia");
     });
-  }, 15000);
+  }, 10000);
 });
 
 connection.on("EveryoneKillChoice", function (users)
@@ -211,7 +211,7 @@ connection.on("EveryoneKillChoice", function (users)
             createButtons(users, "villager");
         });
 
-    }, 30000);
+    }, 22000);
 
 });
 
@@ -265,7 +265,7 @@ document.getElementById("newGameStartBtn").addEventListener("click", function (e
 connection.on("YouDiedPageDelayed", function () {
     setTimeout(function () {
         GetNextPage("/Home/YouDiedScreen");
-    }, 30000);
+    }, 17000);
 });
 
 connection.on("YouDiedPageInstant", function () {
@@ -275,13 +275,13 @@ connection.on("YouDiedPageInstant", function () {
 connection.on("VillagerWin", function () {
     setTimeout(function () {
         GetNextPage("/Home/VillagerWinScreen");
-    }, 15000);
+    }, 7000);
 });
 
 connection.on("MafiaWin", function () {
     setTimeout(function () {
         GetNextPage("/Home/MafiaWinScreen");
-    }, 15000);
+    }, 7000);
 });
 
 $("#infoIcon").on("click", function () {
